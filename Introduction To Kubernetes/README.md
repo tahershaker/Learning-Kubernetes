@@ -76,6 +76,19 @@ When creating a virtual machine and a container, with virtual machine we install
     <img src="images/ContainerVsVMs.png">
 </p>
 
+Containers provides several benefits increasing container popularity in the modern application development.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `Benefits of Containers`:
+- Agile application creation and deployment: increased ease and efficiency of container image creation compared to VM image use.
+- Continuous development, integration, and deployment: provides for reliable and frequent container image build and deployment with quick and efficient rollbacks (due to image immutability).
+- Dev and Ops separation of concerns: create application container images at build/release time rather than deployment time, thereby decoupling applications from infrastructure.
+- Observability: not only surfaces OS-level information and metrics, but also application health and other signals.
+- Environmental consistency across development, testing, and production: runs the same on a laptop as it does in the cloud.
+- Cloud and OS distribution portability: runs on Ubuntu, RHEL, CoreOS, on-premises, on major public clouds, and anywhere else.
+- Application-centric management: raises the level of abstraction from running an OS on virtual hardware to running an application on an OS using logical resources.
+- Loosely coupled, distributed, elastic, liberated micro-services: applications are broken into smaller, independent pieces and can be deployed and managed dynamically – not a monolithic stack running on one big single-purpose machine.
+- Resource isolation: predictable application performance.
+- Resource utilization: high efficiency and density.
 
 ---
 
@@ -83,7 +96,61 @@ When creating a virtual machine and a container, with virtual machine we install
 
 Kubernetes is an open-source project build originally by Google in 2014 and later donated to `CNCF` (Cloud Native Computing Foundation) designed to orchestrate, automate and manage containerized applications. The name Kubernetes originates from Greek, meaning helmsman or pilot. K8s as an abbreviation results from counting the eight letters between the "K" and the "s". The official description of kubernetes from the official kubernetes documentation is:
 
-`Kubernetes is a portable, extensible, open source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.`
+Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Overview`:
+
+- Kubernetes is a portable, extensible, open source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
+
+To have an understanding of what is kubernetes and why is it considered to be somehow a mandatory tool when it comes to cloud-native architecture and modern applications, we need to look at the issue kubernetes is fixing and the additional capability it provides to container orchestration. 
+
+When thinking about microservices, an application was divided into several microservices each running on a container which will result in a big number of running containers in the environment. and depending on the number of applications and how big they are, we may have 100's, 1,000's, or even more of running container. Now let's ask some of the main questions:
+- How will those containers get deployed.
+- What will happen if one or more containers failed in the deployment.
+- What will happen if one or more container went down.
+- How will the connection between all of these containers be.
+- How can we scale an application
+- How can we monitor the environment 
+
+several question that if asked will find a big road blocker that will impact the implementation, operation and management of application running on top of containers. This is where kubernetes play a big role in it.
+
+Kubernetes is an orchestration and automation tool for containers. Kubernetes is a cluster management open-source platform for managing and orchestrating containerized workload, application and services. Kubernetes is a clusters environment of a number of physical hosts (called nodes) where all the required software are installed to run containers and the components of kubernetes are also installed. Kubernetes will then provide the user the capability to deploy application on containers and will then look after these container. Kubernetes provide self-healing of failed containers, auto-scaling of container depending on required performance and resource utilization, ability to add plugins to add features to the kubernetes cluster such as the CNI (Container Networking Interface) plugin that provides networking and security capabilities as well as the ability to add other tools to the kubernetes environment adding further capabilities such as monitoring, reporting, load balancing, and much more.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `Why you need Kubernetes and what it can do`:
+
+- Containers are a good way to bundle and run your applications. In a production environment, you need to manage the containers that run the applications and ensure that there is no downtime. For example, if a container goes down, another container needs to start. Wouldn't it be easier if this behavior was handled by a system?
+
+- That's how Kubernetes comes to the rescue! Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns, and more. For example: Kubernetes can easily manage a canary deployment for your system.
+
+
+<p align="center">
+    <img src="images/KubernetesIntro.png">
+</p>
+
+> Benefits of Kubernetes:
+
+- __*Service discovery and load balancing*__ Kubernetes can expose a container using the DNS name or using their own IP address. If traffic to a container is high, Kubernetes is able to load balance and distribute the network traffic so that the deployment is stable.
+- __*Storage orchestration*__ Kubernetes allows you to automatically mount a storage system of your choice, such as local storages, public cloud providers, and more.
+- __*Automated rollouts and rollbacks*__ You can describe the desired state for your deployed containers using Kubernetes, and it can change the actual state to the desired state at a controlled rate. For example, you can automate Kubernetes to create new containers for your deployment, remove existing containers and adopt all their resources to the new container.
+- __*Automatic bin packing*__ You provide Kubernetes with a cluster of nodes that it can use to run containerized tasks. You tell Kubernetes how much CPU and memory (RAM) each container needs. Kubernetes can fit containers onto your nodes to make the best use of your resources.
+- __*Self-healing*__ Kubernetes restarts containers that fail, replaces containers, kills containers that don't respond to your user-defined health check, and doesn't advertise them to clients until they are ready to serve.
+- __*Secret and configuration management*__ Kubernetes lets you store and manage sensitive information, such as passwords, OAuth tokens, and SSH keys. You can deploy and update secrets and application configuration without rebuilding your container images, and without exposing secrets in your stack configuration.
+- __*Batch execution*__ In addition to services, Kubernetes can manage your batch and CI workloads, replacing containers that fail, if desired.
+- __*Horizontal scaling*__ Scale your application up and down with a simple command, with a UI, or automatically based on CPU usage.
+- __*IPv4/IPv6 dual-stack*__ Allocation of IPv4 and IPv6 addresses to Pods and Services
+- __*Designed for extensibility*__ Add features to your Kubernetes cluster without changing upstream source code.
+
+> What would kubernetes not be able to provide
+
+Kubernetes is not a complete end-to-end platform, it is more of an orchestration tool and cluster hosting containerized workload. Kubernetes concentrate on the container orchestration and thus can provide some feature from a platform solution perspective such as deployment, scaling, and load balancing. Kubernetes by itself will not provide logging or monitoring for example, and thus, kubernetes provide a option to add other solution and let these solutions integrates with the cluster environment to provide additional functionality such as logging, monitoring, and alerting solutions.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `What Kubernetes is not`:
+
+- Does not limit the types of applications supported. Kubernetes aims to support an extremely diverse variety of workloads, including stateless, stateful, and data-processing workloads. If an application can run in a container, it should run great on Kubernetes.
+- Does not deploy source code and does not build your application. Continuous Integration, Delivery, and Deployment (CI/CD) workflows are determined by organization cultures and preferences as well as technical requirements.
+- Does not provide application-level services, such as middleware (for example, message buses), data-processing frameworks (for example, Spark), databases (for example, MySQL), caches, nor cluster storage systems (for example, Ceph) as built-in services. Such components can run on Kubernetes, and/or can be accessed by applications running on Kubernetes through portable mechanisms, such as the Open Service Broker.
+- Does not dictate logging, monitoring, or alerting solutions. It provides some integrations as proof of concept, and mechanisms to collect and export metrics.
+- Does not provide nor mandate a configuration language/system (for example, Jsonnet). It provides a declarative API that may be targeted by arbitrary forms of declarative specifications.
+- Does not provide nor adopt any comprehensive machine configuration, maintenance, management, or self-healing systems.
+- Additionally, Kubernetes is not a mere orchestration system. In fact, it eliminates the need for orchestration. The technical definition of orchestration is execution of a defined workflow: first do A, then B, then C. In contrast, Kubernetes comprises a set of independent, composable control processes that continuously drive the current state towards the provided desired state. It shouldn't matter how you get from A to C. Centralized control is also not required. This results in a system that is easier to use and more powerful, robust, resilient, and extensible.
 
 
 ---
