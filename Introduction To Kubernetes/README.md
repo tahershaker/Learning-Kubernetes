@@ -10,13 +10,12 @@ Kubernetes is a basic building block of the modern application development that 
 
 ---
 
-> What is Kubernetes - Overview
+## What is Kubernetes - Overview
 
 Kubernetes is an open-source project build originally by Google in 2014 designed to orchestrate, automate and manage containerized applications. The official description of kubernetes from the official kubernetes documentation is:
 
-'''
-__Kubernetes is a portable, extensible, open source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.__
-'''
+
+`Kubernetes is a portable, extensible, open source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.`
 
 
 ---
