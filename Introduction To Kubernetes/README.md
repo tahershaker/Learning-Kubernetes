@@ -22,10 +22,14 @@ Referring to AWS documentation [_Referenced Below_], `Monolithic vs. Microservic
 
 - With a microservices architecture, an application is built as independent components that run each application process as a service. These services communicate via a well-defined interface using lightweight APIs. Services are built for business capabilities and each service performs a single function. Because they are independently run, each service can be updated, deployed, and scaled to meet demand for specific functions of an application.
 
+---
 
 <p align="center">
     <img src="images/MonolithicVsMicroservices.png">
 </p>
+
+---
+
 
 > What is Container
 
@@ -58,9 +62,13 @@ To be able to have a better understanding of containers, there are some componen
 
 - __Container Image Registry__: A Container Registry is one or more repository that is used to store Container Images. A Container platform/engine (such as Docker) pulls the images from the Container Registry to the Container Host to deploy the containers form the Image. Some of the popular container registries are DockerHub, Amazon ECR, Azure Container Registry, Google Container Registry. A Container Registry can be public or private.
 
+---
+
 <p align="center">
     <img src="images/ContainerComponents.png">
 </p>
+
+---
 
 Most of the concepts explained for containers, technology have seen it before, especially when it comes to isolation as this is very similar to virtual machines. As a virtual machines perform isolation and virtualizing the underlying physical resource to be able to run multiple operating system and application in the form of a virtual machine, container also perform something similar, __however__ container do not include a full operating system version running inside but rather it only container a very light version with the required libraries and depend on the kernel of the underlying operating system. 
 
@@ -72,9 +80,13 @@ Referring to Docker documentation and website [_Referenced Below_], Container VS
 
 When creating a virtual machine and a container, with virtual machine we install a hypervisor on the physical server and then create a virtual machine which will include a full copy of an operating system and the required applications. Container on the other-hand, we install an operating system (linux/Windows) on a physical server and then install the container requirements such as the container engine (Such as docker or containerd) and then we create the containers. The best approach is to run container ont op of virtual machines
 
+---
+
 <p align="center">
     <img src="images/ContainerVsVMs.png">
 </p>
+
+---
 
 Containers provides several benefits increasing container popularity in the modern application development.
 
@@ -120,23 +132,26 @@ Referring to Kubernetes official documentation [_Referenced Below_], `Why you ne
 
 - That's how Kubernetes comes to the rescue! Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns, and more. For example: Kubernetes can easily manage a canary deployment for your system.
 
+---
 
 <p align="center">
     <img src="images/KubernetesIntro.png">
 </p>
 
+---
+
 > Benefits of Kubernetes:
 
-- __*Service discovery and load balancing*__ Kubernetes can expose a container using the DNS name or using their own IP address. If traffic to a container is high, Kubernetes is able to load balance and distribute the network traffic so that the deployment is stable.
-- __*Storage orchestration*__ Kubernetes allows you to automatically mount a storage system of your choice, such as local storages, public cloud providers, and more.
-- __*Automated rollouts and rollbacks*__ You can describe the desired state for your deployed containers using Kubernetes, and it can change the actual state to the desired state at a controlled rate. For example, you can automate Kubernetes to create new containers for your deployment, remove existing containers and adopt all their resources to the new container.
-- __*Automatic bin packing*__ You provide Kubernetes with a cluster of nodes that it can use to run containerized tasks. You tell Kubernetes how much CPU and memory (RAM) each container needs. Kubernetes can fit containers onto your nodes to make the best use of your resources.
-- __*Self-healing*__ Kubernetes restarts containers that fail, replaces containers, kills containers that don't respond to your user-defined health check, and doesn't advertise them to clients until they are ready to serve.
-- __*Secret and configuration management*__ Kubernetes lets you store and manage sensitive information, such as passwords, OAuth tokens, and SSH keys. You can deploy and update secrets and application configuration without rebuilding your container images, and without exposing secrets in your stack configuration.
-- __*Batch execution*__ In addition to services, Kubernetes can manage your batch and CI workloads, replacing containers that fail, if desired.
-- __*Horizontal scaling*__ Scale your application up and down with a simple command, with a UI, or automatically based on CPU usage.
-- __*IPv4/IPv6 dual-stack*__ Allocation of IPv4 and IPv6 addresses to Pods and Services
-- __*Designed for extensibility*__ Add features to your Kubernetes cluster without changing upstream source code.
+- __Service discovery and load balancing__ Kubernetes can expose a container using the DNS name or using their own IP address. If traffic to a container is high, Kubernetes is able to load balance and distribute the network traffic so that the deployment is stable.
+- __Storage orchestration__ Kubernetes allows you to automatically mount a storage system of your choice, such as local storages, public cloud providers, and more.
+- __Automated rollout and rollbacks__ You can describe the desired state for your deployed containers using Kubernetes, and it can change the actual state to the desired state at a controlled rate. For example, you can automate Kubernetes to create new containers for your deployment, remove existing containers and adopt all their resources to the new container.
+- __Automatic bin packing__ You provide Kubernetes with a cluster of nodes that it can use to run containerized tasks. You tell Kubernetes how much CPU and memory (RAM) each container needs. Kubernetes can fit containers onto your nodes to make the best use of your resources.
+- __Self-healing__ Kubernetes restarts containers that fail, replaces containers, kills containers that don't respond to your user-defined health check, and doesn't advertise them to clients until they are ready to serve.
+- __Secret and configuration management__ Kubernetes lets you store and manage sensitive information, such as passwords, OAuth tokens, and SSH keys. You can deploy and update secrets and application configuration without rebuilding your container images, and without exposing secrets in your stack configuration.
+- __Batch execution__ In addition to services, Kubernetes can manage your batch and CI workloads, replacing containers that fail, if desired.
+- __Horizontal scaling__ Scale your application up and down with a simple command, with a UI, or automatically based on CPU usage.
+- __IPv4/IPv6 dual-stack__ Allocation of IPv4 and IPv6 addresses to Pods and Services
+- __Designed for extensibility__ Add features to your Kubernetes cluster without changing upstream source code.
 
 > What would kubernetes not be able to provide
 
@@ -152,7 +167,6 @@ Referring to Kubernetes official documentation [_Referenced Below_], `What Kuber
 - Does not provide nor adopt any comprehensive machine configuration, maintenance, management, or self-healing systems.
 - Additionally, Kubernetes is not a mere orchestration system. In fact, it eliminates the need for orchestration. The technical definition of orchestration is execution of a defined workflow: first do A, then B, then C. In contrast, Kubernetes comprises a set of independent, composable control processes that continuously drive the current state towards the provided desired state. It shouldn't matter how you get from A to C. Centralized control is also not required. This results in a system that is easier to use and more powerful, robust, resilient, and extensible.
 
-
 ---
 
 > References:
@@ -160,4 +174,5 @@ Referring to Kubernetes official documentation [_Referenced Below_], `What Kuber
 - [What are Microservices - AWS](https://aws.amazon.com/microservices/)
 - [What are Microservices - Google Cloud](https://cloud.google.com/learn/what-is-microservices-architecture)
 - [What Are Namespaces and cgroups, and How Do They Work? - NGINX](https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/)
+- [What is a Container - Docker](https://www.docker.com/resources/what-container/)
 - [Kubernetes Overview - official Document](https://kubernetes.io/docs/concepts/overview/)
