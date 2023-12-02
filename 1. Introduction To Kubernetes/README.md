@@ -22,6 +22,14 @@ Referring to AWS documentation [_Referenced Below_], `Monolithic vs. Microservic
 
 - With a microservices architecture, an application is built as independent components that run each application process as a service. These services communicate via a well-defined interface using lightweight APIs. Services are built for business capabilities and each service performs a single function. Because they are independently run, each service can be updated, deployed, and scaled to meet demand for specific functions of an application.
 
+To make it more simple, let's take an example of an E-Commerce application. This type of application have several services such as (from a very high-level) a front-end service (to accept incoming requests and to present the products on the web interface), a user accounting and authentication service (to authenticate existing customer and hold data of this customer), a catalog service (to list the products and services provided by the application), an order service (to allow the customer to buy products and perform payment), a shipping service (to track the shipment of the product to the customer and provide info to the customer), and much more.
+
+In a `Monolithic Architecture` all of these services are coded and run in a single object (virtual machine or a physical machine running linux or windows operating system). This means that in a black friday where customer are heavily accessing this E-Commerce application, the front-end and other services require more compute resources to handle the spike of requests, however, not all services are as heavily utilized as the front-end (for example advertisement service may not required additional compute resources). Even if some service do not require additional compute resources, in a `Monolithic Architecture`, service can not be separated and all service would need more compute resources such as more CPU, Memory or even more physical servers or virtual machines. 
+
+Also, in a `Monolithic Architecture`, when a new service is to be added to the application, such as a recommendation services, as all the services are tightly coupled, the code check will not only run on the new service but on the full application code which will make the release-cycle 6-month or even more.
+
+In a `Microservice Architecture`, Every service is lossy coupled and run in a separate container with no dependency on other services, so in the case of the utilization spike, only the front-end services (and other required services) will have another copy of it running in another container to handle the spike. Not all the services will be duplicated and this will reduce compute resources. In the case of adding a new service, this service is developed in a separate container and will integrate with other services using API so code check and development is only for this new service not the full application making the release-cycle as short as couple of weeks or even less.
+
 ---
 
 <p align="center">
@@ -176,3 +184,9 @@ Referring to Kubernetes official documentation [_Referenced Below_], `What Kuber
 - [What Are Namespaces and cgroups, and How Do They Work? - NGINX](https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/)
 - [What is a Container - Docker](https://www.docker.com/resources/what-container/)
 - [Kubernetes Overview - official Document](https://kubernetes.io/docs/concepts/overview/)
+
+---
+
+> Next Step:
+
+[Understand Kubernetes Architecture]()
