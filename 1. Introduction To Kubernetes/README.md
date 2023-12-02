@@ -136,7 +136,7 @@ When thinking about microservices, an application was divided into several micro
 
 several question that if asked will find a big road blocker that will impact the implementation, operation and management of application running on top of containers. This is where kubernetes play a big role in it.
 
-Kubernetes is an orchestration and automation tool for containers. Kubernetes is a cluster management open-source platform for managing and orchestrating containerized workload, application and services. Kubernetes is a clusters environment of a number of physical hosts (called nodes) where all the required software are installed to run containers and the components of kubernetes are also installed. Kubernetes will then provide the user the capability to deploy application on containers and will then look after these container. Kubernetes provide self-healing of failed containers, auto-scaling of container depending on required performance and resource utilization, ability to add plugins to add features to the kubernetes cluster such as the CNI (Container Networking Interface) plugin that provides networking and security capabilities as well as the ability to add other tools to the kubernetes environment adding further capabilities such as monitoring, reporting, load balancing, and much more.
+Kubernetes is an orchestration and automation tool for containers. Kubernetes is a cluster management open-source platform for managing and orchestrating containerized workload, application and services. Kubernetes is a clusters environment of a number of physical server or virtual machines (called nodes) where all the required software are installed to run containers and the components of kubernetes are also installed. once the Kubernetes is up and running, the user will have the ability to deploy containerized application through kubernetes and kubernetes will then provide a way to manage the lifecycle of containerized applications across an entire cluster. Kubernetes provide self-healing of failed containers, auto-scaling of container depending on required performance and resource utilization, ability to add plugins to add features to the kubernetes cluster such as the CNI (Container Networking Interface) plugin that provides networking and security capabilities as well as the ability to add other tools to the kubernetes environment adding further capabilities such as monitoring, reporting, load balancing, and much more.
 
 Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Overview: - Why you need Kubernetes and what it can do`:
 
@@ -181,13 +181,64 @@ Referring to Kubernetes official documentation [_Referenced Below_], `What Kuber
 
 ---
 
+## How does Kubernetes Work
+
+Kubernetes is a cluster having several physical servers or virtual machines (called nodes) running within them kubernetes components to achieve the desired output of kubernetes. Some of these some of these nodes will be called worker nodes and they are the nodes that will host the running containers hosting the applications. 
+
+Nearly everything in kubernetes is seen as an object to kubernetes, a container is an object, a network is an object, and so on. A user defined an object and then kubernetes will create, deploy, manage, and maintain this object. When a user creates and object, a document defining this object type and its desired state is created and used by kubernetes. Normally this is done using a `YAML file` - JSON file can also be used but normally YAML files are most commonly used. YAML file are created and passed to kubernetes using the kubernetes API interface either by using the kubectl CLI command interface or directly to the API using a client library. 
+
+This YAML file contains the type of the object (for example a container) and the desired state of this object (for example container networking). Kubernetes will then deploy the object explained in the YAML file and will continuously monitor this object and make sure that this object have the exact same state as described in the YAML file. So for example if the YAML file have an object type of a container with 2 networking interfaces, Kubernetes will always monitor the environment to make use this container is running and there as 2 networking interfaces connected to it. If this container died, the kubernetes will see that this is a mismatch with the desired state and will run another container with the same specs to maintain the desired state.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `Objects In Kubernetes"`:
+
+- A Kubernetes object is a `"record of intent"` --once you create the object, the Kubernetes system will constantly work to ensure that object exists. By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like; this is your cluster's `desired state`.
+
+- Almost every Kubernetes object includes two nested object fields that govern the object's configuration: the object spec and the object status. For objects that have a spec, you have to set this when you create the object, providing a description of the characteristics you want the resource to have: its `desired state`.
+
+- The status describes the current state of the object, supplied and updated by the Kubernetes system and its components. The Kubernetes control plane continually and actively manages every object's `actual state` to match the `desired state` you supplied.
+
+- When you create an object in Kubernetes, you must provide the object spec that describes its desired state, as well as some basic information about the object (such as a name). When you use the Kubernetes API to create the object (either directly or via kubectl), that API request must include that information as JSON in the request body. Most often, you provide the information to kubectl in file known as a `manifest`. By convention, manifests are YAML (you could also use JSON format). Tools such as kubectl convert the information from a manifest into JSON or another supported serialization format when making the API request over HTTP.
+
+So as a summary, once the kubernetes cluster is created, the user starts creating object `manifest` in the form of a `YAML` file which it will hold the object `spec` and the object `desired state` and then pass it to kubernetes using the CLI kubectl or directly to the API. Kubernetes will make sure that this object is created based on the provided object spec and insure that the actual state of this object always match the defined desired state of this object.
+
+Below is an example of a manifest in YAML formate the shows the required object spec for a kubernetes object called deployment.
+
+---
+
+```yaml
+apiVersion: apps/v1 # version number of the API
+kind: Deployment # Kubernetes object type
+metadata:
+  name: nginx-deployment
+spec: # Specs of the object
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+---
+
+---
+
 > References:
 
 - [What are Microservices - AWS](https://aws.amazon.com/microservices/)
 - [What are Microservices - Google Cloud](https://cloud.google.com/learn/what-is-microservices-architecture)
 - [What Are Namespaces and cgroups, and How Do They Work? - NGINX](https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/)
 - [What is a Container - Docker](https://www.docker.com/resources/what-container/)
-- [Kubernetes Overview - official Document](https://kubernetes.io/docs/concepts/overview/)
+- [Kubernetes Overview - Kubernetes](https://kubernetes.io/docs/concepts/overview/)
+- [Objects In Kubernetes - Kubernetes](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
 
 ---
 
