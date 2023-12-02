@@ -193,4 +193,4 @@ Referring to Kubernetes official documentation [_Referenced Below_], `What Kuber
 
 > Next Step:
 
-[Understand Kubernetes Architecture]()
+[Understand Kubernetes Architecture](https://github.com/tahershaker/Learning-Kubernetes/tree/main/2.%20Kubernetes%20Cluster%20Architecture%20%26%20Components)
