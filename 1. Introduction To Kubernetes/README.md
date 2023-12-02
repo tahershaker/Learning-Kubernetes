@@ -229,8 +229,6 @@ spec: # Specs of the object
 
 ---
 
----
-
 > References:
 
 - [What are Microservices - AWS](https://aws.amazon.com/microservices/)
@@ -244,4 +242,4 @@ spec: # Specs of the object
 
 > Next Step:
 
-[Understand Kubernetes Architecture](https://github.com/tahershaker/Learning-Kubernetes/tree/main/2.%20Kubernetes%20Cluster%20Architecture%20%26%20Components)
+[Understand Kubernetes Architecture & Components](https://github.com/tahershaker/Learning-Kubernetes/tree/main/2.%20Kubernetes%20Cluster%20Architecture%20%26%20Components)
