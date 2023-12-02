@@ -28,7 +28,9 @@ In a `Monolithic Architecture` all of these services are coded and run in a sing
 
 Also, in a `Monolithic Architecture`, when a new service is to be added to the application, such as a recommendation services, as all the services are tightly coupled, the code check will not only run on the new service but on the full application code which will make the release-cycle 6-month or even more.
 
-In a `Microservice Architecture`, Every service is lossy coupled and run in a separate container with no dependency on other services, so in the case of the utilization spike, only the front-end services (and other required services) will have another copy of it running in another container to handle the spike. Not all the services will be duplicated and this will reduce compute resources. In the case of adding a new service, this service is developed in a separate container and will integrate with other services using API so code check and development is only for this new service not the full application making the release-cycle as short as couple of weeks or even less.
+In a `Microservice Architecture`, Every service is lossy coupled and run in a separate container with no dependency on other services, so in the case of the utilization spike, only the front-end services (and other required services) will have another copy of it running in another container to handle the spike. Not all the services will be duplicated and this will reduce compute resources. 
+
+Also, in the case of adding a new service, this service is developed in a separate container and will integrate with other services using API so code check and development is only for this new service not the full application making the release-cycle as short as couple of weeks or even less.
 
 ---
 
@@ -43,7 +45,9 @@ In a `Microservice Architecture`, Every service is lossy coupled and run in a se
 
 Container is a very small and light-weight unit holding a pice of software with all the required dependencies for this software to run properly. A container runs on top of a compute resources (_physical server or virtual machine_) and operating system (_linux and lately windows_). A container is an isolated unit that have no knowledge of the underlying resources or other containers running on the same physical resource. 
 
-Referring to Docker documentation and website [_Referenced Below_], `A Container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another.`
+Referring to Docker documentation and website [_Referenced Below_], `What is a Container:`
+
+A Container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another.
 
 Tha basic idea of container came from utilizing several linux features allowing the isolation of the software package to run independently from others. Some of these linux features are [Namespace](https://en.wikipedia.org/wiki/Linux_namespaces), [CGroups](https://en.wikipedia.org/wiki/Cgroups), and [Union Filesystem](https://en.wikipedia.org/wiki/UnionFS)
 
@@ -60,7 +64,7 @@ To be able to have a better understanding of containers, there are some componen
 
 - __Container__: A Container is a standardization of a unite that package both app code along with all the required dependencies for this code to run. 
 
-- __Container Image__: A Container Image is a representation of the container and the software the runs within. A container image is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings. The Container Image is used by the container engine to create and run the container itself. 
+- __Container Image__: A Container Image is a representation of the container and the software that runs within. A container image is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries and settings. The Container Image is used by the container engine to create and run the container itself. 
 
 - __Container Engine__: A Container engine is the engine the runs one or more isolated instance of container on the same operating system kernel on the same hardware (Container Host). Most modern container engines use the Open Container Initiative (OCI) container image format. A key component of a container engine is the container runtime, which communicates with the operating system kernel to perform the containerization process and configure access and security policies for running containers. Container Engine is also sometimes called Container Runtime. One of the most popular Container Runtime is called Containerd. 
 
@@ -78,15 +82,15 @@ To be able to have a better understanding of containers, there are some componen
 
 ---
 
-Most of the concepts explained for containers, technology have seen it before, especially when it comes to isolation as this is very similar to virtual machines. As a virtual machines perform isolation and virtualizing the underlying physical resource to be able to run multiple operating system and application in the form of a virtual machine, container also perform something similar, __however__ container do not include a full operating system version running inside but rather it only container a very light version with the required libraries and depend on the kernel of the underlying operating system. 
+Most of the concepts explained for containers, technology have seen it before, especially when it comes to isolation as this is very similar to virtual machines. As a virtual machines perform isolation and virtualizing the underlying physical resource to be able to run multiple operating system and application in the form of a virtual machine, container also perform something similar, however container do not include a full operating system version running inside but rather it only contain a very light version with the required libraries and depend on the kernel of the underlying operating system. 
 
-Referring to Docker documentation and website [_Referenced Below_], Container VS Virtual Machine:
+Referring to Docker documentation and website [_Referenced Below_], `What is a Container: - Container VS Virtual Machine:`
 
 - __Virtual machines__ (VMs) are an abstraction of physical hardware turning one server into many servers. The hypervisor allows multiple VMs to run on a single machine. Each VM includes a full copy of an operating system, the application, necessary binaries and libraries – taking up tens of GBs. VMs can also be slow to boot.
 
 - __Containers__ are an abstraction at the app layer that packages code and dependencies together. Multiple containers can run on the same machine and share the OS kernel with other containers, each running as isolated processes in user space. Containers take up less space than VMs (container images are typically tens of MBs in size), can handle more applications and require fewer VMs and Operating systems.
 
-When creating a virtual machine and a container, with virtual machine we install a hypervisor on the physical server and then create a virtual machine which will include a full copy of an operating system and the required applications. Container on the other-hand, we install an operating system (linux/Windows) on a physical server and then install the container requirements such as the container engine (Such as docker or containerd) and then we create the containers. The best approach is to run container ont op of virtual machines
+When creating a virtual machine and a container, with virtual machine a hypervisor will be installed on the physical server and then create a virtual machine which will include a full copy of an operating system and the required applications. Container on the other-hand, an operating system (linux/Windows) will be installed on a physical server and then install the container requirements such as the container engine (such as docker or containerd) and then create the containers. The best approach is to run container on top of virtual machines
 
 ---
 
@@ -96,9 +100,9 @@ When creating a virtual machine and a container, with virtual machine we install
 
 ---
 
-Containers provides several benefits increasing container popularity in the modern application development.
+Containers provides several benefits in which increased container popularity in the modern application development.
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Benefits of Containers`:
+Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Overview: - Benefits of Containers`:
 - Agile application creation and deployment: increased ease and efficiency of container image creation compared to VM image use.
 - Continuous development, integration, and deployment: provides for reliable and frequent container image build and deployment with quick and efficient rollbacks (due to image immutability).
 - Dev and Ops separation of concerns: create application container images at build/release time rather than deployment time, thereby decoupling applications from infrastructure.
@@ -114,15 +118,15 @@ Referring to Kubernetes official documentation [_Referenced Below_], `Benefits o
 
 ## What is Kubernetes - Overview
 
-Kubernetes is an open-source project build originally by Google in 2014 and later donated to `CNCF` (Cloud Native Computing Foundation) designed to orchestrate, automate and manage containerized applications. The name Kubernetes originates from Greek, meaning helmsman or pilot. K8s as an abbreviation results from counting the eight letters between the "K" and the "s". The official description of kubernetes from the official kubernetes documentation is:
+Kubernetes is an open-source project build originally by Google in 2014 and later donated to [CNCF](https://www.cncf.io/) (Cloud Native Computing Foundation) designed to orchestrate, automate and manage containerized applications. The name Kubernetes originates from Greek, meaning helmsman or pilot. K8s as an abbreviation results from counting the eight letters between the "K" and the "s". The official description of kubernetes from the official kubernetes documentation is:
 
 Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Overview`:
 
 - Kubernetes is a portable, extensible, open source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
 
-To have an understanding of what is kubernetes and why is it considered to be somehow a mandatory tool when it comes to cloud-native architecture and modern applications, we need to look at the issue kubernetes is fixing and the additional capability it provides to container orchestration. 
+To have an understanding of what is kubernetes and why is it considered to be somehow a mandatory tool when it comes to cloud-native architecture and modern applications, let's look at the issue kubernetes is fixing and the additional capability it provides to container orchestration. 
 
-When thinking about microservices, an application was divided into several microservices each running on a container which will result in a big number of running containers in the environment. and depending on the number of applications and how big they are, we may have 100's, 1,000's, or even more of running container. Now let's ask some of the main questions:
+When thinking about microservices, an application was divided into several microservices each running on a container which will result in a big number of running containers in the environment, and depending on the number of applications and how big they are, we may have 100's, 1,000's, or even more of running container. Now let's ask some of the main questions:
 - How will those containers get deployed.
 - What will happen if one or more containers failed in the deployment.
 - What will happen if one or more container went down.
@@ -134,7 +138,7 @@ several question that if asked will find a big road blocker that will impact the
 
 Kubernetes is an orchestration and automation tool for containers. Kubernetes is a cluster management open-source platform for managing and orchestrating containerized workload, application and services. Kubernetes is a clusters environment of a number of physical hosts (called nodes) where all the required software are installed to run containers and the components of kubernetes are also installed. Kubernetes will then provide the user the capability to deploy application on containers and will then look after these container. Kubernetes provide self-healing of failed containers, auto-scaling of container depending on required performance and resource utilization, ability to add plugins to add features to the kubernetes cluster such as the CNI (Container Networking Interface) plugin that provides networking and security capabilities as well as the ability to add other tools to the kubernetes environment adding further capabilities such as monitoring, reporting, load balancing, and much more.
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Why you need Kubernetes and what it can do`:
+Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Overview: - Why you need Kubernetes and what it can do`:
 
 - Containers are a good way to bundle and run your applications. In a production environment, you need to manage the containers that run the applications and ensure that there is no downtime. For example, if a container goes down, another container needs to start. Wouldn't it be easier if this behavior was handled by a system?
 
