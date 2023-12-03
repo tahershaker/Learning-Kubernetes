@@ -34,6 +34,40 @@ Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes
 
 ## Kubernetes Main Components - (Control Plan & Worker Nodes Components)
 
+Kubernetes is based on several components to provide it's desired outcomes, based on the high-level architecture examined in the previous section, there will be 2 main parts in the kubernetes cluster architected, the `Master Nodes` which will host the `Control Plan` components and `Worker Nodes` which will host another type of components.
+
+### Control Plan Components
+
+The components in the control plan (which will be running on top of the master nodes) are responsible for interacting with the kubernetes cluster and making decisions for the cluster to perform properly. All the components of the control plan will be running inside containers hosted inside a Pod (as explained before, containers in kubernetes will be running inside an kubernetes object called Pod) running on top of the Master Nodes. There are 4 main components in the kubernetes control plan and if the kubernetes cluster deployed on a cloud provider (such as AWS, GCP, Azure or even VMware vSphere), there will be another 5th component that may be deployed to interact with the cloud provider.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:"`:
+
+- The control plane's components make global decisions about the cluster (for example, scheduling), as well as detecting and responding to cluster events (for example, starting up a new pod when a deployment's replicas field is unsatisfied).
+
+- Control plane components can be run on any machine in the cluster. However, for simplicity, set up scripts typically start all control plane components on the same machine, and do not run user containers on this machine. 
+
+> API Server Component
+
+`The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.`
+
+The API Server is the first main component in the kubernetes control plan. This components is responsible for communication and interacting with the kubernetes cluster. Any request sent to a kubernetes cluster to perform any action will be sent to the API server component. The API Server Instance (by instance, it means, the Pod that will have the container running the API Server Service inside of it) will be deployed and will have a dedicated IP address to be able to send and receive requests to and from the kubernetes cluster. In a highly-available architecture, the API server instance may be replication to have more than one running on more than one node with a load balancer service running to load balancer the requests to and from the API server instances.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:"`:
+
+The API server is a component of the Kubernetes control plane that exposes the Kubernetes API. The API server is the front end for the Kubernetes control plane.
+
+The main implementation of a Kubernetes API server is [kube-apiserver](https://kubernetes.io/docs/reference/generated/kube-apiserver/). kube-apiserver is designed to scale horizontally—that is, it scales by deploying more instances. You can run several instances of kube-apiserver and balance traffic between those instances.
+
+
+> Controller Manager
+
+`The Controller Manager is responsible for running multiple controllers that maintain the desired state of the cluster.`
+
+The Controller Manager is considered as the control plan of the kubernetes cluster. It includes several controllers running within and each controller have a specific task to perform. The Controller Manager basically is the components that look after the objects within the kubernetes cluster. Each controller in the controller manager runs as an instances (as explained before, by instance, it means, the Pod that will have the container running the API Server Service inside of it). 
+
+Each controller instance is responsible of a specific task, for example, the node controller makes sure that all nodes are healthy and respond to any event that takes place to a node making it unresponsive. 
+
+
 
 
 ---
