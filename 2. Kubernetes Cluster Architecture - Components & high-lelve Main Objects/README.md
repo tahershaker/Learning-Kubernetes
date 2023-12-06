@@ -34,7 +34,7 @@ Kubernetes includes several object to perform it's desired outcome and give the 
 
 Some of the Kubernetes Object are listed below is a very high-level explanation and info.
 
-### 2a.Kubernetes Node (high-level)
+### 2a. Kubernetes Node (high-level)
 
 A Kubernetes `Node` is considered as the first basic mandatory object. A Kubernetes Node is a a physical server or virtual machine running linux or windows operating system along with other kubernetes components and is responsible to providing compute resources to run containerized application on tpo of it.
 
@@ -153,7 +153,7 @@ The 4 main Control Plan components are API Server, Controller Manager, Scheduler
 
 ---
 
-#### 3a(i). API Server
+#### 3a[i]. API Server
 
 `The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.`
 
@@ -171,7 +171,7 @@ To learn more about the Kubernetes API into a more deep details such as specific
 
 ---
 
-#### 3a(ii). Controller Manager
+#### 3a[ii]. Controller Manager
 
 `The Controller Manager is responsible for running multiple controllers that maintain the desired state of the cluster.`
 
@@ -197,7 +197,7 @@ Examples of the built in controllers are:
 
 ---
 
-#### 3a(iii). Scheduler
+#### 3a[iii]. Scheduler
 
 `The Scheduler is responsible of finding a suitable node to run newly created Pod(s).`
 
@@ -209,7 +209,7 @@ The scheduler is another control plan component that manage the scheduling of Po
 
 ---
 
-#### 3a(iv). etcd
+#### 3a[iv]. etcd
 
 `etcd is considered to be the database of the kubernetes cluster which it will store all data of the cluster in a key-value store.`
 
@@ -230,7 +230,7 @@ The Node Components is responsible of deploying, monitoring and maintaining the 
 
 ---
 
-#### 3b(i). Kubelet 
+#### 3b[i]. Kubelet 
 
 `Kubelet is an agent running on each node responsible of running the containers inside Pods.`
 
@@ -244,7 +244,7 @@ In a later section, communication architecture between the control plan and the 
 
 ---
 
-#### 3b(ii). Kube-Proxy
+#### 3b[ii]. Kube-Proxy
 
 `Kube-Proxy is an instance or a process running on each node and is responsible of the basic networking for Pods.`
 
@@ -261,7 +261,7 @@ When kubernetes service are explained, more info about kube-proxy will be shared
 
 ---
 
-#### 3b(iii). Container Runtime
+#### 3b[iii]. Container Runtime
 
 `Container Runtime is part of the Container Engine and is responsible for the containerization process and running container on the nodes.`
 
@@ -273,37 +273,14 @@ A Container engine is the engine that runs one or more isolated instance of cont
 
 ---
 
-
-
-
----
-
-## Kubernetes Architecture high-Level
-
-Kubernetes is a clustered environment combined of one or more physical server or virtual machine called `nodes`. The kubernetes cluster is divided into 2 main parts. 
-
-The `control plan`, is the part that manages and control the kubernetes cluster and all the objects deployed within. The control plan is built up of several components that run on top of one or more node of the kubernetes cluster. The control plane's components make global decisions about the cluster (for example, scheduling), as well as detecting and responding to cluster events. Control plane components can be run on any machine in the cluster (same or different machine). For design best practice, it is recommended to run them on dedicated machine. All nodes that are part of the control plan are called `Master Nodes`. 
-
-On the other part of the kubernetes cluster is the `Worker Nodes`, the worker nodes are the nodes that hosts the containerized applications. So all containers will be running on top of the worker nodes and not the master nodes. 
-
-The architecture of the kubernetes cluster can differ form one cluster to another depending on the usability of this cluster, however, any kubernetes cluster will have the control plan and the worker nodes. If a kubernetes cluster is used for production, it is advised to have at least 3 master nodes in the control plan and one or more worker nodes hosting the containerized application depending on the number of containers required and their resources. In a lab or a testing environment, only one master node is enough for the control plan. Also there is an option called [Minikube](https://minikube.sigs.k8s.io/docs/) which is a form of a kubernetes cluster deployed on top of macOS, Linux, or Windows machines and is by default contain only one node working as a master node and a worker node. This node will host the control plan components as well as the containerized application. The Minikube is only used for personal testing and not for production environment.
-
-In a production environment, all containers run on the worker nodes that are total separated than the control plan components that run on the master nodes. Kubernetes itself provide the capability to run everything on only one node (working as master and worker node) which is not a recommended way of running kubernetes in your environment.
-
-`Please Note: In kubernetes, the container runs inside of a kubernetes object called Pod. so whenever a Pod is referenced, it points to the container running inside of the Pod`
-
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:`:
-
-- A Kubernetes cluster consists of a set of worker machines, called nodes, that run containerized applications. Every cluster has at least one worker node.
-
-- The worker node(s) host the Pods that are the components of the application workload. The control plane manages the worker nodes and the Pods in the cluster. In production environments, the control plane usually runs across multiple computers and a cluster usually runs multiple nodes, providing fault-tolerance and high availability.
-
-
+<p align="center">
+    <img src="images/KubeComponents.png">
+</p>
 
 ---
 
 
-### Additional Kubernetes Components
+## 4. Additional Kubernetes Components
 
 In a Kubernetes Cluster, there can be some additional components and in most use cases there will be additional components installed on the kubernetes cluster. for a list of Addons and to install them, please refer to this [link](https://kubernetes.io/docs/concepts/cluster-administration/addons/). Also referenced below.
 
@@ -311,53 +288,43 @@ Maybe most of the Addons are not strictly required, some are a must or should ha
 
 ---
 
-> DNS
+### 4a. DNS
 
-For any Kubernetes cluster, DNS service is very important and all kubernetes cluster should have DNS service running as Kubernetes creates DNS records for Services and Pods. a very common implementation of DNS service in a Kubernetes Cluster is `cluster DNS`. Depending on how the kubernetes cluster is deployed, cluster DNS may be installed by default as we will see in coming sections.
+For any Kubernetes cluster, DNS service is very important and all kubernetes cluster should have DNS service running as Kubernetes creates DNS records for Services and Pods. a very common implementation of DNS service in a Kubernetes Cluster is `CoreDNS`. Depending on how the kubernetes cluster is deployed, cluster DNS may be installed by default as we will see in a later section.
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:`:
-
-- While the other addons are not strictly required, all Kubernetes clusters should have cluster DNS, as many examples rely on it.
-- Cluster DNS is a DNS server, in addition to the other DNS server(s) in your environment, which serves DNS records for Kubernetes services.
-- Containers started by Kubernetes automatically include this DNS server in their DNS searches.
+> _Reference_
+> - _While the other addons are not strictly required, all Kubernetes clusters should have cluster DNS, as many examples rely on it._<sup>Reference [22](#References)</sup>
+> - _Cluster DNS is a DNS server, in addition to the other DNS server(s) in your environment, which serves DNS records for Kubernetes services._<sup>Reference [22](#References)</sup>
+> - _Containers started by Kubernetes automatically include this DNS server in their DNS searches._<sup>Reference [22](#References)</sup>
 
 ---
 
-> Network Plugins
+### 4b. Network Plugins
 
 By default Kubernetes do not provide extensive networking features for the cluster and almost depend on a network plugin (also called Container Networking Interface - CNI - ) to perform this action. Kubernetes have defined a framework for how the network plugin should behave and specified it in container network interface (CNI) specification. The main responsibility of the CNI is to provide IP addresses to the Pod and allow communication between them based on the CNI specifications. Some of the most widely used CNIs are [Calico](https://www.tigera.io/project-calico/), [Flannel](https://github.com/flannel-io/flannel#deploying-flannel-manually), and [Cilium](https://github.com/cilium/cilium).
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:`:
-
-- Network plugins are software components that implement the container network interface (CNI) specification. They are responsible for allocating IP addresses to pods and enabling them to communicate with each other within the cluster.
+> _Reference_
+> - _Network plugins are software components that implement the container network interface (CNI) specification. They are responsible for allocating IP addresses to pods and enabling them to communicate with each other within the cluster._<sup>Reference [23](#References)</sup>
 
 ---
 
-### Kubernetes Architect Summary
+<p align="center">
+    <img src="images/KubeComponentsAddOns.png">
+</p>
 
-To summarize Kubernetes Architecture and components:
+---
 
-- Kubernetes is a cluster build from one or more Node.
-- A Node is a physical server or a virtual machine.
-- Kubernetes is divided into 2 parts, the control plan and the nodes.
-- The control plan is responsible of managing, monitoring, maintaining, and controlling the kubernetes cluster along with all the objects deployed within. 
-- Control plan have several components to perform its duties.
-- A Node is the physical server or the virtual machine that is installed with several components and is responsible of running the containerized workload application or components.
-- A Node that hosts the control plan components and do not running workload application is called Master Node.
-- A Nodes that is running Workload application is called Worker Nodes.
-- Components of the Control Plan are:
-  - __API Server:__ The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.
-  - __Controller Manager:__ The Controller Manager is responsible for running multiple controllers that maintain the desired state of the cluster.
-  - __Scheduler:__ The Scheduler is responsible of finding a suitable node to run newly created Pod(s).
-  - __etcd:__ etcd is considered the database of the kubernetes cluster which it will store all data of the cluster in a key-value store.
-- Components of the Nodes (Master/Worker):
-  - __Kubelet:__ Kubelet is an agent running on each node responsible of running the containers inside Pods.
-  - __Kube-Proxy:__ Kube-Proxy is an instance or a process running on each node and is responsible of the basic networking for Pods.
-  - __Container Runtime:__ Container Runtime is part of the Container Engine and is responsible for the containerization process and running container on the nodes.
-- Kubernetes cluster may have additional components to enhance the functionality of the cluster. Some of the Addons are:
-  - __DNS:__ Providing DNS capabilities to the cluster and the Pods running within.
-  - __Network Plugin:__ Providing additional networking features such as IP assignment, Pod to Pod communication, In/Out cluster communication, Advanced Network policies.
+## Kubernetes Architecture high-Level
 
+Kubernetes is a clustered environment combined of one or more physical server or virtual machine called `nodes`. The kubernetes cluster components are divided into 2 `Control Plan` components and `Node` components. The Control Plan component may be deployed on any node in the kubernetes cluster, however, for architecture consistency, in a production environment, control plan components are deployed on one or three (in a highly available cluster) nodes and these nodes are called `Master Nodes`. Any other node is called `Worker Node`, the worker nodes are the nodes that hosts the containerized applications. So all containers will be running on top of the worker nodes and not the master nodes. 
+
+The architecture of the kubernetes cluster can differ form one cluster to another depending on the usability of this cluster, however, any kubernetes cluster will have the control plan and the worker nodes. If a kubernetes cluster is used for production, it is advised to have at least 3 master nodes in the control plan and one or more worker nodes hosting the containerized application depending on the number of containers required and their resources. In a lab or a testing environment, only one master node is enough for the control plan. Also there is an option called [Minikube](https://minikube.sigs.k8s.io/docs/) which is a form of a kubernetes cluster deployed on top of macOS, Linux, or Windows machines and is by default contain only one node working as a master node and a worker node. This node will host the control plan components as well as the containerized application. The Minikube is only used for personal testing and not for production environment.
+
+
+
+> _Reference_
+> - _A Kubernetes cluster consists of a set of worker machines, called nodes, that run containerized applications. Every cluster has at least one worker node._<sup>Reference [24](#References)</sup>
+> - _The worker node(s) host the Pods that are the components of the application workload. The control plane manages the worker nodes and the Pods in the cluster. In production environments, the control plane usually runs across multiple computers and a cluster usually runs multiple nodes, providing fault-tolerance and high availability._<sup>Reference [24](#References)</sup>
 
 ---
 
@@ -366,6 +333,9 @@ To summarize Kubernetes Architecture and components:
 </p>
 
 ---
+
+
+
 
 #### References
 
@@ -393,7 +363,7 @@ To summarize Kubernetes Architecture and components:
 - [[22] - Kubernetes DNS](https://kubernetes.io/docs/concepts/overview/components/#dns)
 - [[23] - Kubernetes Network Plugin](https://kubernetes.io/docs/concepts/overview/components/#network-plugins)
 - [[24] - Kubernetes Architecture](https://kubernetes.io/docs/concepts/architecture/)
-- [[25] - The Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
+- [[25] - Kubernetes High Availability Topology](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/)
 
 ---
 
