@@ -1,6 +1,6 @@
-# Kubernetes Cluster Architecture & Components
+# Kubernetes Cluster Architecture - Components & High-level Main Objects
 
-Kubernetes is a cluster environment consist of several machine (called Nodes). This kubernetes cluster is known as a kubernetes architecture as this cluster have specific components and requirements. Each component is deployed in a specific way and perform a specific task.
+Kubernetes is a cluster environment consist of several machine (called Nodes). Kubernetes consist of objects (such as the nodes) and several components and the kubernetes cluster is designed and architected in a specific way. This kubernetes cluster is known as a kubernetes architecture as this cluster have specific components, objects, and requirements. Each component is deployed in a specific way and perform a specific task.
 
 ---
 
@@ -10,7 +10,61 @@ Kubernetes is a cluster environment consist of several machine (called Nodes). T
 
 ---
 
-# Kubernetes Architecture high-Level
+## Kubernetes Cluster High-Level
+
+As explained Kubernetes is considered as a platform designed in a cluster form consisting of a number of object and several components to achieve it's required outcome. Kubernetes is a container orchestration platform, and with this being said, it points to the fact that kubernetes will have containers running on top of it and that kubernetes will perform several action as explained in the previous [section](https://github.com/tahershaker/Learning-Kubernetes/tree/main/1.%20Introduction%20To%20Kubernetes#what-is-kubernetes---overview) such as Application deployment, Auto-Scaling, Self-Healing and much more. 
+
+For kubernetes to have the capability to run containerized application, compute resources (CPU & Memory) are required. This compute resources are the `Nodes`. A kubernetes node can be a physical server or virtual machine running linux or windows operating system along with other components. These nodes are built as a clustered form, and thus, Kubernetes is a cluster consisting of one or more node (physical server or virtual machine). The node is considered to be the first object of a kubernetes cluster.
+
+A Kubernetes object is a physical or a logical object and each object have a `kind` that perform different function. for example, a node is a physical server or virtual machine object with the function of providing compute resources to run containers. Another example of an object is the `Pod`, a Kubernetes Pod is a logical object that is used to host the container. In kubernetes, a Pod is a group of one or more container running inside this logical object called Pod. There are several other objects in kubernetes which will be discussed later.
+
+On the other hand of a kubernetes Object, there is Kubernetes Component which are a pice of software running as an instances running inside of a container (inside a Pod) or a process running directly on the kernel of the node. There are several kubernetes components and each one is designed to perform a specific task. The kubernetes components are divided into 2 types, `Control Plan Components` and `Node Components`.
+
+---
+
+<p align="center">
+    <img src="images/KubeClustHL.png">
+</p>
+
+---
+
+## Kubernetes Objects High-Level - Node, Namespace, Pods, Deployments & Services
+
+Kubernetes includes several object to perform it's desired outcome and give the ability to users to deploy and build containerized applications. There are several objects in kubernetes and each have a specific function or usability to perform. 
+
+### Kubernetes Node (high-level)
+
+A Kubernetes `Node` is considered as the first basic mandatory object. A Kubernetes Node is a a physical server or virtual machine running linux or windows operating system along with other kubernetes components and is responsible to providing compute resources to run containerized application on tpo of it.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Nodes:`:
+<table><tr><td>- Kubernetes runs your workload by placing containers into Pods to run on Nodes. A node may be a virtual or physical machine, depending on the cluster. Each node is managed by the control plane and contains the services necessary to run Pods.<sup>Reference [2]</sup></td></tr></table>
+
+---
+
+### Kubernetes Namespace (high-level)
+
+As explained, Kubernetes is a cluster and is used by several users and developer. To be able to isolate the interaction and the containerized workload running on top of the cluster for each user, developer, team, or group, Kubernetes uses the concept of `Namespace`. Namespace a logical concept and is responsible of isolating resources for each user, or group within a single kubernetes cluster. Any object that is created in a namespace will have no relation to another object created in a different namespace. Once the kubernetes cluster is deployed, there is a default namespace created by default and will hold any object created by default. Kubernetes Cluster admin can then create other namespaces and give access to these namespaces to different users and groups to be able to deploy containerized application while maintain the isolation between them.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Namespaces:`:
+> - In Kubernetes, namespaces provides a mechanism for isolating groups of resources within a single cluster. Names of resources need to be unique within a namespace, but not across namespaces. Namespace-based scoping is applicable only for namespaced objects (e.g. Deployments, Services, etc) and not for cluster-wide objects (e.g. StorageClass, Nodes, PersistentVolumes, etc).
+
+---
+
+### Kubernetes Pods (high-level)
+
+A Kubernetes Pod is the smallest kubernetes object that can be created in a kubernetes cluster. In kubernetes, containers runs inside a Pod object and not directly on the kubernetes infrastructure. A Kubernetes Pod is a way to provide Kubernetes tha ability to deploy, manage and maintain the container running in the environment. A Pod can run one or more container indie of it and it provides the networking and the storage required by this container(s). When ever we are talking about a Pod in Kubernetes, it is most likely referring to the container running inside of this Pod.
+
+Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Pods:`:
+> - Pods are the smallest deployable units of computing that you can create and manage in Kubernetes.
+> - A Pod (as in a pod of whales or pea pod) is a group of one or more containers, with shared storage and network resources, and a specification for how to run the containers. A Pod's contents are always co-located and co-scheduled, and run in a shared context. A Pod models an application-specific "logical host": it contains one or more application containers which are relatively tightly coupled. 
+
+---
+
+
+
+---
+
+## Kubernetes Architecture high-Level
 
 Kubernetes is a clustered environment combined of one or more physical server or virtual machine called `nodes`. The kubernetes cluster is divided into 2 main parts. 
 
@@ -53,6 +107,8 @@ Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes
 `The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.`
 
 The API Server is the first main component in the kubernetes control plan. This components is responsible for communication and interacting with the kubernetes cluster. Any request sent to a kubernetes cluster to perform any action will be sent to the API server component. The API Server Instance (by instance, it means, the Pod that will have the container running the API Server Service inside of it) will be deployed and will have a dedicated IP address to be able to send and receive requests to and from the kubernetes cluster. In a highly-available architecture, the API server instance may be replication to have more than one running on more than one node with a load balancer service running to load balancer the requests to and from the API server instances.
+
+To learn more about the Kubernetes API into a more deep details such as specifications and versions, please refer to this [link](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
 
 Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:`:
 
@@ -202,7 +258,29 @@ Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes
 
 ### Kubernetes Architect Summary
 
-As a summary, Kubernetes is a cluster and have components that are divided into 2 categories, the Control Plan components and the Node Components. Some additional components or Addons maybe installed to add additional features to the cluster. The main control plan components are kube-api-server, kube-controller-Manager, kube-scheduler, and etcd. The node components are kubelet, kube-proxy, and container runtime.
+To summarize Kubernetes Architecture and components:
+
+- Kubernetes is a cluster build from one or more Node.
+- A Node is a physical server or a virtual machine.
+- Kubernetes is divided into 2 parts, the control plan and the nodes.
+- The control plan is responsible of managing, monitoring, maintaining, and controlling the kubernetes cluster along with all the objects deployed within. 
+- Control plan have several components to perform its duties.
+- A Node is the physical server or the virtual machine that is installed with several components and is responsible of running the containerized workload application or components.
+- A Node that hosts the control plan components and do not running workload application is called Master Node.
+- A Nodes that is running Workload application is called Worker Nodes.
+- Components of the Control Plan are:
+  - __API Server:__ The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.
+  - __Controller Manager:__ The Controller Manager is responsible for running multiple controllers that maintain the desired state of the cluster.
+  - __Scheduler:__ The Scheduler is responsible of finding a suitable node to run newly created Pod(s).
+  - __etcd:__ etcd is considered the database of the kubernetes cluster which it will store all data of the cluster in a key-value store.
+- Components of the Nodes (Master/Worker):
+  - __Kubelet:__ Kubelet is an agent running on each node responsible of running the containers inside Pods.
+  - __Kube-Proxy:__ Kube-Proxy is an instance or a process running on each node and is responsible of the basic networking for Pods.
+  - __Container Runtime:__ Container Runtime is part of the Container Engine and is responsible for the containerization process and running container on the nodes.
+- Kubernetes cluster may have additional components to enhance the functionality of the cluster. Some of the Addons are:
+  - __DNS:__ Providing DNS capabilities to the cluster and the Pods running within.
+  - __Network Plugin:__ Providing additional networking features such as IP assignment, Pod to Pod communication, In/Out cluster communication, Advanced Network policies.
+
 
 ---
 
@@ -212,23 +290,35 @@ As a summary, Kubernetes is a cluster and have components that are divided into 
 
 ---
 
-
-
-
----
-
 > References:
 
-- [Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
-- [Kubernetes Architecture](https://kubernetes.io/docs/concepts/architecture/)
-- [Kubernetes Overview - Official Document](https://kubernetes.io/docs/concepts/overview/)
-- [Communication between Nodes and the Control Plane](https://kubernetes.io/docs/concepts/architecture/control-plane-node-communication/)
-- [etcd - Official Website](https://etcd.io/)
-- [Installing Addons](https://kubernetes.io/docs/concepts/cluster-administration/addons/)
-- [DNS for Services and Pods](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)
+- [[1] - Kubernetes Overview - Official Document](https://kubernetes.io/docs/concepts/overview/)
+- [[2] - Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
+- [[3] - kubernetes Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/)
+- [[4] - Kubernetes Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
+- [[5] - Kubernetes Pod](https://kubernetes.io/docs/concepts/workloads/pods/)
+- [[6] - Kubernetes Deployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [[7] - Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
+- [[8] - Kubernetes Control Plan Components](https://kubernetes.io/docs/concepts/overview/components/#control-plane-components)
+- [[9] - Kubernetes Kube-ApiServer](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
+- [[10] - The Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
+- [[11] - Kubernetes Scheduler](https://kubernetes.io/docs/concepts/overview/components/#kube-scheduler)
+- [[12] - Kubernetes Controller Manager](https://kubernetes.io/docs/concepts/overview/components/#kube-controller-manager)
+- [[13] - Kubernetes etcd](https://kubernetes.io/docs/concepts/overview/components/#etcd)
+- [[14] - etcd - Official Website](https://etcd.io/)
+- [[15] - Kubernetes Node Components](https://kubernetes.io/docs/concepts/overview/components/#node-components)
+- [[16] - Kubernetes Kubelet](https://kubernetes.io/docs/concepts/overview/components/#kubelet)
+- [[17] - Kubernetes Kube-Proxy](https://kubernetes.io/docs/concepts/overview/components/#kube-proxy)
+- [[18] - Kubernetes Container Runtime](https://kubernetes.io/docs/concepts/overview/components/#container-runtime)
+- [[19] - Kubernetes Addons](https://kubernetes.io/docs/concepts/overview/components/#addons)
+- [[20] - Installing Kubernetes Addons](https://kubernetes.io/docs/concepts/cluster-administration/addons/)
+- [[21] - Kubernetes DNS](https://kubernetes.io/docs/concepts/overview/components/#dns)
+- [[22] - Kubernetes Network Plugin](https://kubernetes.io/docs/concepts/overview/components/#network-plugins)
+- [[23] - Kubernetes Architecture](https://kubernetes.io/docs/concepts/architecture/)
+- [[24] - The Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
 
 ---
 
 > Next Step:
 
-[Installing Kubernetes]()
+[Kubernetes Objects]()

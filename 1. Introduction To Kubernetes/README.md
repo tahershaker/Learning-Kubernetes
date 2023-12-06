@@ -242,4 +242,4 @@ spec: # Specs of the object
 
 > Next Step:
 
-[Understand Kubernetes Architecture & Components](https://github.com/tahershaker/Learning-Kubernetes/tree/main/2.%20Kubernetes%20Cluster%20Architecture%20%26%20Components)
+[Kubernetes Cluster Architecture - Components & High-level Main Objects](https://github.com/tahershaker/Learning-Kubernetes/tree/main/2.%20Kubernetes%20Cluster%20Architecture%20%26%20Components)
