@@ -36,8 +36,7 @@ Kubernetes includes several object to perform it's desired outcome and give the 
 
 A Kubernetes `Node` is considered as the first basic mandatory object. A Kubernetes Node is a a physical server or virtual machine running linux or windows operating system along with other kubernetes components and is responsible to providing compute resources to run containerized application on tpo of it.
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Nodes:`:
-<table><tr><td>- Kubernetes runs your workload by placing containers into Pods to run on Nodes. A node may be a virtual or physical machine, depending on the cluster. Each node is managed by the control plane and contains the services necessary to run Pods.<sup>Reference [2]</sup></td></tr></table>
+<table><tr><td>- *Kubernetes runs your workload by placing containers into Pods to run on Nodes. A node may be a virtual or physical machine, depending on the cluster. Each node is managed by the control plane and contains the services necessary to run Pods.*<sup>Reference [2]</sup></td></tr></table>
 
 ---
 
