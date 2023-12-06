@@ -10,7 +10,7 @@ Kubernetes is a cluster environment consist of several machine (called Nodes). K
 
 ---
 
-## Kubernetes Cluster High-Level
+## 1. Kubernetes Cluster High-Level
 
 As explained Kubernetes is considered as a platform designed in a cluster form consisting of a number of object and several components to achieve it's required outcome. Kubernetes is a container orchestration platform, and with this being said, it points to the fact that kubernetes will have containers running on top of it and that kubernetes will perform several action as explained in the previous [section](https://github.com/tahershaker/Learning-Kubernetes/tree/main/1.%20Introduction%20To%20Kubernetes#what-is-kubernetes---overview) such as Application deployment, Auto-Scaling, Self-Healing and much more. 
 
@@ -28,13 +28,13 @@ On the other hand of a kubernetes Object, there is Kubernetes Component which ar
 
 ---
 
-## Kubernetes Objects High-Level - Node, Namespace, Pods, Deployments & Services
+## 2. Kubernetes Objects High-Level - Node, Namespace, Pods, Deployments & Services
 
 Kubernetes includes several object to perform it's desired outcome and give the ability to users to deploy and build containerized applications. There are several objects in kubernetes and each have a specific function or usability to perform. Different Object have different `kind`, and based on the kind of the object, the functionality is different. for example, a node is an object with the kind node, a pod is an object with the kind pod, and each one of them have different functionality.
 
 Some of the Kubernetes Object are listed below is a very high-level explanation and info.
 
-### Kubernetes Node (high-level)
+### 2a.Kubernetes Node (high-level)
 
 A Kubernetes `Node` is considered as the first basic mandatory object. A Kubernetes Node is a a physical server or virtual machine running linux or windows operating system along with other kubernetes components and is responsible to providing compute resources to run containerized application on tpo of it.
 
@@ -43,7 +43,7 @@ A Kubernetes `Node` is considered as the first basic mandatory object. A Kuberne
 
 ---
 
-### Kubernetes Namespace (high-level)
+### 2b. Kubernetes Namespace (high-level)
 
 As explained, Kubernetes is a cluster and is used by several users and developer. To be able to isolate the interaction and the containerized workload running on top of the cluster for each user, developer, team, or group, Kubernetes uses the concept of `Namespace`. Namespace a logical concept and is responsible of isolating resources for each user, or group within a single kubernetes cluster. Any object that is created in a namespace will have no relation to another object created in a different namespace. Once the kubernetes cluster is deployed, there is a default namespace created by default and will hold any object created by default. Kubernetes Cluster admin can then create other namespaces and give access to these namespaces to different users and groups to be able to deploy containerized application while maintain the isolation between them.
 
@@ -52,7 +52,7 @@ As explained, Kubernetes is a cluster and is used by several users and developer
 
 ---
 
-### Kubernetes Pods (high-level)
+### 2c. Kubernetes Pods (high-level)
 
 A Kubernetes Pod is the smallest kubernetes object that can be created in a kubernetes cluster. In kubernetes, containers runs inside a Pod object and not directly on the kubernetes infrastructure. A Kubernetes Pod is a way to provide Kubernetes tha ability to deploy, manage and maintain the container running in the environment. A Pod can run one or more container indie of it and it provides the networking and the storage required by this container(s). When ever we are talking about a Pod in Kubernetes, it is most likely referring to the container running inside of this Pod.
 
@@ -62,7 +62,7 @@ A Kubernetes Pod is the smallest kubernetes object that can be created in a kube
 
 ---
 
-### Kubernetes Deployment (high-level)
+### 2d. Kubernetes Deployment (high-level)
 
 A containerized application may (in most cases) consists of several containers connected together in a specific way and are tightly dependant on each other. The containers of this application will run in separate Pods inside Kubernetes. A deployment is a kubernetes object that deploy the application as one bucket with all the Pods required to run this application. A deployment will give the user the ability to create the full application specification and desired state all in one go. In the YAML file used to deploy the Deployment Object, the user can specify the number of pods required (which is described in an object called ReplicaSet), which image to be used, the networking of each pod, and much more. With the Deployment, a user can update the full application using the YAML file used to deploy this Deployment.
 
@@ -72,7 +72,7 @@ A containerized application may (in most cases) consists of several containers c
 
 ---
 
-### Kubernetes Services (high-level)
+### 2e. Kubernetes Services (high-level)
 
 For a containerized application to work, some microservices that are running inside a Pod would need to communicate with each other or users need to reach this application. Services are a Kubernetes object handling the networking of the application running in the kubernetes cluster. The service is an abstraction that expose the application running inside a Pod. Each service have it's own IP address and this is the one used to reach the Pods. The kubernetes service also provide a service discovery functionality to the Pods running in the environment, As containers or Pod are ephemeral, they may die and another one is created with a different IP. Service takes care of this issue and serve the traffic to whatever container or Pod that is attached to it regardless of the Pod IP. The service do serve networking for a set of Pods attached to this service. There are different type of services which are going to be explained in details in a later section.
 
@@ -89,7 +89,7 @@ For a containerized application to work, some microservices that are running ins
 
 ---
 
-### How can an Object be Created or Deployed - YAML Manifest File
+### 2f. How can an Object be Created or Deployed - YAML Manifest File
 
 When interacting with a Kubernetes cluster, the user uses a CLI tool called kubectl (which will be discussed in more details in a later section) or directly using API requests. To create an object in Kubernetes, the user must define the kind, specs, and desired state of this object. As an example, if a user wants to deploy a Pod, then the user my specify that this kind of this object is a Pod with the specification of the Pod such as the container image and other configuration of the Pod and then the desired state of this Pod such as having 2 replicas of this Pod.
 
@@ -133,13 +133,13 @@ spec: # Specs of the object
 
 ---
 
-## Kubernetes Components - (Control Plan & Nodes Components)
+## 3. Kubernetes Components - (Control Plan & Nodes Components)
 
 Kubernetes is based on several components to provide it's desired outcomes, and each component have a specific task to perform. When talking about Kubernetes Components, 2 types of components will be discussed. `Control Plan` components and `Node` component. The Control Plan components are responsible for managing and maintaining the kubernetes cluster and the objects deployed within. The Control Plan components will be deployed on specific nodes and not all nodes in the kubernetes cluster. The nodes that will have the Control Plan components running on with be called `Master Nodes` and all other nodes will be called `Worker Nodes`. The Node components are responsible of the life-cycle and networking of the Pod running within the kubernetes cluster. The Node components will be deployed on every node in the kubernetes cluster.
 
 ---
 
-### Control Plan Components
+### 3a. Control Plan Components
 
 The Control Plan components are responsible for interacting with the kubernetes cluster, monitoring and maintaining kubernetes cluster objects desired state and taking global actions when required to ensure desired state is met. By default, there are 4 main components in the control plan. In some situation, additional control plan component may exists, for example, if the kubernetes cluster deployed on a cloud provider (such as AWS, GCP, Azure or even VMware vSphere), there will be another 5th component that may be deployed to interact with the cloud provider.
 
@@ -153,7 +153,7 @@ The 4 main Control Plan components are API Server, Controller Manager, Scheduler
 
 ---
 
-#### API Server
+#### 3a(i). API Server
 
 `The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.`
 
@@ -171,7 +171,7 @@ To learn more about the Kubernetes API into a more deep details such as specific
 
 ---
 
-#### Controller Manager
+#### 3a(ii). Controller Manager
 
 `The Controller Manager is responsible for running multiple controllers that maintain the desired state of the cluster.`
 
@@ -197,7 +197,7 @@ Examples of the built in controllers are:
 
 ---
 
-#### Scheduler
+#### 3a(iii). Scheduler
 
 `The Scheduler is responsible of finding a suitable node to run newly created Pod(s).`
 
@@ -209,7 +209,7 @@ The scheduler is another control plan component that manage the scheduling of Po
 
 ---
 
-#### etcd
+#### 3a(iv). etcd
 
 `etcd is considered to be the database of the kubernetes cluster which it will store all data of the cluster in a key-value store.`
 
@@ -224,13 +224,13 @@ When creating a kubernetes cluster and objects within this cluster, all the data
 
 ---
 
-### Node Components
+### 3b. Node Components
 
 The Node Components is responsible of deploying, monitoring and maintaining the Pods running on the node, Provides Pod Networking connectivity and provide reporting about the Pod status to the control plan. The Node components will be running on all the nodes in the cluster Master Nodes or Worker Nodes. 
 
 ---
 
-#### Kubelet 
+#### 3b(i). Kubelet 
 
 `Kubelet is an agent running on each node responsible of running the containers inside Pods.`
 
@@ -244,7 +244,7 @@ In a later section, communication architecture between the control plan and the 
 
 ---
 
-#### Kube-Proxy
+#### 3b(ii). Kube-Proxy
 
 `Kube-Proxy is an instance or a process running on each node and is responsible of the basic networking for Pods.`
 
@@ -261,7 +261,7 @@ When kubernetes service are explained, more info about kube-proxy will be shared
 
 ---
 
-#### Container Runtime
+#### 3b(iii). Container Runtime
 
 `Container Runtime is part of the Container Engine and is responsible for the containerization process and running container on the nodes.`
 
