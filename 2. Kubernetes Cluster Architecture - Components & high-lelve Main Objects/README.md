@@ -89,6 +89,50 @@ For a containerized application to work, some microservices that are running ins
 
 ---
 
+### How can an Object be Created or Deployed - YAML Manifest File
+
+When interacting with a Kubernetes cluster, the user uses a CLI tool called kubectl (which will be discussed in more details in a later section) or directly using API requests. To create an object in Kubernetes, the user must define the kind, specs, and desired state of this object. As an example, if a user wants to deploy a Pod, then the user my specify that this kind of this object is a Pod with the specification of the Pod such as the container image and other configuration of the Pod and then the desired state of this Pod such as having 2 replicas of this Pod.
+
+All of this information are defined in a manifest file. Normally this is done using a `YAML` formate file - `PS: JSON file can also be used but normally YAML files are most commonly used`. The user create the YAML file and defined all of these information inside this file and then send it to the kubernetes cluster using kubectl CLI or an API request with this file attached to it. 
+
+Once the Manifest YAML file is sent to the kubernetes cluster, kubernetes will work on creating, Deploying, monitoring, and maintaining this object on the kubernetes cluster.
+
+> _Reference_
+> - _A Kubernetes object is a `"record of intent"` --once you create the object, the Kubernetes system will constantly work to ensure that object exists. By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like; this is your cluster's `desired state`._<sup>Reference [2](#References)</sup>
+> - _Almost every Kubernetes object includes two nested object fields that govern the object's configuration: the object spec and the object status. For objects that have a spec, you have to set this when you create the object, providing a description of the characteristics you want the resource to have: its `desired state`._<sup>Reference [2](#References)</sup>
+> - _The status describes the current state of the object, supplied and updated by the Kubernetes system and its components. The Kubernetes control plane continually and actively manages every object's `actual state` to match the `desired state` you supplied._<sup>Reference [2](#References)</sup>
+> - _When you create an object in Kubernetes, you must provide the object spec that describes its desired state, as well as some basic information about the object (such as a name). When you use the Kubernetes API to create the object (either directly or via kubectl), that API request must include that information as JSON in the request body. Most often, you provide the information to kubectl in file known as a `manifest`. By convention, manifests are YAML (you could also use JSON format). Tools such as kubectl convert the information from a manifest into JSON or another supported serialization format when making the API request over HTTP._<sup>Reference [2](#References)</sup>
+
+As a summary, once the kubernetes cluster is created, the user starts creating object `manifest` in the form of a `YAML` file which it will hold the object `spec` and the object `desired state` and then pass it to kubernetes using the CLI kubectl tool or directly using an API request. Kubernetes will make sure that this object is created based on the provided object spec and insure that the actual state of this object always match the defined desired state of this object.
+
+Below is an example of a manifest in YAML format the shows the required object spec for a kubernetes object called deployment.
+
+---
+
+```yaml
+apiVersion: apps/v1 # version number of the API
+kind: Deployment # Kubernetes object type
+metadata:
+  name: nginx-deployment
+spec: # Specs of the object
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 2 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```
+
+---
+
 ## Kubernetes Components - (Control Plan & Nodes Components)
 
 Kubernetes is based on several components to provide it's desired outcomes, and each component have a specific task to perform. When talking about Kubernetes Components, 2 types of components will be discussed. `Control Plan` components and `Node` component. The Control Plan components are responsible for managing and maintaining the kubernetes cluster and the objects deployed within. The Control Plan components will be deployed on specific nodes and not all nodes in the kubernetes cluster. The nodes that will have the Control Plan components running on with be called `Master Nodes` and all other nodes will be called `Worker Nodes`. The Node components are responsible of the life-cycle and networking of the Pod running within the kubernetes cluster. The Node components will be deployed on every node in the kubernetes cluster.
@@ -101,11 +145,11 @@ The Control Plan components are responsible for interacting with the kubernetes 
 
 The Control Plan component may be deployed on any node in the kubernetes cluster, however, for architecture consistency, control plan components are deployed on one or three (in a highly available cluster) nodes and these nodes are called `Master Nodes`. When using scripts or deployment tools to deploy a Kubernetes Cluster (which is the majority of the cases), these scripts will install and deploy all control plan components on one or three nodes. 
 
+The 4 main Control Plan components are API Server, Controller Manager, Scheduler, and etcd. 
+
 > _Reference_
 > - _The control plane's components make global decisions about the cluster (for example, scheduling), as well as detecting and responding to cluster events (for example, starting up a new pod when a deployment's replicas field is unsatisfied)._<sup>Reference [9](#References)</sup>
 > - _Control plane components can be run on any machine in the cluster. However, for simplicity, set up scripts typically start all control plane components on the same machine, and do not run user containers on this machine._<sup>Reference [9](#References)</sup>
-
-The 4 main Control Plan components are: 
 
 ---
 
@@ -165,7 +209,7 @@ The scheduler is another control plan component that manage the scheduling of Po
 
 ---
 
-### etcd
+#### etcd
 
 `etcd is considered to be the database of the kubernetes cluster which it will store all data of the cluster in a key-value store.`
 
@@ -180,6 +224,59 @@ When creating a kubernetes cluster and objects within this cluster, all the data
 
 ---
 
+### Node Components
+
+The Node Components is responsible of deploying, monitoring and maintaining the Pods running on the node, Provides Pod Networking connectivity and provide reporting about the Pod status to the control plan. The Node components will be running on all the nodes in the cluster Master Nodes or Worker Nodes. 
+
+---
+
+#### Kubelet 
+
+`Kubelet is an agent running on each node responsible of running the containers inside Pods.`
+
+The kubelet is an agent running on every node in the cluster (Master and Worker Nodes) and is responsible for building the containers inside Pods and monitor their status making sure that the container are in a healthy state. The state of containers are reported back to the control plan. If any container failed, it is the responsibility of the kubelet to report the status and redeploy the container and Pod if required.
+
+In a later section, communication architecture between the control plan and the kubelet will be discussed in more details.
+
+> _Reference_
+> - _An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod._<sup>Reference [17](#References)</sup>
+> - _The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by Kubernetes._<sup>Reference [17](#References)</sup>
+
+---
+
+#### Kube-Proxy
+
+`Kube-Proxy is an instance or a process running on each node and is responsible of the basic networking for Pods.`
+
+Kube-Proxy is an agent running on every node in the cluster (Master and Worker Nodes) and is responsible for a part of the Pod networking taking place in the kubernetes cluster. In kubernetes, the networking of a Pod is defined as a kubernetes object called `service` The kube-Proxy is not responsible for the full end-to-end networking but rather it monitors for the services created for Pod networking and translate them into networking rule in the linux kernel to forward traffic. 
+
+Kube-Proxy can run in the kubernetes cluster as a DaemonSet or as a process running directly on the linux kernel, this depend on how you setup the kubernetes cluster.
+
+When kubernetes service are explained, more info about kube-proxy will be shared. However, from a high-level, The services will have an IP range and it will receive traffic going to a Pod in the back-end of the service. The Pod in the back-end will have another IP range, the Kube-Proxy will perform NATing from the Service to the Pod networking. These NAT rules are simply mappings of Service IP to Pod IP. When a request is sent to a Service, it is redirected to a backend Pod based on these rules.
+
+> _Reference_
+> - _kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept._<sup>Reference [18](#References)</sup>
+> - _kube-proxy maintains network rules on nodes. These network rules allow network communication to your Pods from network sessions inside or outside of your cluster._<sup>Reference [18](#References)</sup>
+> - _kube-proxy uses the operating system packet filtering layer if there is one and it's available. Otherwise, kube-proxy forwards the traffic itself._<sup>Reference [18](#References)</sup>
+
+---
+
+#### Container Runtime
+
+`Container Runtime is part of the Container Engine and is responsible for the containerization process and running container on the nodes.`
+
+A Container engine is the engine that runs one or more isolated instance of container on the same operating system kernel on the same hardware (Container Host). Most modern container engines use the Open Container Initiative (OCI) container image format. A key component of a container engine is the container runtime, which communicates with the operating system kernel to perform the containerization process and configure access and security policies for running containers. Container Engine is also sometimes called Container Runtime. One of the most popular Container Runtime is called Containerd. 
+
+> _Reference_
+> - _A fundamental component that empowers Kubernetes to run containers effectively. It is responsible for managing the execution and lifecycle of containers within the Kubernetes environment._<sup>Reference [19](#References)</sup>
+> - _Kubernetes supports container runtime such as containerd, CRI-O, and any other implementation of the Kubernetes CRI (Container Runtime Interface)._<sup>Reference [19](#References)</sup>
+
+---
+
+
+
+
+---
 
 ## Kubernetes Architecture high-Level
 
@@ -205,74 +302,6 @@ Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes
 
 ---
 
-> etcd
-
-`etcd is considered the database of the kubernetes cluster which it will store all data of the cluster in a key-value store.`
-
-When creating a kubernetes cluster and objects within this cluster, all the data of the cluster and the objects must be stored somewhere. The etcd acts as the database of the kubernetes and store the cluster configuration along with all data of all objects in a key-value store. etcd is a consistent and could be distributed store that is used by kubernetes as well as it is used by other projects. 
-
-Referring to the etcd official documentation [_Referenced Below_], `etcd - Official Website:`
-
-- etcd is a strongly consistent, distributed key-value store that provides a reliable way to store data that needs to be accessed by a distributed system or cluster of machines. 
-
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:`:
-
-- Consistent and highly-available key value store used as Kubernetes' backing store for all cluster data.
-- If your Kubernetes cluster uses etcd as its backing store, make sure you have a back up plan for the data.
-
----
-
-### Node Components
-
-The second part of the kubernetes architecture are the Nodes, basically the worker Nodes, however, the second type of components will run on any nodes not only the worker nodes and thus it is mentioned as nodes not worker nodes.
-
-The second type of component are going to run on all nodes and their main objective is to look after the Pods running on the node and to allow communication and reporting to the control plan.
-
----
-
-> Kubelet 
-
-`Kubelet is an agent running on each node responsible of running the containers inside Pods.`
-
-The kubelet is an agent running on every node in the cluster (Master and Worker Nodes) and is responsible for building the containers inside Pods and monitor their status making sure that the container are in a healthy state. The state of containers are reported back to the control plan. If any container failed, it is the responsibility of the kubelet to report the status and redeploy the container if required.
-
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:`:
-
-- An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod.
-- The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by Kubernetes.
-
----
-
-> Kube-Proxy
-
-`Kube-Proxy is an instance or a process running on each node and is responsible of the basic networking for Pods.`
-
-Kube-Proxy is an agent running on every node in the cluster (Master and Worker Nodes) and is responsible for a part of the Pod networking taking place in the kubernetes cluster. In kubernetes, the networking of a Pod is defined as a kubernetes object called `service` The kube-Proxy is not responsible for the full end-to-end networking but rather it monitors for the services created for Pod networking and translate them into networking rule in the linux kernel to forward traffic. 
-
-Kube-Proxy can run in the kubernetes cluster as a DaemonSet or as a process running directly on the linux kernel, this depend on how you setup the kubernetes cluster.
-
-When kubernetes service are explained, more info about kube-proxy will be shared. However, from a high-level, The services will have an IP range and it will receive traffic going to a Pod in the back-end of the service. The Pod in the back-end will have another IP range, the Kube-Proxy will perform NATing from the Service to the Pod networking. These NAT rules are simply mappings of Service IP to Pod IP. When a request is sent to a Service, it is redirected to a backend Pod based on these rules.
-
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:`:
-
-- kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept.
-- kube-proxy maintains network rules on nodes. These network rules allow network communication to your Pods from network sessions inside or outside of your cluster.
-- kube-proxy uses the operating system packet filtering layer if there is one and it's available. Otherwise, kube-proxy forwards the traffic itself.
-
----
-
-> Container Runtime
-
-`Container Runtime is part of the Container Engine and is responsible for the containerization process and running container on the nodes.`
-
-A Container engine is the engine that runs one or more isolated instance of container on the same operating system kernel on the same hardware (Container Host). Most modern container engines use the Open Container Initiative (OCI) container image format. A key component of a container engine is the container runtime, which communicates with the operating system kernel to perform the containerization process and configure access and security policies for running containers. Container Engine is also sometimes called Container Runtime. One of the most popular Container Runtime is called Containerd. 
-
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Components:`:
-
-- A fundamental component that empowers Kubernetes to run containers effectively. It is responsible for managing the execution and lifecycle of containers within the Kubernetes environment.
-- Kubernetes supports container runtimes such as containerd, CRI-O, and any other implementation of the Kubernetes CRI (Container Runtime Interface).
-
----
 
 ### Additional Kubernetes Components
 
