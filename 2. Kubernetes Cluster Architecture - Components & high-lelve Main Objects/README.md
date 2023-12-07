@@ -51,24 +51,6 @@ To summarize:
 ---
 
 
-## 1. Kubernetes Cluster High-Level
-
-As explained Kubernetes is considered as a platform designed in a cluster form consisting of a number of object and several components to achieve it's required outcome. Kubernetes is a container orchestration platform, and with this being said, it points to the fact that kubernetes will have containers running on top of it and that kubernetes will perform several action as explained in the previous [section](https://github.com/tahershaker/Learning-Kubernetes/tree/main/1.%20Introduction%20To%20Kubernetes#what-is-kubernetes---overview) such as Application deployment, Auto-Scaling, Self-Healing and much more. 
-
-For kubernetes to have the capability to run containerized application, compute resources (CPU & Memory) are required. This compute resources are the `Nodes`. A kubernetes node can be a physical server or virtual machine running linux or windows operating system along with other components. These nodes are built as a clustered form, and thus, Kubernetes is a cluster consisting of one or more node (physical server or virtual machine). The node is considered to be the first object of a kubernetes cluster.
-
-A Kubernetes object is a physical or a logical object and each object have a `kind` that perform different function. for example, a node is a physical server or virtual machine object with the function of providing compute resources to run containers. Another example of an object is the `Pod`, a Kubernetes Pod is a logical object that is used to host the container. In kubernetes, a Pod is a group of one or more container running inside this logical object called Pod. There are several other objects in kubernetes which will be discussed later.
-
-On the other hand of a kubernetes Object, there is Kubernetes Component which are a pice of software running as an instances running inside of a container (inside a Pod) or a process running directly on the kernel of the node. There are several kubernetes components and each one is designed to perform a specific task. The kubernetes components are divided into 2 types, `Control Plan Components` and `Node Components`.
-
----
-
-<p align="center">
-    <img src="images/KubeClustHL.png">
-</p>
-
----
-
 ## 2. Kubernetes Objects High-Level - Node, Namespace, Pods, Deployments & Services
 
 Kubernetes includes several object to perform it's desired outcome and give the ability to users to deploy and build containerized applications. There are several objects in kubernetes and each have a specific function or usability to perform. Different Object have different `kind`, and based on the kind of the object, the functionality is different. for example, a node is an object with the kind node, a pod is an object with the kind pod, and each one of them have different functionality.
@@ -194,7 +176,7 @@ The 4 main Control Plan components are API Server, Controller Manager, Scheduler
 
 ---
 
-#### 3a[i]. API Server
+#### 3a-[i]. API Server
 
 `The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.`
 
@@ -212,7 +194,7 @@ To learn more about the Kubernetes API into a more deep details such as specific
 
 ---
 
-#### 3a[ii]. Controller Manager
+#### 3a-[ii]. Controller Manager
 
 `The Controller Manager is responsible for running multiple controllers that maintain the desired state of the cluster.`
 
@@ -238,7 +220,7 @@ Examples of the built in controllers are:
 
 ---
 
-#### 3a[iii]. Scheduler
+#### 3a-[iii]. Scheduler
 
 `The Scheduler is responsible of finding a suitable node to run newly created Pod(s).`
 
@@ -250,7 +232,7 @@ The scheduler is another control plan component that manage the scheduling of Po
 
 ---
 
-#### 3a[iv]. etcd
+#### 3a-[iv]. etcd
 
 `etcd is considered to be the database of the kubernetes cluster which it will store all data of the cluster in a key-value store.`
 
@@ -271,7 +253,7 @@ The Node Components is responsible of deploying, monitoring and maintaining the 
 
 ---
 
-#### 3b[i]. Kubelet 
+#### 3b-[i]. Kubelet 
 
 `Kubelet is an agent running on each node responsible of running the containers inside Pods.`
 
@@ -285,7 +267,7 @@ In a later section, communication architecture between the control plan and the 
 
 ---
 
-#### 3b[ii]. Kube-Proxy
+#### 3b-[ii]. Kube-Proxy
 
 `Kube-Proxy is an instance or a process running on each node and is responsible of the basic networking for Pods.`
 
@@ -302,7 +284,7 @@ When kubernetes service are explained, more info about kube-proxy will be shared
 
 ---
 
-#### 3b[iii]. Container Runtime
+#### 3b-[iii]. Container Runtime
 
 `Container Runtime is part of the Container Engine and is responsible for the containerization process and running container on the nodes.`
 
