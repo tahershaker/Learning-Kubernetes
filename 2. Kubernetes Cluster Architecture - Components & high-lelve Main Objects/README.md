@@ -10,6 +10,47 @@ Kubernetes is a cluster environment consist of several machine (called Nodes). K
 
 ---
 
+## Kubernetes Architecture - High-Level
+
+Kubernetes is a container orchestration platform, and with that being said, it points to the fact that kubernetes will have containers running on top of it as well as the fact that Kubernetes will provide orchestration, automation and further functionalities as explained in a previous [section](https://github.com/tahershaker/Learning-Kubernetes/tree/main/1.%20Introduction%20To%20Kubernetes#what-is-kubernetes---overview) such as Application deployment, Auto-Scaling, Self-Healing and much more. 
+
+For containerized application to run on top of Kubernetes, compute resources (CPU & Memory) are required as well as several components providing the capability for running a container environment. Adding to this, for Kubernetes to be able to provide its added functionality (Application deployment, Auto-Scaling, Self-Healing, etc...), several more components are required to perform these functionality. The last, but not least, containerized applications requires some supporting function such as networking, security, monitoring, load balancing, DNS services, configuration management, and much more, thus, aside from the compute resources and components, several supporting tools, plugins, and 3rd party integrations are also required.
+
+Kubernetes is a platform consisting of one or more compute resources called `Nodes` to provide the required compute resources to run containerized application. A kubernetes Node can be a physical server or virtual machine. These Nodes will be deployed in a `Cluster` form, and thus, Kubernetes is a `cluster` consisting of one or more node (physical server or virtual machine), hence, `Kubernetes Cluster` is always mentioned whenever kubernetes is discussed. Also, these Nodes will need an operating system, either Linux or Windows, to be installed. 
+
+On top of the Kubernetes Nodes, several components will be deployed to support running a container environment as well as the kubernetes functionalities. These components in Kubernetes are divided into 2, `Control Plan` Components and `Node` Components. The Control Plan components will be responsible of Managing, Monitoring, Orchestrating and Automating kubernetes functionality, and on the other hand, the Node components are responsible for providing the capability of running the containers on top of the Node.
+
+Kubernetes give the ability to deploy all components on only one Node, however, in a Kubernetes Architecture and best practices, these components will be separated. The Control Plan components will be deployed in the same Node(s), these Nodes will be called `Master Nodes`. The Master Nodes will not host any containerized Workload applications, only the control plan components. Containerized Workloads will run on a separate type of Nodes called `Worker Nodes`, these nodes will host all containers running the business applications. The Kubernetes Node Components will run on all Nodes in the cluster - Master and Worker Nodes - as these components provide the capability to run containers on top of the Nodes.
+
+Kubernetes follows a client-server type of architecture in a cluster form with 2 type of nodes within this cluster `Master` and `Worker`. In a kubernetes cluster, and based on the kubernetes architecture and best practices, at least one Master Node and one or more Worker Node are required. In a highly available kubernetes cluster architecture 3 Master Nodes are required.
+
+Nearly everything deployed in a Kubernetes Cluster is referred to as a `Kubernetes Object`. A node is considered as an Object, there are several object in Kubernetes and each one of them will have a different `Kind`; (a Node is an Object with the Kind Node). There are a container object, networking object, security object and for each supporting function there will be an object with a Kind that support it's function. 
+
+> _Reference_
+> - _A Kubernetes cluster consists of a set of worker machines, called nodes, that run containerized applications. Every cluster has at least one worker node._<sup>Reference [1](#References)</sup>
+> - _The worker node(s) host the Pods that are the components of the application workload. The control plane manages the worker nodes and the Pods in the cluster. In production environments, the control plane usually runs across multiple computers and a cluster usually runs multiple nodes, providing fault-tolerance and high availability._<sup>Reference [1](#References)</sup>
+
+To summarize:
+- Kubernetes is a cluster consisting of one or more Node.
+- There are 2 types of Nodes, `Master Node` and `Worker Node`.
+- Several Components will be deployed on top of the Kubernetes cluster to achieve the required outcome.
+- Components are divided into 2 types, `Control Plan` Components and `Node` Components
+- Control Plan Components will be deployed on the Master Nodes, while Node Components will be deployed on all Nodes in the cluster.
+- Based on Kubernetes Architecture and best practices, One Master Node and one or more Worker Nodes are required.
+- In a highly available kubernetes cluster, 3 Master Nodes are required.
+- Anything deployed in a Kubernetes Cluster to run Containerized workload application is considered a Kubernetes Object.
+- Kubernetes Object have a `kind` which indicate the functionality of this Object.
+- Node is a type of Object with the kind Node.
+
+---
+
+<p align="center">
+    <img src="images/KubernetesArchBasic.png">
+</p>
+
+---
+
+
 ## 1. Kubernetes Cluster High-Level
 
 As explained Kubernetes is considered as a platform designed in a cluster form consisting of a number of object and several components to achieve it's required outcome. Kubernetes is a container orchestration platform, and with this being said, it points to the fact that kubernetes will have containers running on top of it and that kubernetes will perform several action as explained in the previous [section](https://github.com/tahershaker/Learning-Kubernetes/tree/main/1.%20Introduction%20To%20Kubernetes#what-is-kubernetes---overview) such as Application deployment, Auto-Scaling, Self-Healing and much more. 
@@ -318,7 +359,7 @@ By default Kubernetes do not provide extensive networking features for the clust
 
 Kubernetes is a clustered environment combined of one or more physical server or virtual machine called `nodes`. The kubernetes cluster components are divided into 2 `Control Plan` components and `Node` components. The Control Plan component may be deployed on any node in the kubernetes cluster, however, for architecture consistency, in a production environment, control plan components are deployed on one or three (in a highly available cluster) nodes and these nodes are called `Master Nodes`. Any other node is called `Worker Node`, the worker nodes are the nodes that hosts the containerized applications. So all containers will be running on top of the worker nodes and not the master nodes. 
 
-The architecture of the kubernetes cluster can differ form one cluster to another depending on the usability of this cluster, however, any kubernetes cluster will have the control plan and the worker nodes. If a kubernetes cluster is used for production, it is advised to have at least 3 master nodes in the control plan and one or more worker nodes hosting the containerized application depending on the number of containers required and their resources. In a lab or a testing environment, only one master node is enough for the control plan. Also there is an option called [Minikube](https://minikube.sigs.k8s.io/docs/) which is a form of a kubernetes cluster deployed on top of macOS, Linux, or Windows machines and is by default contain only one node working as a master node and a worker node. This node will host the control plan components as well as the containerized application. The Minikube is only used for personal testing and not for production environment.
+The architecture of the kubernetes cluster can differ form one cluster to another depending on the usability of this cluster, however, any kubernetes cluster will have the control plan and the worker nodes. If a kubernetes cluster is used for production, it is advised to have at least 3 master nodes (for high-availability) and one or more worker nodes hosting the containerized application depending on the number of containers required and their resources. In a lab or a testing environment, only one master node is enough for the control plan. Also there is an option called [Minikube](https://minikube.sigs.k8s.io/docs/) which is a form of a kubernetes cluster deployed on top of macOS, Linux, or Windows machines and is by default contain only one node working as a master node and a worker node. This node will host the control plan components as well as the containerized application. The Minikube is only used for personal testing and not for production environment.
 
 
 
@@ -339,7 +380,7 @@ The architecture of the kubernetes cluster can differ form one cluster to anothe
 
 #### References
 
-- [[1] - Kubernetes Overview - Official Document](https://kubernetes.io/docs/concepts/overview/)
+- [[1] - Kubernetes Architecture](https://kubernetes.io/docs/concepts/architecture/)
 - [[2] - Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
 - [[3] - kubernetes Nodes](https://kubernetes.io/docs/concepts/architecture/nodes/)
 - [[4] - Kubernetes Namespaces](https://kubernetes.io/docs/concepts/overview/working-with-objects/namespaces/)
@@ -362,8 +403,7 @@ The architecture of the kubernetes cluster can differ form one cluster to anothe
 - [[21] - Installing Kubernetes Addons](https://kubernetes.io/docs/concepts/cluster-administration/addons/)
 - [[22] - Kubernetes DNS](https://kubernetes.io/docs/concepts/overview/components/#dns)
 - [[23] - Kubernetes Network Plugin](https://kubernetes.io/docs/concepts/overview/components/#network-plugins)
-- [[24] - Kubernetes Architecture](https://kubernetes.io/docs/concepts/architecture/)
-- [[25] - Kubernetes High Availability Topology](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/)
+- [[24] - Kubernetes High Availability Topology](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/)
 
 ---
 
