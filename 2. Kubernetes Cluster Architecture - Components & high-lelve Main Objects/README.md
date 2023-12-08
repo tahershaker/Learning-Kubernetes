@@ -106,12 +106,6 @@ For a containerized application to work, some microservices that are running ins
 
 ---
 
-<p align="center">
-    <img src="images/KubeObjects.png">
-</p>
-
----
-
 ### 2f. How can an Object be Created or Deployed - YAML Manifest File
 
 When interacting with a Kubernetes cluster, the user uses a CLI tool called kubectl (which will be discussed in more details in a later section) or directly using API requests. To create an object in Kubernetes, the user must define the kind, specs, and desired state of this object. As an example, if a user wants to deploy a Pod, then the user my specify that this kind of this object is a Pod with the specification of the Pod such as the container image and other configuration of the Pod and then the desired state of this Pod such as having 2 replicas of this Pod.
@@ -156,6 +150,12 @@ spec: # Specs of the object
 
 ---
 
+<p align="center">
+    <img src="images/KubeObjects.png">
+</p>
+
+---
+
 ## 3. Kubernetes Components - (Control Plan & Nodes Components)
 
 Kubernetes is based on several components to provide it's desired outcomes, and each component have a specific task to perform. When talking about Kubernetes Components, 2 types of components will be discussed. `Control Plan` components and `Node` component. The Control Plan components are responsible for managing and maintaining the kubernetes cluster and the objects deployed within. The Control Plan components will be deployed on specific nodes and not all nodes in the kubernetes cluster. The nodes that will have the Control Plan components running on with be called `Master Nodes` and all other nodes will be called `Worker Nodes`. The Node components are responsible of the life-cycle and networking of the Pod running within the kubernetes cluster. The Node components will be deployed on every node in the kubernetes cluster.
@@ -163,6 +163,8 @@ Kubernetes is based on several components to provide it's desired outcomes, and 
 ---
 
 ### 3a. Control Plan Components
+
+`The control plane components is responsible for container orchestration and maintaining the desired state of the cluster.`
 
 The Control Plan components are responsible for interacting with the kubernetes cluster, monitoring and maintaining kubernetes cluster objects desired state and taking global actions when required to ensure desired state is met. By default, there are 4 main components in the control plan. In some situation, additional control plan component may exists, for example, if the kubernetes cluster deployed on a cloud provider (such as AWS, GCP, Azure or even VMware vSphere), there will be another 5th component that may be deployed to interact with the cloud provider.
 
@@ -178,13 +180,20 @@ The 4 main Control Plan components are API Server, Controller Manager, Scheduler
 
 #### 3a-[i]. API Server
 
-`The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.`
+`The API server expose the kubernetes cluster API and serve as the front-end of the kubernetes cluster making it the central hub of all communication.`
 
-The API Server component is responsible for communication and interacting with the kubernetes cluster. Any request sent to a kubernetes cluster to perform any action will be sent to the API server component. The API Server component is also responsible the interaction and communication between internal component as well as the communication between the Control Plan and Kubernetes Node. If a 3rd part solution, plugin, or application is added to the kubernetes cluster, it will also direct it's communication to the API Server. In summary; The API server expose th kubernetes cluster API and serve as the front-end of the kubernetes cluster.
+The API Server component is responsible for communication and user interaction with the kubernetes cluster. Any request sent to a kubernetes cluster to perform any action will be sent to the API server component. The API Server component is also responsible for the internal components communication as well as the communication between the Control Plan and Kubernetes Node. If a 3rd part solution, plugin, or application is added to and integrated with the kubernetes cluster, communication will also direct to the API Server. 
 
-For a user to interact with the kubernetes cluster, the user will use kubectl CLI or a direct API request with the destination IP to be the API server IP. User interaction with kubernetes cluster cloud be (but not limited to) creating a new object, adjusting the state of an existing object, deleting an existing object, or retrieving info for an existing object.
+User interaction with a kubernetes cluster is done using a CLI tool called `kubectl` or directly through API requests with the destination IP to be the API server IP. The user can use the kubectl or API to retrieve info from the kubernetes cluster or to create objects using the manifest YAML file.
 
-In a highly available cluster architecture, three instance of the API server will be deployed on three different nodes. A load balancing functionality will be used to direct traffic to the API server in this case.
+The communication between the user using the kubectl to the API server is done through HTTPS REST APIs, however, the internal communication between different components and the API server is done using [gRPC](https://grpc.io/docs/what-is-grpc/introduction/). Over TLS for more security.  
+
+In summary - API Server is responsible for:
+- Exposing the Cluster API and handles all API requests
+- Authentication and Authorization
+- Processing API requests and validating data for the API objects like pods, services, etc. 
+- Internal components communication
+- Communication between the Control Plan and the Node Components
 
 To learn more about the Kubernetes API into a more deep details such as specifications and versions, please refer to this [link](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
 
@@ -198,9 +207,13 @@ To learn more about the Kubernetes API into a more deep details such as specific
 
 `The Controller Manager is responsible for running multiple controllers that maintain the desired state of the cluster.`
 
-The Controller Manager component consist of several controllers all deployed and packaged in the Controller Manager component. The main responsibility of these controller is to maintain the desired state of the kubernetes cluster and all the objects deploy within. If a Deployment is created and deployed on a Kubernetes Cluster, one of the controllers in the Controller Manager components will monitor the objects of this Deployment (for ex the Pods), and ensure that this object current state is the same as the desired state described in the manifest YAML file when deploying this Deployment. For example, if a Pod died, a controller will get notified and will take action to create a new Pod with the same specs and desired state as the one died and described in the manifest YAML file.
+The Controller Manager component is built out of several controllers all deployed and packaged in the Controller Manager component. The main responsibility of these controller is to maintain the desired state of the kubernetes cluster and all the objects deploy within. Controllers are programs that runs in a continuous loop and watches the current state of objects and make sure it matches the desired state the this object was created with. If the actual state and the desired state of an object does not match, controllers send requests to other components or take actions to make sure the desired state of this object is met. 
 
-Each controller instance is responsible of a specific task, for example, the node controller makes sure that all nodes are healthy and respond to any event that takes place to a node making it unresponsive. Several controller are built in the controller-manager by default, more additional custom made controllers can be installed in addition to the existing ones, the additional controller as sometimes called `Operators`.
+If a Deployment is created, using the manifest YAML file which includes the specs of this deployment and the desired state of it (for example 3 replicas of the Pod), one of the controllers in the Controller Manager components (called Deployment Controller) will monitor the Deployment (for ex the Pods), and ensure that this Deployment current state is the same as the desired state described in the manifest YAML file. For example, if a Pod died, the controller will get notified and will take action (utilizing other control plan components) to create a new Pod with the same specs as the one died to ensure the desired state is met.
+
+Each controller instance is responsible of a specific object/resource/task. Kubernetes objects (pods, namespaces, jobs, replicaSet, etc...) are managed by respective controllers. Controller manager is a component that manages all the Kubernetes controllers.
+
+ Several controller are built in the controller-manager by default, more additional custom made controllers can be installed in addition to the existing ones, the additional controller as sometimes called `Operators`.
 
 Examples of the built in controllers are:
 - __Node Controller__: Responsible for managing Worker Nodes. It will monitor Nodes connecting to the cluster, validate the Node's health status, and update the Node's status field.
@@ -211,6 +224,7 @@ Examples of the built in controllers are:
 > _Reference_
 > - _kube-controller-manager: - Control plane component that runs controller processes._<sup>Reference [12](#References)</sup>
 > - _Logically, each controller is a separate process, but to reduce complexity, they are all compiled into a single binary and run in a single process._<sup>Reference [12](#References)</sup>
+> - _In Kubernetes, controllers are control loops that watch the state of your cluster, then make or request changes where needed. Each controller tries to move the current cluster state closer to the desired state._<sup>Reference [10](#References)</sup>
 > - _There are many different types of controllers. Some examples of them are:_<sup>Reference [12](#References)</sup>
 >>  - *__Node controller__: Responsible for noticing and responding when nodes go down.*
 >>  - *__Job controller__: Watches for Job objects that represent one-off tasks, then creates Pods to run those tasks to completion.*
@@ -222,9 +236,17 @@ Examples of the built in controllers are:
 
 #### 3a-[iii]. Scheduler
 
-`The Scheduler is responsible of finding a suitable node to run newly created Pod(s).`
+`The Scheduler is responsible for scheduling Kubernetes pods on Worker Nodes by finding a suitable Worker Node to run newly created Pod(s).`
 
-The scheduler is another control plan component that manage the scheduling of Pods deployment on which node within a cluster. When a user deploy a new Pod, this new Pod require a node with enough resources to run on it. The scheduler will look in to all the nodes and select the most suitable node to run this new Pod on. The criteria that the scheduler use to chose the suitable node will not only be based on the required resources of the Pod but also will include additional criteria (if applicable) such as policies and affinity rules along with more criteria.
+Wether creating a Deployment, ReplicaSet, or a Pod, when a request to deploy a new Pod is received through the manifest YAML file, this file holds the Pod requirements such as the CPU, Memory, Networking, Storage, Affinity and much more. The scheduler is responsible to identify a suitable Worker Node to run this Pod on which satisfy all requirements of that Pod. The criteria that the scheduler use to chose the suitable node will not only be based on the required resources of the Pod but also will include additional criteria (if applicable) such as policies and affinity rules along with more criteria. 
+
+The Scheduler is a controller that is managed by the Controller Manager and listens to pod creation events in the API server. The scheduler has two phases; `Scheduling cycle` (responsible for selecting a Worker Node) and the `Binding cycle` (Binds the selected Node to the newly created Pod and applies that change to the cluster). 
+
+For the scheduler to choose the best node, it uses `filtering` and `scoring` operations. The scheduler filters that available nodes in the cluster and then apply a scoring to the filtered node to chose the best suitable node. In filtering, the scheduler finds the best-suited nodes where the pod can be scheduled. For example, if there are five worker nodes with resource availability to run the pod, it selects all five nodes. If there are no nodes, then the pod is unschedulable and moved to the scheduling queue. In the scoring phase, the scheduler ranks the nodes by assigning a score to the filtered worker nodes. The scheduler makes the scoring by calling multiple scheduling plugins. Finally, the worker node with the highest rank will be selected for scheduling the pod. If all the nodes have the same rank, a node will be selected at random.
+
+Pod have priorities, thus, the scheduler always places the high-priority pods ahead of the low-priority pods for scheduling. Also, in some cases, after the pod starts running in the selected node, the pod might get evicted or moved to other nodes. 
+
+Custom schedulers can be created and multiple schedulers can run in a cluster along with the default scheduler controller. When a pod is deployed, custom scheduler can be specified in the pod manifest and the scheduling decisions will be taken based on the custom scheduler logic not the default scheduler controller.
 
 > _Reference_
 > - _Control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on._<sup>Reference [13](#References)</sup>
@@ -236,7 +258,14 @@ The scheduler is another control plan component that manage the scheduling of Po
 
 `etcd is considered to be the database of the kubernetes cluster which it will store all data of the cluster in a key-value store.`
 
-When creating a kubernetes cluster and objects within this cluster, all the data of the cluster and the objects must be stored somewhere. The etcd acts as the database of the kubernetes cluster and store the cluster configuration along with all data of all objects in a key-value store. etcd is a consistent and could be distributed store that is used by kubernetes as well as it is used by other projects. 
+When creating a kubernetes cluster and objects within this cluster, all the data of the cluster and the objects must be stored somewhere. The etcd acts as the database of the kubernetes cluster and store the cluster configuration along with all data of all objects in a key-value store. etcd is an open-source strongly consistent, distributed key-value store that is used by kubernetes as well as it is used by other projects. 
+
+etcd stores all configurations, states, and metadata of Kubernetes objects (pods, deployments, etc...) under the /registry directory key in key-value format. For example, information on a pod named Nginx in the default namespace can be found under /registry/pods/default/nginx.
+
+etcd characteristics can be defined as:
+- __Key Value Store:__ A nonrelational database that stores data as keys and values. It also exposes a key-value API. The datastore is built on top of BboltDB which is a fork of BoltDB.
+- __Distributed:__ etcd is designed to run on multiple nodes as a cluster without sacrificing consistency.
+- __Strongly consistent:__ If an update is made to a node, strong consistency will ensure it gets updated to all the other nodes in the cluster immediately.
 
 > _Reference_
 > - _Consistent and highly-available key value store used as Kubernetes' backing store for all cluster data._<sup>Reference [14](#References)</sup>
@@ -249,6 +278,8 @@ When creating a kubernetes cluster and objects within this cluster, all the data
 
 ### 3b. Node Components
 
+`The Nodes components are responsible for running containerized applications. `
+
 The Node Components is responsible of deploying, monitoring and maintaining the Pods running on the node, Provides Pod Networking connectivity and provide reporting about the Pod status to the control plan. The Node components will be running on all the nodes in the cluster Master Nodes or Worker Nodes. 
 
 ---
@@ -257,7 +288,21 @@ The Node Components is responsible of deploying, monitoring and maintaining the 
 
 `Kubelet is an agent running on each node responsible of running the containers inside Pods.`
 
-The kubelet is an agent running on every node in the cluster (Master and Worker Nodes) and is responsible for building the containers inside Pods and monitor their status making sure that the container are in a healthy state. The state of containers are reported back to the control plan. If any container failed, it is the responsibility of the kubelet to report the status and redeploy the container and Pod if required.
+The kubelet is an agent component running on every node in the cluster (Master and Worker Nodes). kubelet does not run as a container instead runs as a daemon, managed by systemd on each node. kubelet is responsible for registering Nodes with the API server (so kubernetes can keep track of the nodes) and building the containers inside Pods and monitor their status making sure that the container are in a healthy state. The state of containers are reported back to the control plan. If any container failed, it is the responsibility of the kubelet to report the status and redeploy the container and Pod if required.
+
+Kubelet is responsible of the following:
+- Creating, modifying, and deleting containers for the pod.
+- Responsible for handling liveliness, readiness, and startup probes.
+- Responsible for Mounting volumes by reading pod configuration and creating respective directories on the host for the volume mount.
+- Collecting and reporting Node and pod status via calls to the API server with implementations like cAdvisor and CRI.
+
+Kubelet is also a controller that watches for pod changes and utilizes the node’s container runtime to pull images, run containers, etc.
+
+Couple of additional points regarding kubelet:
+- Kubelet uses the CRI (container runtime interface) gRPC interface to talk to the container runtime. 
+- It also exposes an HTTP endpoint to stream logs and provides exec sessions for clients.
+- Uses the CSI (container storage interface) gRPC to configure block volumes.
+- It uses the CNI plugin configured in the cluster to allocate the pod IP address and set up any necessary network routes and firewall rules for the pod.
 
 In a later section, communication architecture between the control plan and the kubelet will be discussed in more details.
 
@@ -337,19 +382,6 @@ By default Kubernetes do not provide extensive networking features for the clust
 
 ---
 
-## Kubernetes Architecture high-Level
-
-Kubernetes is a clustered environment combined of one or more physical server or virtual machine called `nodes`. The kubernetes cluster components are divided into 2 `Control Plan` components and `Node` components. The Control Plan component may be deployed on any node in the kubernetes cluster, however, for architecture consistency, in a production environment, control plan components are deployed on one or three (in a highly available cluster) nodes and these nodes are called `Master Nodes`. Any other node is called `Worker Node`, the worker nodes are the nodes that hosts the containerized applications. So all containers will be running on top of the worker nodes and not the master nodes. 
-
-The architecture of the kubernetes cluster can differ form one cluster to another depending on the usability of this cluster, however, any kubernetes cluster will have the control plan and the worker nodes. If a kubernetes cluster is used for production, it is advised to have at least 3 master nodes (for high-availability) and one or more worker nodes hosting the containerized application depending on the number of containers required and their resources. In a lab or a testing environment, only one master node is enough for the control plan. Also there is an option called [Minikube](https://minikube.sigs.k8s.io/docs/) which is a form of a kubernetes cluster deployed on top of macOS, Linux, or Windows machines and is by default contain only one node working as a master node and a worker node. This node will host the control plan components as well as the containerized application. The Minikube is only used for personal testing and not for production environment.
-
-
-
-> _Reference_
-> - _A Kubernetes cluster consists of a set of worker machines, called nodes, that run containerized applications. Every cluster has at least one worker node._<sup>Reference [24](#References)</sup>
-> - _The worker node(s) host the Pods that are the components of the application workload. The control plane manages the worker nodes and the Pods in the cluster. In production environments, the control plane usually runs across multiple computers and a cluster usually runs multiple nodes, providing fault-tolerance and high availability._<sup>Reference [24](#References)</sup>
-
----
 
 <p align="center">
     <img src="images/KubeArch.png">
@@ -371,6 +403,7 @@ The architecture of the kubernetes cluster can differ form one cluster to anothe
 - [[7] - Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 - [[8] - Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
 - [[9] - Kubernetes Control Plan Components](https://kubernetes.io/docs/concepts/overview/components/#control-plane-components)
+- [[] - Kubernetes Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
 - [[10] - Kubernetes Kube-ApiServer](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
 - [[11] - The Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
 - [[12] - Kubernetes Controller Manager](https://kubernetes.io/docs/concepts/overview/components/#kube-controller-manager)
