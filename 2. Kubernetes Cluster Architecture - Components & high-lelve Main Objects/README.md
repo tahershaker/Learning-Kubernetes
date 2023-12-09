@@ -394,18 +394,57 @@ These Add-ons components can be - but not limited to - as follows:
 - Metrics Server: Kubernetes can provide Auto-Scaling feature to the running container, to perform this feature, metrics of nodes and Pods must be collected to be able to create rules of auto-scaling based on metrics. Metric Server is an open source metrics API implementation, created and maintained by the Kubernetes SIG. Main purpose of metrics-server is to help the Kubernetes Pod Autoscaler to automatically scale up or down Pods.
 
 > _Reference_
-> - _While the other addons are not strictly required, all Kubernetes clusters should have cluster DNS, as many examples rely on it._<sup>Reference [22](#References)</sup>
-> - _Cluster DNS is a DNS server, in addition to the other DNS server(s) in your environment, which serves DNS records for Kubernetes services._<sup>Reference [22](#References)</sup>
-> - _Containers started by Kubernetes automatically include this DNS server in their DNS searches._<sup>Reference [22](#References)</sup>
+> - _While the other addons are not strictly required, all Kubernetes clusters should have cluster DNS, as many examples rely on it._<sup>Reference [23](#References)</sup>
+> - _Cluster DNS is a DNS server, in addition to the other DNS server(s) in your environment, which serves DNS records for Kubernetes services._<sup>Reference [23](#References)</sup>
+> - _Containers started by Kubernetes automatically include this DNS server in their DNS searches._<sup>Reference [23](#References)</sup>
 
 > _Reference_
-> - _Network plugins are software components that implement the container network interface (CNI) specification. They are responsible for allocating IP addresses to pods and enabling them to communicate with each other within the cluster._<sup>Reference [23](#References)</sup>
+> - _Network plugins are software components that implement the container network interface (CNI) specification. They are responsible for allocating IP addresses to pods and enabling them to communicate with each other within the cluster._<sup>Reference [26](#References)</sup>
 
 ---
 
 <p align="center">
     <img src="images/KubeComponentsAddOns.png">
 </p>
+
+---
+
+## Kubernetes Cluster Architecture - External etcd Topology
+
+So far in this document, the architecture discusses was pointing to the fact that all the Control Plan Components are deployed within Kubernetes Cluster and the etcd component is also deployed locally along with all other component. This topology is called a `Stacked etcd Cluster`. Their is another option to deploy the kubernetes cluster with the etcd deployed externally on a different external server, this is called `External etcd Cluster`. In some situations, running etcd outside the kubernetes cluster is required. One example is when running a Kubernetes cluster with no reliable disks to provide high availability to etcd data. Running etcd outside of the cluster is considered one of the high-availability topologies for a Kubernetes Cluster
+
+---
+
+<p align="center">
+    <img src="images/ExternalEtcd.png">
+</p>
+
+---
+
+## Kubernetes Cluster Architecture - High Availability
+
+For production environment, it is advisable to run a highly available kubernetes cluster. This can be achieved by first running the Cluster with an external etcd or running a stacked etcd topology with `3 Master Nodes` or a combination of both (external etcd with 3 Master nodes)
+
+In a high availability topology, using 3 Master Nodes, all the control plan components instance will be running an instance on each Node. 
+
+In a Stacked etcd High Available Topology:
+- A minimum of three stacked control plane nodes for an HA cluster.
+- Each control plane node runs an instance of the kube-apiserver, kube-scheduler, and kube-controller-manager. The kube-apiserver is exposed to worker nodes using a load balancer.
+- Each control plane node creates a local etcd member and this etcd member communicates only with the kube-apiserver of this node. The same applies to the local kube-controller-manager and kube-scheduler instances.
+- A Load Balancer feature will be used to load balance external or internal traffic coming to the kubernetes cluster through the API server.
+
+---
+
+<p align="center">
+    <img src="images/ClusterHA.png">
+</p>
+
+---
+
+In an External etcd High Available Topology:
+- A minimum of three hosts for control plane nodes and three hosts for etcd nodes are required for an HA cluster with this topology.
+- Each control plane node in an external etcd topology runs an instance of the kube-apiserver, kube-scheduler, and kube-controller-manager. And the kube-apiserver is exposed to worker nodes using a load balancer. However, etcd members run on separate hosts, and each etcd host communicates with the kube-apiserver of each control plane node.
+
 
 ---
 
