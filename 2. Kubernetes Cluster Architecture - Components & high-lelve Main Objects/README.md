@@ -16,7 +16,7 @@ Kubernetes is a container orchestration platform, and with that being said, it p
 
 For containerized application to run on top of Kubernetes, compute resources (CPU & Memory) are required as well as several components providing the capability for running a container environment. Adding to this, for Kubernetes to be able to provide its added functionality (Application deployment, Auto-Scaling, Self-Healing, etc...), several more components are required to perform these functionality. The last, but not least, containerized applications requires some supporting function such as networking, security, monitoring, load balancing, DNS services, configuration management, and much more, thus, aside from the compute resources and components, several supporting tools, plugins, and 3rd party integrations are also required.
 
-> Kubernetes Nodes
+> Kubernetes Cluster
 
 Kubernetes is a platform consisting of one or more compute resources called `Nodes` to provide the required compute resources to run containerized application. A kubernetes Node can be a physical server or virtual machine. These Nodes will be deployed in a `Cluster` form, and thus, Kubernetes is a `cluster` consisting of one or more node (physical server or virtual machine), hence, `Kubernetes Cluster` is always mentioned whenever kubernetes is discussed. Also, these Nodes will need an operating system, either Linux or Windows, to be installed. 
 
@@ -294,7 +294,7 @@ The Node Components is responsible of deploying, monitoring and maintaining the 
 
 `Kubelet is an agent running on each node responsible of running the containers inside Pods.`
 
-The kubelet is an agent component running on every node in the cluster (Master and Worker Nodes). kubelet does not run as a container instead runs as a daemon, managed by systemd on each node. kubelet is responsible for registering Nodes with the API server (so kubernetes can keep track of the nodes) and building the containers inside Pods and monitor their status making sure that the container are in a healthy state. The state of containers are reported back to the control plan. If any container failed, it is the responsibility of the kubelet to report the status and redeploy the container and Pod if required.
+The Kubelet is an agent component running on every node in the cluster (Master and Worker Nodes). kubelet does not run as a container instead runs as a daemon, managed by systemd on each node. kubelet is responsible for registering Nodes with the API server (so kubernetes can keep track of the nodes) and building the containers inside Pods and monitor their status making sure that the container are in a healthy state. The state of containers are reported back to the control plan. If any container failed, it is the responsibility of the Kubelet to report the status and redeploy the container and Pod if required.
 
 Kubelet is responsible of the following:
 - Creating, modifying, and deleting containers for the pod.
@@ -322,11 +322,27 @@ In a later section, communication architecture between the control plan and the 
 
 `Kube-Proxy is an instance or a process running on each node and is responsible of the basic networking for Pods.`
 
-Kube-Proxy is an agent running on every node in the cluster (Master and Worker Nodes) and is responsible for a part of the Pod networking taking place in the kubernetes cluster. In kubernetes, the networking of a Pod is defined as a kubernetes object called `service` The kube-Proxy is not responsible for the full end-to-end networking but rather it monitors for the services created for Pod networking and translate them into networking rule in the linux kernel to forward traffic. 
+Kube-Proxy is an daemon running on every node in the cluster (Master and Worker Nodes) as a DaemonSet (it can also run as a process running directly on the linux kernel) and is responsible for a subset of the networking framework in a kubernetes cluster. The kube-Proxy is not responsible for the full end-to-end networking in a Kubernetes cluster. In kubernetes, the networking is defined as a kubernetes object called `service`. 
 
-Kube-Proxy can run in the kubernetes cluster as a DaemonSet or as a process running directly on the linux kernel, this depend on how you setup the kubernetes cluster.
+As explained before, Service Service in Kubernetes is a way to expose a set of pods internally or to external traffic. Pods are ephemeral which means that Pod may die and recreated with a different IP. also Pod can have multiple replicas and each replica perform the same action and thus Pods need a load balancing mechanism as (in a normal situation) users will not use the Pods IP address directly. Kubernetes Service provide a solution for this matter. A Service is considered as a front-end networking for the back-end Pods (in this case we call Pods Service Endpoints). Each Pod or group of Pods will be associated with a Service Object. A Service have its own IP address which receive traffic and then forward/load balance it to the back-end Pods. The controllers in the control plan components will maintain a list of Pod IP and the associated Services with the Service IP.
 
-When kubernetes service are explained, more info about kube-proxy will be shared. However, from a high-level, The services will have an IP range and it will receive traffic going to a Pod in the back-end of the service. The Pod in the back-end will have another IP range, the Kube-Proxy will perform NATing from the Service to the Pod networking. These NAT rules are simply mappings of Service IP to Pod IP. When a request is sent to a Service, it is redirected to a backend Pod based on these rules.
+The responsibility of the Kube-Proxy is to implements the Kubernetes Services concept for pods. When a Pod is exposed using a Service, Kube-proxy listens to these changes and get information from the Control Plan and creates network rules (NATing. etc...) to send traffic destined to the Service IP to the back-end Pods (endpoints) associated with this Service object. Simply, the rules applied by the Kube-Proxy on the kernel level that are received from the Control Plan are simply mappings of Service IP to Pod IP. When a request is sent to a Service, it is redirected to a backend Pod based on these rules. All the Service networking, load balancing, and service discovery are handled by the Kube proxy.
+
+From a high-level, Kube-Proxy works as follows:
+- Kube proxy talks to the API server to get the details about the Service and respective Pod IPs & ports (endpoints). 
+- It also monitors for changes in service and endpoints.
+- Kube-proxy then uses any one of the following modes to create/update rules for routing traffic to Pods behind a Service
+  - _IPTables:_ It is the default mode. In IPTables mode, the traffic is handled by IPtable rules. This means that for each service, IPtable rules are created. These rules capture the traffic coming to the ClusterIP and then forward it to the backend pods. Also, In this mode, kube-proxy chooses the backend pod random for load balancing. Once the connection is established, the requests go to the same pod until the connection is terminated.
+  - _IPVS:_ For clusters with services exceeding 1000, IPVS offers performance improvement. It supports the following load-balancing algorithms for the backend.
+    - rr: round-robin : It is the default mode.
+    - lc: least connection (smallest number of open connections)
+    - dh: destination hashing
+    - sh: source hashing
+    - sed: shortest expected delay
+    - nq: never queue
+  - _Userspace:_ (legacy & not recommended)
+  - _Kernelspace:_ This mode is only for Windows systems.
+
 
 > _Reference_
 > - _kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept._<sup>Reference [18](#References)</sup>
@@ -337,9 +353,23 @@ When kubernetes service are explained, more info about kube-proxy will be shared
 
 #### 3b-[iii]. Container Runtime
 
-`Container Runtime is part of the Container Engine and is responsible for the containerization process and running container on the nodes.`
+`Container Runtime is responsible for the containerization process and running container on the nodes.`
 
-A Container engine is the engine that runs one or more isolated instance of container on the same operating system kernel on the same hardware (Container Host). Most modern container engines use the Open Container Initiative (OCI) container image format. A key component of a container engine is the container runtime, which communicates with the operating system kernel to perform the containerization process and configure access and security policies for running containers. Container Engine is also sometimes called Container Runtime. One of the most popular Container Runtime is called Containerd. 
+Container Runtime (also called Container Engine) is a software component that run on top of the operating system and is responsible for running the containers on top of the Nodes. The Container Runtime acts as the abstraction layer between the operating system kernel layer and the containers running on top. 
+
+Container runtime runs on all the nodes in the Kubernetes cluster. It is responsible for pulling images from container registries, running containers, allocating and isolating resources for containers, and managing the entire lifecycle of a container on a host. Container runtime have 2 key concepts:
+- Container Runtime Interface (CRI): It is a set of APIs that allows Kubernetes to interact with different container runtime. It allows different container runtime to be used interchangeably with Kubernetes. The CRI defines the API for creating, starting, stopping, and deleting containers, as well as for managing images and container networks.
+- Open Container Initiative (OCI): It is a set of standards for container formats and runtime
+
+Kubernetes supports several Container Runtime that are all compliant with Container Runtime Interface (CRI), 2 of the most popular Container Runtime are Docker Engine, and Containerd. 
+
+As explained in a previous section, Kubernetes Kubelet is the component responsible for managing container running on top of a kubernetes Node. Kubelet utilizes the Container Runtime to perform it's task. kubelet agent is responsible for interacting with the container runtime using CRI APIs to manage the lifecycle of a container. kubelet also gets all the container information from the container runtime and provides it to the control plane.
+
+The workflow of how Container Runtime works when creating a new Container is as follow:
+- When there is a new request for a pod from the API server, the kubelet talks to Container Runtime to launch the required containers via Kubernetes Container Runtime Interface.
+- Container Runtime checks and pulls the required container image from the configured container registry if required.
+- Container Runtime then generates OCI runtime specification (JSON) for a container.
+- Container Runtime then launches an OCI-compatible runtime (runc) to start the container process as per the runtime specification.
 
 > _Reference_
 > - _A fundamental component that empowers Kubernetes to run containers effectively. It is responsible for managing the execution and lifecycle of containers within the Kubernetes environment._<sup>Reference [19](#References)</sup>
@@ -356,26 +386,17 @@ A Container engine is the engine that runs one or more isolated instance of cont
 
 ## 4. Additional Kubernetes Components
 
-In a Kubernetes Cluster, there can be some additional components and in most use cases there will be additional components installed on the kubernetes cluster. for a list of Addons and to install them, please refer to this [link](https://kubernetes.io/docs/concepts/cluster-administration/addons/). Also referenced below.
+For a Kubernetes Cluster to be fully operational and provide full functionality, additional components aside from the core components can be added as an Add-On. Depending on the business requirement and the functionality required in the kubernetes cluster, the required add-on components can be installed on top of a kubernetes cluster. Add-On are not a must to install, however, some of them are a should to install. 
 
-Maybe most of the Addons are not strictly required, some are a must or should have. Some of the important Addons are:
-
----
-
-### 4a. DNS
-
-For any Kubernetes cluster, DNS service is very important and all kubernetes cluster should have DNS service running as Kubernetes creates DNS records for Services and Pods. a very common implementation of DNS service in a Kubernetes Cluster is `CoreDNS`. Depending on how the kubernetes cluster is deployed, cluster DNS may be installed by default as we will see in a later section.
+These Add-ons components can be - but not limited to - as follows:
+- CNI Plugin: Container Network Interface. Kubernetes by default to not provide extensible networking features and rather depend on 3rd party plugins to perform more advanced networking features. Kubernetes have created specifications for a networking plugin so that 3rd party must comply to when developing their plugins. Some of the most popular CNI Plugins are [Calico](https://www.tigera.io/project-calico/), [Flannel](https://github.com/flannel-io/flannel#deploying-flannel-manually), and [Cilium](https://github.com/cilium/cilium).
+- DNS Services: Kubernetes help microservices with the service discovery and by using DNS service in the kubernetes cluster, it enables the DNS-Based service discovery. Some of the most popular DNS service used with kubernetes is [CoreDNS](https://coredns.io/tags/documentation/)
+- Metrics Server: Kubernetes can provide Auto-Scaling feature to the running container, to perform this feature, metrics of nodes and Pods must be collected to be able to create rules of auto-scaling based on metrics. Metric Server is an open source metrics API implementation, created and maintained by the Kubernetes SIG. Main purpose of metrics-server is to help the Kubernetes Pod Autoscaler to automatically scale up or down Pods.
 
 > _Reference_
 > - _While the other addons are not strictly required, all Kubernetes clusters should have cluster DNS, as many examples rely on it._<sup>Reference [22](#References)</sup>
 > - _Cluster DNS is a DNS server, in addition to the other DNS server(s) in your environment, which serves DNS records for Kubernetes services._<sup>Reference [22](#References)</sup>
 > - _Containers started by Kubernetes automatically include this DNS server in their DNS searches._<sup>Reference [22](#References)</sup>
-
----
-
-### 4b. Network Plugins
-
-By default Kubernetes do not provide extensive networking features for the cluster and almost depend on a network plugin (also called Container Networking Interface - CNI - ) to perform this action. Kubernetes have defined a framework for how the network plugin should behave and specified it in container network interface (CNI) specification. The main responsibility of the CNI is to provide IP addresses to the Pod and allow communication between them based on the CNI specifications. Some of the most widely used CNIs are [Calico](https://www.tigera.io/project-calico/), [Flannel](https://github.com/flannel-io/flannel#deploying-flannel-manually), and [Cilium](https://github.com/cilium/cilium).
 
 > _Reference_
 > - _Network plugins are software components that implement the container network interface (CNI) specification. They are responsible for allocating IP addresses to pods and enabling them to communicate with each other within the cluster._<sup>Reference [23](#References)</sup>
@@ -409,22 +430,25 @@ By default Kubernetes do not provide extensive networking features for the clust
 - [[7] - Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 - [[8] - Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
 - [[9] - Kubernetes Control Plan Components](https://kubernetes.io/docs/concepts/overview/components/#control-plane-components)
-- [[] - Kubernetes Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
-- [[10] - Kubernetes Kube-ApiServer](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
-- [[11] - The Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
-- [[12] - Kubernetes Controller Manager](https://kubernetes.io/docs/concepts/overview/components/#kube-controller-manager)
-- [[13] - Kubernetes Scheduler](https://kubernetes.io/docs/concepts/overview/components/#kube-scheduler)
-- [[14] - Kubernetes etcd](https://kubernetes.io/docs/concepts/overview/components/#etcd)
-- [[15] - etcd - Official Website](https://etcd.io/)
-- [[16] - Kubernetes Node Components](https://kubernetes.io/docs/concepts/overview/components/#node-components)
-- [[17] - Kubernetes Kubelet](https://kubernetes.io/docs/concepts/overview/components/#kubelet)
-- [[18] - Kubernetes Kube-Proxy](https://kubernetes.io/docs/concepts/overview/components/#kube-proxy)
-- [[19] - Kubernetes Container Runtime](https://kubernetes.io/docs/concepts/overview/components/#container-runtime)
-- [[20] - Kubernetes Addons](https://kubernetes.io/docs/concepts/overview/components/#addons)
-- [[21] - Installing Kubernetes Addons](https://kubernetes.io/docs/concepts/cluster-administration/addons/)
-- [[22] - Kubernetes DNS](https://kubernetes.io/docs/concepts/overview/components/#dns)
-- [[23] - Kubernetes Network Plugin](https://kubernetes.io/docs/concepts/overview/components/#network-plugins)
-- [[24] - Kubernetes High Availability Topology](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/)
+- [[10] - Kubernetes Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
+- [[11] - Kubernetes Kube-ApiServer](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
+- [[12] - The Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
+- [[13] - Kubernetes Controller Manager](https://kubernetes.io/docs/concepts/overview/components/#kube-controller-manager)
+- [[14] - Kubernetes Scheduler](https://kubernetes.io/docs/concepts/overview/components/#kube-scheduler)
+- [[15] - Kubernetes etcd](https://kubernetes.io/docs/concepts/overview/components/#etcd)
+- [[16] - etcd - Official Website](https://etcd.io/)
+- [[17] - Kubernetes Node Components](https://kubernetes.io/docs/concepts/overview/components/#node-components)
+- [[18] - Kubernetes Kubelet](https://kubernetes.io/docs/concepts/overview/components/#kubelet)
+- [[19] - Kubernetes Kube-Proxy](https://kubernetes.io/docs/concepts/overview/components/#kube-proxy)
+- [[20] - Kubernetes Container Runtime](https://kubernetes.io/docs/concepts/overview/components/#container-runtime)
+- [[21] - Kubernetes Addons](https://kubernetes.io/docs/concepts/overview/components/#addons)
+- [[22] - Installing Kubernetes Addons](https://kubernetes.io/docs/concepts/cluster-administration/addons/)
+- [[23] - Kubernetes DNS](https://kubernetes.io/docs/concepts/overview/components/#dns)
+- [[24] - Kubernetes Network Plugin](https://kubernetes.io/docs/concepts/overview/components/#network-plugins)
+- [[25] - Kubernetes High Availability Topology](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/)
+- [[26] - Kubernetes High Availability Topology](https://kubernetes.io/docs/tasks/administer-cluster/coredns/)
+- [[27] - CoreDNS](https://coredns.io/tags/documentation/)
+- [[28] - Kubernetes High Availability Topology](https://github.com/kubernetes-sigs/metrics-server)
 
 ---
 
