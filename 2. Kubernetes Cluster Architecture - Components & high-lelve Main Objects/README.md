@@ -483,4 +483,4 @@ In an External etcd High Available Topology:
 
 > Next Step:
 
-[Building A Kubernetes Cluster]()
+[Building A Kubernetes Cluster](https://github.com/tahershaker/Learning-Kubernetes/tree/main/3.%20Building%20A%20Kubernetes%20Cluster)
