@@ -255,8 +255,8 @@ Pod have priorities, thus, the scheduler always places the high-priority pods ah
 Custom schedulers can be created and multiple schedulers can run in a cluster along with the default scheduler controller. When a pod is deployed, custom scheduler can be specified in the pod manifest and the scheduling decisions will be taken based on the custom scheduler logic not the default scheduler controller.
 
 > _Reference_
-> - _Control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on._<sup>Reference [13](#References)</sup>
-> - _Factors taken into account for scheduling decisions include: individual and collective resource requirements, hardware/software/policy constraints, affinity and anti-affinity specifications, data locality, inter-workload interference, and deadlines._<sup>Reference [13](#References)</sup>
+> - _Control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on._<sup>Reference [14](#References)</sup>
+> - _Factors taken into account for scheduling decisions include: individual and collective resource requirements, hardware/software/policy constraints, affinity and anti-affinity specifications, data locality, inter-workload interference, and deadlines._<sup>Reference [14](#References)</sup>
 
 ---
 
@@ -274,11 +274,11 @@ etcd characteristics can be defined as:
 - __Strongly consistent:__ If an update is made to a node, strong consistency will ensure it gets updated to all the other nodes in the cluster immediately.
 
 > _Reference_
-> - _Consistent and highly-available key value store used as Kubernetes' backing store for all cluster data._<sup>Reference [14](#References)</sup>
-> - _If your Kubernetes cluster uses etcd as its backing store, make sure you have a back up plan for the data._<sup>Reference [14](#References)</sup>
+> - _Consistent and highly-available key value store used as Kubernetes' backing store for all cluster data._<sup>Reference [15](#References)</sup>
+> - _If your Kubernetes cluster uses etcd as its backing store, make sure you have a back up plan for the data._<sup>Reference [15](#References)</sup>
 
 > _Reference_
-> - _etcd is a strongly consistent, distributed key-value store that provides a reliable way to store data that needs to be accessed by a distributed system or cluster of machines._<sup>Reference [15](#References)</sup>
+> - _etcd is a strongly consistent, distributed key-value store that provides a reliable way to store data that needs to be accessed by a distributed system or cluster of machines._<sup>Reference [16](#References)</sup>
 
 ---
 
@@ -313,8 +313,8 @@ Couple of additional points regarding kubelet:
 In a later section, communication architecture between the control plan and the kubelet will be discussed in more details.
 
 > _Reference_
-> - _An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod._<sup>Reference [17](#References)</sup>
-> - _The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by Kubernetes._<sup>Reference [17](#References)</sup>
+> - _An agent that runs on each node in the cluster. It makes sure that containers are running in a Pod._<sup>Reference [18](#References)</sup>
+> - _The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. The kubelet doesn't manage containers which were not created by Kubernetes._<sup>Reference [18](#References)</sup>
 
 ---
 
@@ -345,9 +345,9 @@ From a high-level, Kube-Proxy works as follows:
 
 
 > _Reference_
-> - _kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept._<sup>Reference [18](#References)</sup>
-> - _kube-proxy maintains network rules on nodes. These network rules allow network communication to your Pods from network sessions inside or outside of your cluster._<sup>Reference [18](#References)</sup>
-> - _kube-proxy uses the operating system packet filtering layer if there is one and it's available. Otherwise, kube-proxy forwards the traffic itself._<sup>Reference [18](#References)</sup>
+> - _kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept._<sup>Reference [19](#References)</sup>
+> - _kube-proxy maintains network rules on nodes. These network rules allow network communication to your Pods from network sessions inside or outside of your cluster._<sup>Reference [19](#References)</sup>
+> - _kube-proxy uses the operating system packet filtering layer if there is one and it's available. Otherwise, kube-proxy forwards the traffic itself._<sup>Reference [19](#References)</sup>
 
 ---
 
@@ -372,8 +372,8 @@ The workflow of how Container Runtime works when creating a new Container is as 
 - Container Runtime then launches an OCI-compatible runtime (runc) to start the container process as per the runtime specification.
 
 > _Reference_
-> - _A fundamental component that empowers Kubernetes to run containers effectively. It is responsible for managing the execution and lifecycle of containers within the Kubernetes environment._<sup>Reference [19](#References)</sup>
-> - _Kubernetes supports container runtime such as containerd, CRI-O, and any other implementation of the Kubernetes CRI (Container Runtime Interface)._<sup>Reference [19](#References)</sup>
+> - _A fundamental component that empowers Kubernetes to run containers effectively. It is responsible for managing the execution and lifecycle of containers within the Kubernetes environment._<sup>Reference [20](#References)</sup>
+> - _Kubernetes supports container runtime such as containerd, CRI-O, and any other implementation of the Kubernetes CRI (Container Runtime Interface)._<sup>Reference [20](#References)</sup>
 
 ---
 
@@ -434,11 +434,11 @@ These Add-ons components can be - but not limited to - as follows:
 - [[21] - Kubernetes Addons](https://kubernetes.io/docs/concepts/overview/components/#addons)
 - [[22] - Installing Kubernetes Addons](https://kubernetes.io/docs/concepts/cluster-administration/addons/)
 - [[23] - Kubernetes DNS](https://kubernetes.io/docs/concepts/overview/components/#dns)
-- [[24] - Kubernetes Network Plugin](https://kubernetes.io/docs/concepts/overview/components/#network-plugins)
-- [[25] - Kubernetes High Availability Topology](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/)
-- [[26] - Kubernetes High Availability Topology](https://kubernetes.io/docs/tasks/administer-cluster/coredns/)
-- [[27] - CoreDNS](https://coredns.io/tags/documentation/)
-- [[28] - Kubernetes High Availability Topology](https://github.com/kubernetes-sigs/metrics-server)
+- [[24] - Kubernetes CoreDNS](https://kubernetes.io/docs/tasks/administer-cluster/coredns/)
+- [[25] - CoreDNS](https://coredns.io/tags/documentation/)
+- [[26] - Kubernetes Network Plugin](https://kubernetes.io/docs/concepts/overview/components/#network-plugins)
+- [[27] - Kubernetes Metric Server](https://github.com/kubernetes-sigs/metrics-server)
+- [[28] - Kubernetes High Availability Topology](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/ha-topology/)
 
 ---
 
