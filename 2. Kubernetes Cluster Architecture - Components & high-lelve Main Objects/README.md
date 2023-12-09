@@ -409,16 +409,6 @@ These Add-ons components can be - but not limited to - as follows:
 
 ---
 
-
-<p align="center">
-    <img src="images/KubeArch.png">
-</p>
-
----
-
-
-
-
 #### References
 
 - [[1] - Kubernetes Architecture](https://kubernetes.io/docs/concepts/architecture/)
