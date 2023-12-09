@@ -230,7 +230,7 @@ Examples of the built in controllers are:
 > _Reference_
 > - _kube-controller-manager: - Control plane component that runs controller processes._<sup>Reference [12](#References)</sup>
 > - _Logically, each controller is a separate process, but to reduce complexity, they are all compiled into a single binary and run in a single process._<sup>Reference [12](#References)</sup>
-> - _In Kubernetes, controllers are control loops that watch the state of your cluster, then make or request changes where needed. Each controller tries to move the current cluster state closer to the desired state._<sup>Reference [10](#References)</sup>
+> - _In Kubernetes, controllers are control loops that watch the state of your cluster, then make or request changes where needed. Each controller tries to move the current cluster state closer to the desired state._<sup>Reference [13](#References)</sup>
 > - _There are many different types of controllers. Some examples of them are:_<sup>Reference [12](#References)</sup>
 >>  - *__Node controller__: Responsible for noticing and responding when nodes go down.*
 >>  - *__Job controller__: Watches for Job objects that represent one-off tasks, then creates Pods to run those tasks to completion.*
@@ -420,10 +420,10 @@ These Add-ons components can be - but not limited to - as follows:
 - [[7] - Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 - [[8] - Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
 - [[9] - Kubernetes Control Plan Components](https://kubernetes.io/docs/concepts/overview/components/#control-plane-components)
-- [[10] - Kubernetes Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
-- [[11] - Kubernetes Kube-ApiServer](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
-- [[12] - The Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
-- [[13] - Kubernetes Controller Manager](https://kubernetes.io/docs/concepts/overview/components/#kube-controller-manager)
+- [[10] - Kubernetes Kube-ApiServer](https://kubernetes.io/docs/concepts/overview/components/#kube-apiserver)
+- [[11] - The Kubernetes API](https://kubernetes.io/docs/concepts/overview/kubernetes-api/)
+- [[12] - Kubernetes Controller Manager](https://kubernetes.io/docs/concepts/overview/components/#kube-controller-manager)
+- [[13] - Kubernetes Controllers](https://kubernetes.io/docs/concepts/architecture/controller/)
 - [[14] - Kubernetes Scheduler](https://kubernetes.io/docs/concepts/overview/components/#kube-scheduler)
 - [[15] - Kubernetes etcd](https://kubernetes.io/docs/concepts/overview/components/#etcd)
 - [[16] - etcd - Official Website](https://etcd.io/)
