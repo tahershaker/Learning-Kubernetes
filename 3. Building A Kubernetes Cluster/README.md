@@ -51,6 +51,9 @@ Sub-Sections are:
 
 Also there are another sub-section - [Bash Scripts for Automating Kubeadm]() - as a bonus section holding bash scripts to automate the above tasks
 
+
+Please refer to the above sub-sections to go through the step-by-step guides
+
 ---
 
 #### References
@@ -67,4 +70,4 @@ Also there are another sub-section - [Bash Scripts for Automating Kubeadm]() - a
 
 > Next Step:
 
-[Building A Kubernetes Cluster]()
+[Interacting with Kubernetes using kubectl]()
