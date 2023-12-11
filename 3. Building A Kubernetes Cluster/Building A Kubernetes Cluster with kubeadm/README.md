@@ -62,6 +62,7 @@ ssh -i "kube-demo-key-pairs.pem" ubuntu@3.10.152.31
 ---
 
 Now ensure hostname is configured and hosts file is updated properly. Also, ensure network connectivity with the required port are open.
+
 ---
 
 <p align="center">
@@ -69,46 +70,47 @@ Now ensure hostname is configured and hosts file is updated properly. Also, ensu
 </p>
 
 ---
-
 > __1. Install Container Runtime, Required Packages, and configure pre-requisites on Linux System (All Nodes)__
+---
 
 `Please Note: Perform the below action on __All Nodes__`
+
 `Kubeadm will install kubernetes components on containers, Container Runtime must be installed.`
+
 `__Containerd__ is the Container Runtime used in this guide.`
 
+---
 <table><tr><td>1a. Disable Sawp </td></tr></table>
+---
 
 ```bash
 sudo swapoff -a
 ```
 
 ---
-
 <table><tr><td>1b. Add Overlay and net filters required in kubernetes config file </td></tr></table>
-
-Add required modules:
+---
 
 ```bash
+# Add required modules:
 cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
 overlay
 br_netfilter
 EOF
 ```
 
-Load modules:
-
 ```bash
+# Load modules:
 sudo modprobe overlay
 sudo modprobe br_netfilter
 ```
 
 ---
-
 <table><tr><td> 1c. Configure IPv4 Forwarding and iptables to see bridged traffic in kubernetes config file </td></tr></table>
-
-Configure sysctl params:
+---
 
 ```bash
+# Configure sysctl params:
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-iptables  = 1
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -116,15 +118,14 @@ net.ipv4.ip_forward                 = 1
 EOF
 ```
 
-Apply sysctl params without reboot:
-
 ```bash
+# Apply sysctl params without reboot:
 sudo sysctl --system
 ```
 
 ---
-
 <table><tr><td> 1d. Install Container Runtime containerd and Docker Engine </td></tr></table>
+---
 
 Add Docker's official GPG key:
 
