@@ -41,17 +41,17 @@ As explained in the previous section, there are different kubernetes cluster arc
 
 Kubeadm can help building kubernetes cluster with the above mentioned topology, however, maybe some limitation may exists, thus it is advisable to check the [kubernetes official documentation](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/)
 
-In this section, different sub-section is available to provide a step-by-step guide in building a kubernetes cluster based on the above mentioned topologies.
+In this section, different section is available to provide a step-by-step guide in building a kubernetes cluster based on the above mentioned topologies.
 
-Sub-Sections are:
+Sections are:
 - [Building A Kubernetes Cluster with kubeadm (step-by-step)](https://github.com/tahershaker/Learning-Kubernetes/tree/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20Kubernetes%20Cluster%20with%20kubeadm)
 - [Building A Kubernetes Cluster with kubeadm  with external etcd (step-by-step)](https://github.com/tahershaker/Learning-Kubernetes/tree/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20Kubernetes%20Cluster%20with%20kubeadm%20%20with%20external%20etcd)
 - [Building A High Available Kubernetes Cluster with kubeadm (step-by-step)](https://github.com/tahershaker/Learning-Kubernetes/tree/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20High%20Available%20Kubernetes%20Cluster%20with%20kubeadm)
 - [Building A High Available Kubernetes Cluster with kubeadm with external etcd (step-by-step)](https://github.com/tahershaker/Learning-Kubernetes/tree/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20High%20Available%20Kubernetes%20Cluster%20with%20kubeadm%20with%20external%20etcd)
 
-Also there are another sub-section - [Bash Scripts for Automating Kubeadm](https://github.com/tahershaker/Learning-Kubernetes/tree/main/3.%20Building%20A%20Kubernetes%20Cluster/Bash%20Scripts%20for%20Automating%20Kubeadm) - as a bonus section holding bash scripts to automate the above tasks
+Also, in each section listed above, there is a bonus part with bash scripts to automate the above tasks
 
-Please refer to the above sub-sections to go through the step-by-step guides
+Please refer to the above sections to go through the step-by-step guides
 
 ---
 
