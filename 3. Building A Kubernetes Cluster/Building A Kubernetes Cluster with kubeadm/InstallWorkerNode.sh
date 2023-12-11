@@ -4,8 +4,10 @@
 #References: https://kubernetes.io/docs/setup/production-environment/container-runtimes/#containerd
 #References: https://github.com/containerd/containerd/blob/main/docs/getting-started.md
 
-# Add Kubernetes version and the IP CIDR that will be used in variables to be used in the script
+# Add Kubernetes version that will be used in variables to be used in the script
 KUBEVERSION=1.26.4-00
+PODCIDR=172.30.0.0/16
+SVCCIDR=172.29.0.0/16
 
 #------------------------------------------------------------------------------------------------
 
@@ -72,3 +74,7 @@ EOF
 sudo apt-get update && sudo apt-get install -y kubelet=${KUBEVERSION} kubeadm=${KUBEVERSION} kubectl=${KUBEVERSION}
 # ----------------stop automatic update
 sudo apt-mark hold kubelet kubeadm kubectl
+
+#------------------------------------------------------------------------------------------------
+
+# Enjoy ;)

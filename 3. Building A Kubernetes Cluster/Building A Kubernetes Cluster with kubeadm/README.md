@@ -263,6 +263,10 @@ Kubeadm will be used to initialize the kubernetes cluster and deploy all kuberne
 sudo kubeadm init --pod-network-cidr 172.30.0.0/16  --service-cidr 172.29.0.0/16 --kubernetes-version 1.26.4
 ```
 
+<p align="center">
+    <img src="images/InitKube.png">
+</p>
+
 ---
 >> 3b. Configure kubectl
 ---
@@ -273,6 +277,10 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
+<p align="center">
+    <img src="images/KubectlConfig.png">
+</p>
+
 ---
 >> 3c. Install Calico CNI 
 ---
@@ -281,6 +289,10 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
 ```
 
+<p align="center">
+    <img src="images/InstallCalico.png">
+</p>
+
 ---
 >> 3d. Print the kubeadm join command
 ---
@@ -288,6 +300,10 @@ kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/
 ```bash
 sudo kubeadm token create --print-join-command
 ```
+
+<p align="center">
+    <img src="images/PrintJoinCommand.png">
+</p>
 
 __Please Note: Perform/Repeat all the above actions Only On Master Node__
 
@@ -299,10 +315,39 @@ __Please Note: Perform/Repeat all the above actions Only On Master Node__
 
 From the command used in step 3d, copy the output and past it on all worker nodes. Please use `sudo` with the command execution.
 
+Example:
+```bash
+sudo kubeadm join 10.10.10.11:6443 --token lwusez.mla86n5b36plo6lj --discovery-token-ca-cert-hash sha256:cbc133e1e76821c9d6b7606ce18679f27a54d58bea69cc560bf821cf8e59f108
+```
+
+<p align="center">
+    <img src="images/JoinWorkerNode.png">
+</p>
 
 __Please Note: Perform/Repeat all the above actions Only On Worker Node__
 
 ---
+
+> __5. Check Kubernetes Cluster is functional__
+
+On the Master Node check if all Nodes are registered to the cluster and that they are in a ready state
+```bash
+kubectl get nodes
+```
+
+<p align="center">
+    <img src="images/GetNodes.png">
+</p>
+
+---
+
+```bash
+curl https://raw.githubusercontent.com/tahershaker/Learning-Kubernetes/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20Kubernetes%20Cluster%20with%20kubeadm/InstallWorkerNode.sh | bash
+```
+
+
+---
+
 
 #### References
 
