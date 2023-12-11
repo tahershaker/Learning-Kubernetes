@@ -341,13 +341,36 @@ kubectl get nodes
 
 ---
 
+## Bonus - Automate the Kubeadm installation
+
+As a bonus, in this section Repo, there are 2 bash script files that automate all the above commands and with it the installation of Kubeadm, Kubelet, and Kubectl. Use the below 2 bash scripts to automate all the above actions.
+
+---
+> _Automate the Installation on Master Node
+---
+
+SSH to the Master Node and execute the below command
+```bash
+curl https://raw.githubusercontent.com/tahershaker/Learning-Kubernetes/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20Kubernetes%20Cluster%20with%20kubeadm/InstallMasterNode.sh | bash
+```
+
+---
+> _Automate the Installation on Worker Nodes
+---
+SSH to All Worker Nodes and execute the below command
 ```bash
 curl https://raw.githubusercontent.com/tahershaker/Learning-Kubernetes/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20Kubernetes%20Cluster%20with%20kubeadm/InstallWorkerNode.sh | bash
 ```
 
+---
+> _Join Worker Nodes to the Cluster
+---
+SSH to the Master Node and execute the below command, copy the output and past it on all worker nodes with a sudo at the beginning
+```bash
+sudo kubeadm token create --print-join-command
+```
 
 ---
-
 
 #### References
 
