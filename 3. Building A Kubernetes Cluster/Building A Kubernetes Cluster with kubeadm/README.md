@@ -29,16 +29,220 @@ __Infrastructure Info:__
 | kube-wn01 | Ubuntu 20.04 | 10.10.10.101/24 | 13.40.7.253 |
 | kube-wn02 | Ubuntu 20.04 | 10.10.10.102/24 | 3.8.215.234 |
 
+---
+> Pre-Requisite
+---
 
-> Step-By-Step Guide
+Before starting the installation and building the kubernetes cluster, some pre-requisite must be met first, please make sure:
+- Using a supported linux/windows distribution for kubernetes. Check the kubernetes version [release](https://kubernetes.io/releases/)
+- Sufficient Node resources - minimum of 2 GB Ram or more, minimum of 2 CPU or more.
+- Full networking connectivity between all nodes (Master & Worker).
+- Required networking ports to be opened. Please check this [link](https://kubernetes.io/docs/reference/networking/ports-and-protocols/) for a list of ports.
+- Swap to be disabled.
+- Configure hostname on all nodes.
+- Ensure hosts file is updated with all FQDN and IP of all nodes in the cluster.
+
+---
+
+## Step-By-Step Guide Building a Kubernetes Cluster with Kubeadm
 
 
+SSh to the Master Node. In this Guide, AWS EC2 instance are used, SSH to the EC2 instance using the configured Key-Pair.
+Please Note: To SSH to the Master Node in this Guide, EC2 instance Public IP will be used, however, the rest of the guide will be using the Private IP address of the Nodes.
+
+```bash
+ssh -i "kube-demo-key-pairs.pem" ubuntu@3.10.152.31
+```
+---
+
+<p align="center">
+    <img src="images/SshToMaster.png">
+</p>
+
+---
+
+Now ensure hostname is configured and hosts file is updated properly. Also, ensure network connectivity with the required port are open.
+---
+
+<p align="center">
+    <img src="images/EnsureHostname.png">
+</p>
+
+---
+
+> __1. Install Container Runtime, Required Packages, and configure pre-requisites on Linux System (All Nodes)__
+
+`Please Note: Perform the below action on __All Nodes__`
+`Kubeadm will install kubernetes components on containers, Container Runtime must be installed.`
+`__Containerd__ is the Container Runtime used in this guide.`
+
+<table><tr><td>1a. Disable Sawp </td></tr></table>
+
+```bash
+sudo swapoff -a
+```
+
+---
+
+<table><tr><td>1b. Add Overlay and net filters required in kubernetes config file </td></tr></table>
+
+Add required modules:
+
+```bash
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+```
+
+Load modules:
+
+```bash
+sudo modprobe overlay
+sudo modprobe br_netfilter
+```
+
+---
+
+<table><tr><td> 1c. Configure IPv4 Forwarding and iptables to see bridged traffic in kubernetes config file </td></tr></table>
+
+Configure sysctl params:
+
+```bash
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+```
+
+Apply sysctl params without reboot:
+
+```bash
+sudo sysctl --system
+```
+
+---
+
+<table><tr><td> 1d. Install Container Runtime containerd and Docker Engine </td></tr></table>
+
+Add Docker's official GPG key:
+
+```bash
+sudo apt-get update
+sudo apt-get install ca-certificates curl gnupg apt-transport-https ipvsadm ipset watch tcpdump gpg
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+```
+
+Add the repository to Apt sources:
+
+```bash
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+
+Update repository and install containerd:
+
+```bash
+sudo apt-get update && sudo apt-get install -y containerd.io
+```
+
+Create containerd configuration file and comment out 'disabled_plugins' and change SystemCgroup to True
+
+```bash
+sudo mkdir -p /etc/containerd
+containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
+sudo sed -i 's/disabled_plugins/#disabled_plugins/' /etc/containerd/config.toml
+sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+```
+
+restart and enable containerd service
+
+```bash
+sudo systemctl restart containerd && sudo systemctl enable containerd
+```
+
+__Please Note: Repeat all the above actions on all nodes in the cluster__
+
+---
+
+> __2. Install Kubeadm, Kubelet, and Kubectl (All Nodes)__
+
+<table><tr><td> 2a. Get and Add Google Package Repository Key and Add the appropriate Kubernetes apt repository </td></tr></table>
+
+```bash
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+cat << EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb https://apt.kubernetes.io/ kubernetes-xenial main
+EOF
+```
+
+---
+
+<table><tr><td> 2b. Install Kubeadm, Kubelet, and Kubectl </td></tr></table>
+
+`Please Note: Version of Kubernetes to be installed must match the version of Kubeadm, Kubelet, and Kubectl. Version is 1.26.4` 
+
+```bash
+sudo apt-get update && sudo apt-get install -y kubelet=1.26.4-00 kubeadm=1.26.4-00 kubectl=1.26.4-00
+```
+
+Once installed, stop automatic update
+
+```bash
+sudo apt-mark hold kubelet kubeadm kubectl
+```
+
+---
+
+> __3. Initialize the Kubernetes Cluster and configure Kubectl (Master Node Only)__
+
+`Please Note: Perform the below action on the Master Node Only`
+
+<table><tr><td> 3a. Initialize Kubeadm with required configuration </td></tr></table>
+
+```bash
+sudo kubeadm init --pod-network-cidr 172.30.0.0/16  --service-cidr 172.29.0.0/16 --kubernetes-version 1.26.4
+```
+
+<table><tr><td> 3b. Configure kubectl </td></tr></table>
+
+```bash
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+<table><tr><td> 3c. Install Calico CNI </td></tr></table>
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
+```
+
+<table><tr><td> 3d. Print the kubeadm join command </td></tr></table>
+
+```bash
+sudo kubeadm token create --print-join-command
+```
+
+---
+
+> __4. Join all Worker Nodes to the Kubernetes Cluster__
+
+From the command used in step 3d, copy the output and past it on all worker nodes. Please use `sudo` with the command execution.
 
 
 ---
 
 #### References
 
+- [[1] - Installing kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+- [[2] - Installing containerd on Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+- [[3] - Creating a cluster with kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/)
 
 ---
 
