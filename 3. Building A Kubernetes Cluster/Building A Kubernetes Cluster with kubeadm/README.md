@@ -160,7 +160,7 @@ sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/c
 sudo systemctl restart containerd && sudo systemctl enable containerd
 ```
 
-__Please Note: Repeat all the above actions on all nodes in the cluster__
+__Please Note: Perform/Repeat all the above actions on all nodes in the cluster__
 
 ---
 > __2. Install Kubeadm, Kubelet, and Kubectl (All Nodes)__
@@ -195,11 +195,15 @@ sudo apt-get update && sudo apt-get install -y kubelet=1.26.4-00 kubeadm=1.26.4-
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
+__Please Note: Perform/Repeat all the above actions on all nodes in the cluster__
+
 ---
 > __3. Initialize the Kubernetes Cluster and configure Kubectl (Master Node Only)__
 ---
 
 `Please Note: Perform the below action on the Master Node Only`
+
+Kubeadm will be used to initialize the kubernetes cluster and deploy all kubernetes components along with all required configuration to build the Control Plan of the kubernetes cluster
 
 ---
 >> 3a. Initialize Kubeadm with required configuration 
@@ -235,12 +239,18 @@ kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/
 sudo kubeadm token create --print-join-command
 ```
 
+__Please Note: Perform/Repeat all the above actions Only On Master Node__
+
 ---
 > __4. Join all Worker Nodes to the Kubernetes Cluster__
 ---
 
+`Please Note: Perform the below action on the Worker Nodes Only`
+
 From the command used in step 3d, copy the output and past it on all worker nodes. Please use `sudo` with the command execution.
 
+
+__Please Note: Perform/Repeat all the above actions Only On Worker Node__
 
 ---
 
