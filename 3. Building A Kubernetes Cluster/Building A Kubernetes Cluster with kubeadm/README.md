@@ -147,7 +147,7 @@ sudo sysctl --system
 
 ```bash
 # Add Docker's official GPG key:
-sudo apt-get update && sudo apt-get install ca-certificates curl gnupg apt-transport-https ipvsadm ipset watch tcpdump gpg
+sudo apt-get update && sudo apt-get install -y ca-certificates curl gnupg apt-transport-https ipvsadm ipset watch tcpdump gpg
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
@@ -220,10 +220,17 @@ deb https://apt.kubernetes.io/ kubernetes-xenial main
 EOF
 ```
 
+<p align="center">
+    <img src="images/AddGooglePack.png">
+</p>
+
 ---
 >> 2b. Install Kubeadm, Kubelet, and Kubectl 
 ___
 
+<p align="center">
+    <img src="images/InstallKube.png">
+</p>
 
 ```bash
 sudo apt-get update && sudo apt-get install -y kubelet=1.26.4-00 kubeadm=1.26.4-00 kubectl=1.26.4-00
@@ -233,6 +240,10 @@ sudo apt-get update && sudo apt-get install -y kubelet=1.26.4-00 kubeadm=1.26.4-
 # stop automatic update
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
+
+<p align="center">
+    <img src="images/AutoUpDate.png">
+</p>
 
 __Please Note: Perform/Repeat all the above actions on all nodes in the cluster__
 
