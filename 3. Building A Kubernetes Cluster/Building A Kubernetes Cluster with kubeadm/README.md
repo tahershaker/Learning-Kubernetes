@@ -80,7 +80,7 @@ Now ensure hostname is configured and hosts file is updated properly. Also, ensu
 `__Containerd__ is the Container Runtime used in this guide.`
 
 ---
-<table><tr><td>1a. Disable Sawp </td></tr></table>
+>> 1a. Disable Sawp 
 ---
 
 ```bash
@@ -88,7 +88,7 @@ sudo swapoff -a
 ```
 
 ---
-<table><tr><td>1b. Add Overlay and net filters required in kubernetes config file </td></tr></table>
+>> 1b. Add Overlay and net filters required in kubernetes config file 
 ---
 
 ```bash
@@ -106,7 +106,7 @@ sudo modprobe br_netfilter
 ```
 
 ---
-<table><tr><td> 1c. Configure IPv4 Forwarding and iptables to see bridged traffic in kubernetes config file </td></tr></table>
+>> 1c. Configure IPv4 Forwarding and iptables to see bridged traffic in kubernetes config file
 ---
 
 ```bash
@@ -124,7 +124,7 @@ sudo sysctl --system
 ```
 
 ---
-<table><tr><td> 1d. Install Container Runtime containerd and Docker Engine </td></tr></table>
+>> 1d. Install Container Runtime containerd and Docker Engine 
 ---
 
 Add Docker's official GPG key:
