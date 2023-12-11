@@ -73,11 +73,9 @@ Now ensure hostname is configured and hosts file is updated properly. Also, ensu
 > __1. Install Container Runtime, Required Packages, and configure pre-requisites on Linux System (All Nodes)__
 ---
 
-`Please Note: Perform the below action on __All Nodes__`
+`Please Note: Perform the below action on All Nodes`
 
-`Kubeadm will install kubernetes components on containers, Container Runtime must be installed.`
-
-`__Containerd__ is the Container Runtime used in this guide.`
+Kubeadm will install kubernetes components on containers, Container Runtime must be installed. `Containerd` is the Container Runtime used in this guide.
 
 ---
 >> 1a. Disable Sawp 
@@ -127,9 +125,8 @@ sudo sysctl --system
 >> 1d. Install Container Runtime containerd and Docker Engine 
 ---
 
-Add Docker's official GPG key:
-
 ```bash
+# Add Docker's official GPG key:
 sudo apt-get update
 sudo apt-get install ca-certificates curl gnupg apt-transport-https ipvsadm ipset watch tcpdump gpg
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -137,43 +134,45 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 ```
 
-Add the repository to Apt sources:
-
 ```bash
+# Add the repository to Apt sources:
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
   $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
-Update repository and install containerd:
-
 ```bash
+# Update repository and install containerd:
 sudo apt-get update && sudo apt-get install -y containerd.io
 ```
 
-Create containerd configuration file and comment out 'disabled_plugins' and change SystemCgroup to True
-
 ```bash
+# Create containerd configuration file and comment out 'disabled_plugins' and change SystemCgroup to True
 sudo mkdir -p /etc/containerd
 containerd config default | sudo tee /etc/containerd/config.toml >/dev/null 2>&1
 sudo sed -i 's/disabled_plugins/#disabled_plugins/' /etc/containerd/config.toml
 sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 ```
 
-restart and enable containerd service
-
 ```bash
+# restart and enable containerd service
 sudo systemctl restart containerd && sudo systemctl enable containerd
 ```
 
 __Please Note: Repeat all the above actions on all nodes in the cluster__
 
 ---
-
 > __2. Install Kubeadm, Kubelet, and Kubectl (All Nodes)__
+---
 
-<table><tr><td> 2a. Get and Add Google Package Repository Key and Add the appropriate Kubernetes apt repository </td></tr></table>
+`Please Note: Perform the below action on All Nodes`
+
+Kubernetes Version used in this guide is version 1.26.4. If a different version is required, changes need to be made for the below commands. Version of Kubernetes to be installed must match the version of Kubeadm, Kubelet
+
+---
+>> 2a. Get and Add Google Package Repository Key and Add the appropriate Kubernetes apt repository
+---
 
 ```bash
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -183,34 +182,36 @@ EOF
 ```
 
 ---
+>> 2b. Install Kubeadm, Kubelet, and Kubectl 
+___
 
-<table><tr><td> 2b. Install Kubeadm, Kubelet, and Kubectl </td></tr></table>
-
-`Please Note: Version of Kubernetes to be installed must match the version of Kubeadm, Kubelet, and Kubectl. Version is 1.26.4` 
 
 ```bash
 sudo apt-get update && sudo apt-get install -y kubelet=1.26.4-00 kubeadm=1.26.4-00 kubectl=1.26.4-00
 ```
 
-Once installed, stop automatic update
-
 ```bash
+# stop automatic update
 sudo apt-mark hold kubelet kubeadm kubectl
 ```
 
 ---
-
 > __3. Initialize the Kubernetes Cluster and configure Kubectl (Master Node Only)__
+---
 
 `Please Note: Perform the below action on the Master Node Only`
 
-<table><tr><td> 3a. Initialize Kubeadm with required configuration </td></tr></table>
+---
+>> 3a. Initialize Kubeadm with required configuration 
+---
 
 ```bash
 sudo kubeadm init --pod-network-cidr 172.30.0.0/16  --service-cidr 172.29.0.0/16 --kubernetes-version 1.26.4
 ```
 
-<table><tr><td> 3b. Configure kubectl </td></tr></table>
+---
+>> 3b. Configure kubectl
+---
 
 ```bash
 mkdir -p $HOME/.kube
@@ -218,21 +219,25 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-<table><tr><td> 3c. Install Calico CNI </td></tr></table>
+---
+>> 3c. Install Calico CNI 
+---
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
 ```
 
-<table><tr><td> 3d. Print the kubeadm join command </td></tr></table>
+---
+>> 3d. Print the kubeadm join command
+---
 
 ```bash
 sudo kubeadm token create --print-join-command
 ```
 
 ---
-
 > __4. Join all Worker Nodes to the Kubernetes Cluster__
+---
 
 From the command used in step 3d, copy the output and past it on all worker nodes. Please use `sudo` with the command execution.
 
