@@ -85,6 +85,10 @@ Kubeadm will install kubernetes components on containers, Container Runtime must
 sudo swapoff -a
 ```
 
+<p align="center">
+    <img src="images/DisableSwap.png">
+</p>
+
 ---
 >> 1b. Add Overlay and net filters required in kubernetes config file 
 ---
@@ -97,11 +101,19 @@ br_netfilter
 EOF
 ```
 
+<p align="center">
+    <img src="images/AddModules.png">
+</p>
+
 ```bash
 # Load modules:
 sudo modprobe overlay
 sudo modprobe br_netfilter
 ```
+
+<p align="center">
+    <img src="images/LoadModules.png">
+</p>
 
 ---
 >> 1c. Configure IPv4 Forwarding and iptables to see bridged traffic in kubernetes config file
@@ -116,10 +128,18 @@ net.ipv4.ip_forward                 = 1
 EOF
 ```
 
+<p align="center">
+    <img src="images/ConfigSysctl.png">
+</p>
+
 ```bash
 # Apply sysctl params without reboot:
 sudo sysctl --system
 ```
+
+<p align="center">
+    <img src="images/ApplyConfigSysctl.png">
+</p>
 
 ---
 >> 1d. Install Container Runtime containerd and Docker Engine 
@@ -127,12 +147,15 @@ sudo sysctl --system
 
 ```bash
 # Add Docker's official GPG key:
-sudo apt-get update
-sudo apt-get install ca-certificates curl gnupg apt-transport-https ipvsadm ipset watch tcpdump gpg
+sudo apt-get update && sudo apt-get install ca-certificates curl gnupg apt-transport-https ipvsadm ipset watch tcpdump gpg
 sudo install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
 sudo chmod a+r /etc/apt/keyrings/docker.gpg
 ```
+
+<p align="center">
+    <img src="images/AddGPGKey.png">
+</p>
 
 ```bash
 # Add the repository to Apt sources:
@@ -142,10 +165,18 @@ echo \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
+<p align="center">
+    <img src="images/AddRepo.png">
+</p>
+
 ```bash
 # Update repository and install containerd:
 sudo apt-get update && sudo apt-get install -y containerd.io
 ```
+
+<p align="center">
+    <img src="images/InstallContainerd.png">
+</p>
 
 ```bash
 # Create containerd configuration file and comment out 'disabled_plugins' and change SystemCgroup to True
@@ -155,10 +186,18 @@ sudo sed -i 's/disabled_plugins/#disabled_plugins/' /etc/containerd/config.toml
 sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 ```
 
+<p align="center">
+    <img src="images/ConfigContainerd.png">
+</p>
+
 ```bash
 # restart and enable containerd service
 sudo systemctl restart containerd && sudo systemctl enable containerd
 ```
+
+<p align="center">
+    <img src="images/RestartContainerd.png">
+</p>
 
 __Please Note: Perform/Repeat all the above actions on all nodes in the cluster__
 
