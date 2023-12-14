@@ -48,12 +48,9 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
 The config file will hold information regarding the following:
-- API Version
-- Cluster
-  - Cluster Master Node IP/FQDN
-  - Cluster Master Node Certificate (for Authentication)
-- Context
-- Users
+- Cluster: The URL for the API of a Kubernetes cluster. This URL identifies the cluster itself.
+- User: credentials that identify a user connecting to the Kubernetes cluster.
+- Context: puts together a cluster (the API URL) and a user (who is connecting to that cluster).
 
 To use kubectl with anything related to the config file, use `kubectl config <option>`
 
@@ -63,12 +60,29 @@ View the info within the config file:
 kubectl config view
 ```
 
+---
 <p align="center">
     <img src="images/KubeConfigFile.png">
 </p>
+---
+
+### Using Kubectl with multiple kubernetes cluster
+
+---
+<p align="center">
+    <img src="images/MultiClusterMgmt.png">
+</p>
+---
+
+---
+
+### kubectl Contexts
+
+
 
 
 ---
+
 
 #### References
 
@@ -79,7 +93,7 @@ kubectl config view
 - [[5] - Declarative Management of Kubernetes Objects Using Configuration Files](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
 - [[6] - Managing Kubernetes Objects Using Imperative Commands](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/)
 - [[7] - Imperative Management of Kubernetes Objects Using Configuration Files](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)
-- [[8] - ]
+- [[8] - Configure Access to Multiple Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
 
 
 
