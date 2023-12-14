@@ -6,6 +6,9 @@
 
 # Add Kubernetes version and the IP CIDR that will be used in variables to be used in the script
 KUBEVERSION=1.26.4-00
+PODCIDR=172.30.0.0/16
+SVCCIDR=172.29.0.0/16
+KUBEADMVERSION=1.26.4
 
 #------------------------------------------------------------------------------------------------
 
@@ -78,12 +81,18 @@ sudo apt-mark hold kubelet kubeadm kubectl
 #------------------------------------------------------------------------------------------------
 
 # 3a. Initialize Kubeadm with required configuration 
-sudo kubeadm init --pod-network-cidr=${PODCIDR}  --service-cidr=${SVCCIDR} --kubernetes-version=${KUBEVERSION}
+sudo kubeadm init --pod-network-cidr=${PODCIDR}  --service-cidr=${SVCCIDR} --kubernetes-version=${KUBEADMVERSION}
 
 # 3b. Configure kubectl
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+#------------------------------------------------------------------------------------------------
+
+# 4. Install Calico CNI
+#------------------------------------------------------------------------------------------------
+kubectl apply -f https://raw.githubusercontent.com/projectcalico/calico/v3.25.0/manifests/calico.yaml
 
 #------------------------------------------------------------------------------------------------
 

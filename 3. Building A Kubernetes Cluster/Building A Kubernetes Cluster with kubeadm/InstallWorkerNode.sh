@@ -6,8 +6,6 @@
 
 # Add Kubernetes version that will be used in variables to be used in the script
 KUBEVERSION=1.26.4-00
-PODCIDR=172.30.0.0/16
-SVCCIDR=172.29.0.0/16
 
 #------------------------------------------------------------------------------------------------
 

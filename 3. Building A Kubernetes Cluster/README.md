@@ -69,4 +69,4 @@ Please refer to the above sections to go through the step-by-step guides
 
 > Next Step:
 
-[Interacting with Kubernetes using kubectl](https://github.com/tahershaker/Learning-Kubernetes/tree/main/4.%20Interacting%20with%20Kubernetes%20using%20Kubectl)
+[Kubernetes Cluster & Object Management with Kubectl & YAML](https://github.com/tahershaker/Learning-Kubernetes/tree/main/4.%20Kubernetes%20Cluster%20%26%20Object%20Management%20with%20Kubectl%20and%20YAML)
