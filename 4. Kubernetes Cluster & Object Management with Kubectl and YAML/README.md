@@ -30,16 +30,18 @@ You can use kubectl against a kubernetes cluster in 3 different modes:
 > _Reference_
 > _Kubernetes provides a command line tool for communicating with a Kubernetes cluster's control plane, using the Kubernetes API. This tool is named kubectl._<sup>Reference [1](#References)</sup>
 > _The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs._<sup>Reference [2](#References)</sup>
-> _The kubectl tool supports three kinds of object management:_
+> _The kubectl tool supports three kinds of object management:_<sup>Reference [5](#References)</sup>
 >> - _Imperative commands_
 >> - _Imperative object configuration_
->> - _Declarative object configuration_<sup>Reference [5](#References)</sup>
+>> - _Declarative object configuration_
 
 ---
 
-### Kubectl Configuration File
+### Kubectl Configuration (kubeconfig) File
 
-To access a kubernetes cluster and authenticate with it using kubectl, some information are required such as the IP/FQDN, authentication token and more. By default, kubectl reads all of these info from a file called config, and by default, this file is located at `$HOME/kube/config`. This file get created by default when installing kubernetes using kubeadm as listed in a [previous section](https://github.com/tahershaker/Learning-Kubernetes/tree/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20Kubernetes%20Cluster%20with%20kubeadm). During the installation process, the below command was executed which created and configured the kubctl config file.
+For a user to access a kubernetes cluster and authenticate with it using kubectl, some information are required such as the IP/FQDN of the API server, user credentials and more. By default, kubectl reads all of these info from a file called `kubeconfi`, and by default, this file is located at `$HOME/.kube/` directory. A `Kubeconfig` is a YAML file with all the Kubernetes cluster details, certificates, and secret tokens required to connect and authenticate with the kubernetes cluster.By default, kubectl will look for the kubeconfig file locates at `$HOME/.kube/` and uses the information in the file to connect to the kubernetes cluster API. This behaviour is the default either the user is directly connected to the master node through SSH and using kubectl installed on the master node or using kubectl install remotely on a local or remote machine.
+
+By default when installing kubernetes using kubeadm as listed in a [previous section](https://github.com/tahershaker/Learning-Kubernetes/tree/main/3.%20Building%20A%20Kubernetes%20Cluster/Building%20A%20Kubernetes%20Cluster%20with%20kubeadm), the kubeconfig file is created in the default location `$HOME/.kube/`. If the previous section mentioned is reviewed, during the installation process, the below command was executed which created and configured the  kubeconfig file.
 
 ```bash
 mkdir -p $HOME/.kube
@@ -47,26 +49,84 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-The config file will hold information regarding the following:
-- Cluster: The URL for the API of a Kubernetes cluster. This URL identifies the cluster itself.
-- User: credentials that identify a user connecting to the Kubernetes cluster.
-- Context: puts together a cluster (the API URL) and a user (who is connecting to that cluster).
+The kubeconfig file will hold the following key information that are used to connect and authenticate with the kubernetes cluster:
+- __Cluster:__ 
+  - _certificate-authority-data:_ - This is the Cluster CA Certificate
+  - _Server:_ - This is the API Server IP/FQDN
+  - _Name:_ - This is the name of the cluster
+- __User:__ 
+  - _Name:_ - This is the name of the User
+  - _Credentials:_ - This is the credentials used by the user. Could be certificate, Token, Username and Password, etc...
+- __Context:__
+  - The context is used to map the cluster to the appropriate user as there could be multiple clusters and multiple users
+  - _Cluster:_ - This is the cluster used for this context
+  - _User:_ - This is the user mapped to the cluster for this context
+  - _Name:_ - This is the name of the context
 
-To use kubectl with anything related to the config file, use `kubectl config <option>`
+Below is an example of a kubeconfig YAML file
 
-View the info within the config file:
+---
+
+```yaml
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: DATA+OMITTED
+    server: https://10.10.10.11:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: DATA+OMITTED
+    client-key-data: DATA+OMITTED
+```
+
+---
+
+To view the content of the kubeconfig file, use the below command
 
 ```bash
 kubectl config view
 ```
 
 ---
+
 <p align="center">
     <img src="images/KubeConfigFile.png">
 </p>
+
 ---
 
 ### Using Kubectl with multiple kubernetes cluster
+
+`Please Note: Cluster Authentication will be discussed in a later section`
+
+In most cases, users will be interacting with multiple kubernetes cluster, example, i user can be interacting with a production cluster, a development cluster and a testing cluster, in this example the user will be interacting with 3 different cluster. The user will have kubectl installed on a local machine and using it to interact with the different clusters. The admin of the kubernetes cluster will be generating user access and providing these access to the user to be able to use it and authenticating and interacting with these different cluster. The main question is how wil the user interact with the different clusters where each have a different IP for the API server and a different access credentials or even, in some cases, different access methods and credentials type. 
+
+All information related kubectl access to a kubernetes cluster will be stored in a config file as mentioned above. This config file will store the IP of the API server and the user access to the kubernetes cluster.
+
+By default the kubectl will look for the kubeconfig file locates at `$HOME/.kube/` and the kubeconfig file will have a context section which map the cluster to the user if multiple cluster and users are available in the file. A user can utilize the context to switch from one cluster to another. A user can also use the KUBECONFIG environment variable or the --kubeconfig flag in the kubectl syntax to use a different configuration file to be used with the kubectl.
+
+A user can utilize any of the above mentioned methods to switch from one cluster to another and have the ability to manage multiple kubernetes cluster from the user's local machine.
+
+> _Reference_
+> _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [9](#References)</sup>
+
+#### KUBECONFIG environment variable
+
+By default the kubectl will look for the kubeconfig file locates at `$HOME/.kube/`. A user can use the KUBECONFIG environment variable
+
+One way is setting a KUBECONFIG environment variable on the local machine which will hold info to access one of the clusters and when required to interact with a different cluster, re-set the KUBECONFIG environment variable. This is not a recommended way of achieving this action but it is an option.
+
+
 
 ---
 <p align="center">
@@ -94,6 +154,7 @@ kubectl config view
 - [[6] - Managing Kubernetes Objects Using Imperative Commands](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/)
 - [[7] - Imperative Management of Kubernetes Objects Using Configuration Files](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)
 - [[8] - Configure Access to Multiple Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
+- [[9] - Organizing Cluster Access Using kubeconfig Files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
 
 
 
