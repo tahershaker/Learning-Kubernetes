@@ -232,6 +232,7 @@ export KUBECONFIG=~/.kube/kube01config
 ```bash
 kubectl get nodes
 ```
+
 ---
 
 <p align="center">
@@ -242,12 +243,23 @@ kubectl get nodes
 
 ### Using the --kubeconfig flag command line
 
+The kubectl CLI tool provide the ability to specify a different kubeconfig file other than the default by using the flag `--kubeconfig <path-to-other-file>`. This option have the highest priority. Regardless of the context set or the KUBECONFIG env variable, if the --kubeconfig flag is used, it will override any other and the file passed with the flag is the one to be used.
 
+To test this through the example, from the preivious task, KUBECONFIG env variable is set to a non-default kubeconfig file (kube01config) and this is the one used now. Use the `kubectl get nodes` command with the file kube02config which points to the second cluster. The output should be the nodes for the second cluster not the first cluster.
 
+```bash
+kubectl get nodes --kubeconfig ~/.kube/kube02config
+```
 
 ---
 
-### kubectl Contexts
+<p align="center">
+    <img src="images/UseKubectlFlagOption.png">
+</p>
+
+---
+
+
 
 
 
