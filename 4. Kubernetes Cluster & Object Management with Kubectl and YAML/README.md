@@ -167,6 +167,9 @@ ls -la ~/.kube
 
 Context is an element in the kubeconfig file that group and map cluster information with the user access information. As mentioned above a kubeconfig file will have 3 main key elements, Cluster, User, and Context. IF the kubeconfig file have multiple clusters and user info, a user can use the context to switch from one cluster to another.
 
+> _Reference_
+> - _A context element in a kubeconfig file is used to group access parameters under a convenient name. Each context has three parameters: cluster, namespace, and user. By default, the kubectl command-line tool uses parameters from the current context to communicate with the cluster._<sup>Reference [9](#References)</sup>
+
 To check the number of contexts, use:
 
 ```bash
@@ -213,18 +216,31 @@ kubectl get nodes
 
 ---
 
+### Using KUBECONFIG environment variable
 
+The KUBECONFIG environment variable is a variable that hold the location of the kubeconfig file(s). If the KUBECONFIG env variable is set it overrides the default kubeconfig file location, thus, KUBECONFIG env variable is not a requirement to use the kubectl tool. By default the kubectl will look for the kubeconfig file locates at `$HOME/.kube/`. A user can use the KUBECONFIG environment variable to point to a different configuration file(s) to be used while using the kubectl CLI Tool. To set the KUBECONFIG env variable use the command `export KUBECONFIG=<file-location>`
 
+> _Reference_
+> - _The KUBECONFIG environment variable holds a list of kubeconfig files. For Linux and Mac, the list is colon-delimited. For Windows, the list is semicolon-delimited. The KUBECONFIG environment variable is not required. If the KUBECONFIG environment variable doesn't exist, kubectl uses the default kubeconfig file, $HOME/.kube/config._<sup>Reference [9](#References)</sup>
+> - _If the KUBECONFIG environment variable does exist, kubectl uses an effective configuration that is the result of merging the files listed in the KUBECONFIG environment variable._<sup>Reference [9](#References)</sup>
+
+Currently, using the section example, the context is set to the second kubernetes cluster. Configure KUBECONFIG env variable and set it to a different kubeconfig file (kube01config) which is used to access the first kubernetes cluster to test the functionality as well as the priority. If the KUBECONFIG env variable is set and pointing to a different config file, it will override the default kubeconfig file. after setting the KUBECONFIG to the config file called kube01config in the example, the output should be the nodes for the first cluster not the second cluster.
+
+```bash
+export KUBECONFIG=~/.kube/kube01config
+```
+```bash
+kubectl get nodes
+```
+---
+
+<p align="center">
+    <img src="images/UseKubeConfigEnvVariable.png">
+</p>
 
 ---
 
-
-#### KUBECONFIG environment variable
-
-By default the kubectl will look for the kubeconfig file locates at `$HOME/.kube/`. A user can use the KUBECONFIG environment variable
-
-One way is setting a KUBECONFIG environment variable on the local machine which will hold info to access one of the clusters and when required to interact with a different cluster, re-set the KUBECONFIG environment variable. This is not a recommended way of achieving this action but it is an option.
-
+### Using the --kubeconfig flag command line
 
 
 
