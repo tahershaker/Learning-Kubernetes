@@ -28,12 +28,12 @@ You can use kubectl against a kubernetes cluster in 3 different modes:
 - __Declarative Object Configuration:__ The user uses kubectl along with a manifest file (the `YAML` file) to create (if not exists) or update (if exists) an object with the info provided in the YAML file - `kubectl apply -f <file-name.yaml>`
 
 > _Reference_
-> _Kubernetes provides a command line tool for communicating with a Kubernetes cluster's control plane, using the Kubernetes API. This tool is named kubectl._<sup>Reference [1](#References)</sup>
-> _The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs._<sup>Reference [2](#References)</sup>
-> _The kubectl tool supports three kinds of object management:_<sup>Reference [5](#References)</sup>
->> - _Imperative commands_
->> - _Imperative object configuration_
->> - _Declarative object configuration_
+> - _Kubernetes provides a command line tool for communicating with a Kubernetes cluster's control plane, using the Kubernetes API. This tool is named kubectl._<sup>Reference [1](#References)</sup>
+> - _The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs._<sup>Reference [2](#References)</sup>
+> - _The kubectl tool supports three kinds of object management:_<sup>Reference [5](#References)</sup>
+>>  - _Imperative commands_
+>>  - _Imperative object configuration_
+>>  - _Declarative object configuration_
 
 ---
 
@@ -106,7 +106,7 @@ kubectl config view
 ---
 
 > _Reference_
-> _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [9](#References)</sup>
+> - _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [9](#References)</sup>
 
 ---
 
@@ -132,7 +132,7 @@ A user can use the Kubeconfig in different methods to switch from one cluster to
 
 
 > _Reference_
-> _Use kubeconfig files to organize information about clusters, users, namespaces, and authentication mechanisms. The kubectl command-line tool uses kubeconfig files to find the information it needs to choose a cluster and communicate with the API server of a cluster._<sup>Reference [9](#References)</sup>
+> - _Use kubeconfig files to organize information about clusters, users, namespaces, and authentication mechanisms. The kubectl command-line tool uses kubeconfig files to find the information it needs to choose a cluster and communicate with the API server of a cluster._<sup>Reference [9](#References)</sup>
 > _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [9](#References)</sup>
 
 Taking an example and looking into the 3 mentioned methods. In the example, there are 2 kubernetes cluster and a remote local machine using kubectl to access the 2 clusters. All information regarding the access to the cluster are added to the remote local machine into the default kubeconfig file. Each kubernetes cluster have 3 nods (1 Master and 2 Workers). The first cluster have the prefix of kube- and the second cluster have the prefix of kube02-. Also there are 2 other kubeconfig file located in a non-default location each is for accessing each cluster.
