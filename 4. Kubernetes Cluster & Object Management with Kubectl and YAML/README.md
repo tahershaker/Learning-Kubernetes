@@ -41,7 +41,32 @@ You can use kubectl against a kubernetes cluster in 3 different modes:
 
 To use the kubectl CLI tool, like any other CLI tool, kubectl have a syntax to be used wit the tool. Kubectl syntax is as follow:
 
-> kubectl `command` `type` `name` `flag (optional)`
+`kubectl [command] [type] [name] [flag]`
+
+- Command: Specify what type of operation required, ex: create, apply, delete, get, etc...
+- Type: Specify the type of resources to apply the operation on, ex: pod, service, deployment, etc...
+- Name: The name of the resources type 
+- Flag: This is optional, use flag to add more specific operation, ex: --namespace - this flag can be set to identify a specific namespace to execute the operation on it.
+
+To change the output format of the command execution, use the `-o`, ex: -o yaml, -o name, -o wide.
+
+To use the object configuration object using a file, use the `-f <file-name.yaml>`
+
+> Examples:
+
+- Get Pod with the name frontend form the namespace development and set the output to be in JSON format
+
+```bash
+kubectl get pod frontend --namespace development -o json
+```
+
+- Create a pod with a configuration file called nginx-frontend.yaml in the namespace production
+
+```bash
+kubectl create pod -f nginx-frontend.yaml --namespace production
+```
+
+For the list of all commands, flags, and options, please refer to the kubernetes documentation in this [link](https://kubernetes.io/docs/reference/kubectl/)
 
 ---
 
