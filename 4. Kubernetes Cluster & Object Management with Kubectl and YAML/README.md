@@ -105,20 +105,68 @@ kubectl config view
 
 ---
 
-### Using Kubectl with multiple kubernetes cluster
+> _Reference_
+> _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [9](#References)</sup>
+
+---
+
+### Using interaction with multiple kubernetes cluster
 
 `Please Note: Cluster Authentication will be discussed in a later section`
 
-In most cases, users will be interacting with multiple kubernetes cluster, example, i user can be interacting with a production cluster, a development cluster and a testing cluster, in this example the user will be interacting with 3 different cluster. The user will have kubectl installed on a local machine and using it to interact with the different clusters. The admin of the kubernetes cluster will be generating user access and providing these access to the user to be able to use it and authenticating and interacting with these different cluster. The main question is how wil the user interact with the different clusters where each have a different IP for the API server and a different access credentials or even, in some cases, different access methods and credentials type. 
+In most cases, users will be interacting with multiple kubernetes cluster, example, a user can be interacting with a production cluster, a development cluster and a testing cluster, in this example the user will be interacting with 3 different cluster. 
 
-All information related kubectl access to a kubernetes cluster will be stored in a config file as mentioned above. This config file will store the IP of the API server and the user access to the kubernetes cluster.
+---
+<p align="center">
+    <img src="images/MultiClusterMgmt.png">
+</p>
+---
 
-By default the kubectl will look for the kubeconfig file locates at `$HOME/.kube/` and the kubeconfig file will have a context section which map the cluster to the user if multiple cluster and users are available in the file. A user can utilize the context to switch from one cluster to another. A user can also use the KUBECONFIG environment variable or the --kubeconfig flag in the kubectl syntax to use a different configuration file to be used with the kubectl.
+As mentioned above, kubectl will, by default, look for the kubeconfig file located at `$HOME/.kube/` directory to get all required information to connect and authenticate with a kubernetes cluster at a given time. The user will have kubectl installed on a local machine and using it to interact with more than one different clusters. The admin of the kubernetes cluster will be generating user access and providing these access to the user where the user will be adding these info to the kubeconfig file to be able to use it and authenticating and interacting with these different cluster. The main question is how wil the user interact with the different clusters where each have a different IP for the API server and a different access credentials or even, in some cases, different access methods and credentials type. 
 
-A user can utilize any of the above mentioned methods to switch from one cluster to another and have the ability to manage multiple kubernetes cluster from the user's local machine.
+A user can use the Kubeconfig in different methods to switch from one cluster to another and kubectl uses these methods in a priority order. These methods are:
+
+- _Kubectl Context:_ Using the kubectl, a user can chose a context from what is configured in the Kubeconfig file and each context points to a different cluster. Kubectl context has the highest priority.
+- _KUBECONFIGEnvironment Variable:_ This environment variable should, by default, point to the default kubeconfig file, however, when set, it can point to a different configuration file(s) to be used while using the kubectl CLI Tool. KUBECONFIG env variable overrides the current context in the default kubeconfig file.
+- _Command-Line Reference:_ Using the kubectl CLI tool, a user can specify a different kubeconfig file using the command line option `--kubeconfig` in the syntax. The `--kubeconfig` command line option has the highest priority; all other Kubeconfigs are ignored. 
+
 
 > _Reference_
+> _Use kubeconfig files to organize information about clusters, users, namespaces, and authentication mechanisms. The kubectl command-line tool uses kubeconfig files to find the information it needs to choose a cluster and communicate with the API server of a cluster._<sup>Reference [9](#References)</sup>
 > _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [9](#References)</sup>
+
+Taking an example and looking into the 3 mentioned methods. In the example, there are 2 kubernetes cluster and a remote local machine using kubectl to access the 2 clusters. All information regarding the access to the cluster are added to the remote local machine into the default kubeconfig file. Each kubernetes cluster have 3 nods (1 Master and 2 Workers). The first cluster have the prefix of kube- and the second cluster have the prefix of kube02-. Also there are 2 other kubeconfig file located in a non-default location each is for accessing each cluster.
+
+```bash
+kubectl config view
+```
+
+---
+
+<p align="center">
+    <img src="images/KubeConfigFileExample.png">
+</p>
+
+---
+
+```bash
+ls -la ~/.kube
+```
+
+---
+
+<p align="center">
+    <img src="images/NonDefaultKubeConfigFile.png">
+</p>
+
+---
+
+### Using Kubeconfig Context
+
+
+
+---
+
 
 #### KUBECONFIG environment variable
 
@@ -128,11 +176,7 @@ One way is setting a KUBECONFIG environment variable on the local machine which 
 
 
 
----
-<p align="center">
-    <img src="images/MultiClusterMgmt.png">
-</p>
----
+
 
 ---
 
