@@ -1,5 +1,4 @@
-# Kubernetes Containerized Workloads - Containers, Pods, ReplicaSet, & Deployments
-
+# Kubernetes Workloads Objects
 
 
 ---
