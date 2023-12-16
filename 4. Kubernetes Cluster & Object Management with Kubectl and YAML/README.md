@@ -10,6 +10,55 @@ User Interaction with a Kubernetes cluster to manage a kubernetes cluster or dep
 
 ---
 
+## YAML File
+
+When interacting with a Kubernetes cluster, the user, in most cases if not all, uses a CLI tool called kubectl. To create an object in Kubernetes, the user must define the kind, specs, and desired state of this object. 
+
+All of this information are defined in a manifest file. Normally this is done using a `YAML` formate file - `PS: JSON file can also be used but normally YAML files are most commonly used`. The user create the YAML file and defined all of these information inside this file and then create the object on the kubernetes cluster using this file. 
+
+Once the Manifest YAML file is sent to the kubernetes cluster, kubernetes will work on creating, Deploying, monitoring, and maintaining this object on the kubernetes cluster.
+
+> _Reference_
+> - _A Kubernetes object is a `"record of intent"` --once you create the object, the Kubernetes system will constantly work to ensure that object exists. By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like; this is your cluster's `desired state`._<sup>Reference [1](#References)</sup>
+> - _Almost every Kubernetes object includes two nested object fields that govern the object's configuration: the object spec and the object status. For objects that have a spec, you have to set this when you create the object, providing a description of the characteristics you want the resource to have: its `desired state`._<sup>Reference [1](#References)</sup>
+> - _The status describes the current state of the object, supplied and updated by the Kubernetes system and its components. The Kubernetes control plane continually and actively manages every object's `actual state` to match the `desired state` you supplied._<sup>Reference [1](#References)</sup>
+> - _When you create an object in Kubernetes, you must provide the object spec that describes its desired state, as well as some basic information about the object (such as a name). When you use the Kubernetes API to create the object (either directly or via kubectl), that API request must include that information as JSON in the request body. Most often, you provide the information to kubectl in file known as a `manifest`. By convention, manifests are YAML (you could also use JSON format). Tools such as kubectl convert the information from a manifest into JSON or another supported serialization format when making the API request over HTTP._<sup>Reference [2](#References)</sup>
+
+As a summary, once the kubernetes cluster is created, the user starts creating object `manifest` in the form of a `YAML` file which it will hold the object `spec` and the object `desired state` and then pass it to kubernetes using the CLI kubectl tool or directly using an API request. Kubernetes will make sure that this object is created based on the provided object spec and insure that the actual state of this object always match the defined desired state of this object.
+
+When creating the manifest YAML file, some key elements must be set in the YAML file, these elements are:
+- API Version: setting the version of API for kubernetes to understand the API formatting and features to be used.
+- Kind: The kind or type of object this file will create.
+- Metadata: Some metadata info of the object can be specified in this element such as object labels, name, etc...
+- Spec: The specifications of this Object.
+
+The formate of a YAML file with the above mentioned elements are:
+
+```yaml
+apiVersion: apps/v1 # API version number
+kind: Deployment # Object type
+metadata: # Additional info to be added to the object
+  name: nginx-deployment # Name of the Object
+spec: # Specs of the object
+  replicas: 2 # Specify that 2 Pods to be deployed form the same replica
+  spec: # Specs of the Container
+    containers:
+    - name: nginx # Container Name
+      image: nginx:1.14.2 # Container Image
+      ports: # Container Networking
+      - containerPort: 80
+```
+
+To Check the formatting of the YAML file, use this [Link](https://www.yamllint.com/)
+
+---
+
+<p align="center">
+    <img src="images/CheckYaml.png">
+</p>
+
+---
+
 ## Kubectl CLI Tool
 
 User Interaction with a Kubernetes cluster to manage a kubernetes cluster or deploy object on the cluster is done through the communication with the [Kube-API-Server](https://github.com/tahershaker/Learning-Kubernetes/tree/main/2.%20Kubernetes%20Cluster%20Architecture%20-%20Components%20%26%20High-level%20Main%20Objects#3a-i-api-server) as explained in a previous section. The communication with the API server can be through a direct REST API call or through the CLI tool called `kubectl`. In most cases kubectl is the tool used to interact with a Kubernetes Cluster.
@@ -28,9 +77,9 @@ You can use kubectl against a kubernetes cluster in 3 different modes:
 - __Declarative Object Configuration:__ The user uses kubectl along with a manifest file (the `YAML` file) to create (if not exists) or update (if exists) an object with the info provided in the YAML file - `kubectl apply -f <file-name.yaml>`
 
 > _Reference_
-> - _Kubernetes provides a command line tool for communicating with a Kubernetes cluster's control plane, using the Kubernetes API. This tool is named kubectl._<sup>Reference [1](#References)</sup>
-> - _The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs._<sup>Reference [2](#References)</sup>
-> - _The kubectl tool supports three kinds of object management:_<sup>Reference [5](#References)</sup>
+> - _Kubernetes provides a command line tool for communicating with a Kubernetes cluster's control plane, using the Kubernetes API. This tool is named kubectl._<sup>Reference [2](#References)</sup>
+> - _The Kubernetes command-line tool, kubectl, allows you to run commands against Kubernetes clusters. You can use kubectl to deploy applications, inspect and manage cluster resources, and view logs._<sup>Reference [3](#References)</sup>
+> - _The kubectl tool supports three kinds of object management:_<sup>Reference [6](#References)</sup>
 >>  - _Imperative commands_
 >>  - _Imperative object configuration_
 >>  - _Declarative object configuration_
@@ -139,7 +188,7 @@ kubectl config view
 ---
 
 > _Reference_
-> - _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [9](#References)</sup>
+> - _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [10](#References)</sup>
 
 ---
 
@@ -167,8 +216,8 @@ A user can use the Kubeconfig in different methods to switch from one cluster to
 
 
 > _Reference_
-> - _Use kubeconfig files to organize information about clusters, users, namespaces, and authentication mechanisms. The kubectl command-line tool uses kubeconfig files to find the information it needs to choose a cluster and communicate with the API server of a cluster._<sup>Reference [9](#References)</sup>
-> _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [9](#References)</sup>
+> - _Use kubeconfig files to organize information about clusters, users, namespaces, and authentication mechanisms. The kubectl command-line tool uses kubeconfig files to find the information it needs to choose a cluster and communicate with the API server of a cluster._<sup>Reference [10](#References)</sup>
+> _By default, kubectl looks for a file named config in the $HOME/.kube directory. You can specify other kubeconfig files by setting the KUBECONFIG environment variable or by setting the --kubeconfig flag._<sup>Reference [10](#References)</sup>
 
 Taking an example and looking into the 3 mentioned methods. In the example, there are 2 kubernetes cluster and a remote local machine using kubectl to access the 2 clusters. All information regarding the access to the cluster are added to the remote local machine into the default kubeconfig file. Each kubernetes cluster have 3 nods (1 Master and 2 Workers). The first cluster have the prefix of kube- and the second cluster have the prefix of kube02-. Also there are 2 other kubeconfig file located in a non-default location each is for accessing each cluster.
 
@@ -201,7 +250,7 @@ ls -la ~/.kube
 Context is an element in the kubeconfig file that group and map cluster information with the user access information. As mentioned above a kubeconfig file will have 3 main key elements, Cluster, User, and Context. IF the kubeconfig file have multiple clusters and user info, a user can use the context to switch from one cluster to another.
 
 > _Reference_
-> - _A context element in a kubeconfig file is used to group access parameters under a convenient name. Each context has three parameters: cluster, namespace, and user. By default, the kubectl command-line tool uses parameters from the current context to communicate with the cluster._<sup>Reference [9](#References)</sup>
+> - _A context element in a kubeconfig file is used to group access parameters under a convenient name. Each context has three parameters: cluster, namespace, and user. By default, the kubectl command-line tool uses parameters from the current context to communicate with the cluster._<sup>Reference [10](#References)</sup>
 
 To check the number of contexts, use:
 
@@ -254,8 +303,8 @@ kubectl get nodes
 The KUBECONFIG environment variable is a variable that hold the location of the kubeconfig file(s). If the KUBECONFIG env variable is set it overrides the default kubeconfig file location, thus, KUBECONFIG env variable is not a requirement to use the kubectl tool. By default the kubectl will look for the kubeconfig file locates at `$HOME/.kube/`. A user can use the KUBECONFIG environment variable to point to a different configuration file(s) to be used while using the kubectl CLI Tool. To set the KUBECONFIG env variable use the command `export KUBECONFIG=<file-location>`
 
 > _Reference_
-> - _The KUBECONFIG environment variable holds a list of kubeconfig files. For Linux and Mac, the list is colon-delimited. For Windows, the list is semicolon-delimited. The KUBECONFIG environment variable is not required. If the KUBECONFIG environment variable doesn't exist, kubectl uses the default kubeconfig file, $HOME/.kube/config._<sup>Reference [9](#References)</sup>
-> - _If the KUBECONFIG environment variable does exist, kubectl uses an effective configuration that is the result of merging the files listed in the KUBECONFIG environment variable._<sup>Reference [9](#References)</sup>
+> - _The KUBECONFIG environment variable holds a list of kubeconfig files. For Linux and Mac, the list is colon-delimited. For Windows, the list is semicolon-delimited. The KUBECONFIG environment variable is not required. If the KUBECONFIG environment variable doesn't exist, kubectl uses the default kubeconfig file, $HOME/.kube/config._<sup>Reference [10](#References)</sup>
+> - _If the KUBECONFIG environment variable does exist, kubectl uses an effective configuration that is the result of merging the files listed in the KUBECONFIG environment variable._<sup>Reference [10](#References)</sup>
 
 Currently, using the section example, the context is set to the second kubernetes cluster. Configure KUBECONFIG env variable and set it to a different kubeconfig file (kube01config) which is used to access the first kubernetes cluster to test the functionality as well as the priority. If the KUBECONFIG env variable is set and pointing to a different config file, it will override the default kubeconfig file. after setting the KUBECONFIG to the config file called kube01config in the example, the output should be the nodes for the first cluster not the second cluster.
 
@@ -302,15 +351,16 @@ kubectl get nodes --kubeconfig ~/.kube/kube02config
 
 #### References
 
-- [[1] - Kubernetes Command Line Tool Kubectl](https://kubernetes.io/docs/reference/kubectl/)
-- [[2] - Kubernetes Install Tools](https://kubernetes.io/docs/tasks/tools/)
-- [[3] - Install and Set Up kubectl on Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
-- [[4] - Manage Kubernetes Objects](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/)
-- [[5] - Declarative Management of Kubernetes Objects Using Configuration Files](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
-- [[6] - Managing Kubernetes Objects Using Imperative Commands](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/)
-- [[7] - Imperative Management of Kubernetes Objects Using Configuration Files](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)
-- [[8] - Configure Access to Multiple Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
-- [[9] - Organizing Cluster Access Using kubeconfig Files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
+- [[1] - Objects In Kubernetes](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
+- [[2] - Kubernetes Command Line Tool Kubectl](https://kubernetes.io/docs/reference/kubectl/)
+- [[3] - Kubernetes Install Tools](https://kubernetes.io/docs/tasks/tools/)
+- [[4] - Install and Set Up kubectl on Linux](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
+- [[5] - Manage Kubernetes Objects](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/)
+- [[6] - Declarative Management of Kubernetes Objects Using Configuration Files](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/declarative-config/)
+- [[7] - Managing Kubernetes Objects Using Imperative Commands](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-command/)
+- [[8] - Imperative Management of Kubernetes Objects Using Configuration Files](https://kubernetes.io/docs/tasks/manage-kubernetes-objects/imperative-config/)
+- [[9] - Configure Access to Multiple Clusters](https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/)
+- [[10] - Organizing Cluster Access Using kubeconfig Files](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/)
 
 
 
