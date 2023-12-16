@@ -341,13 +341,14 @@ kubectl get nodes --kubeconfig ~/.kube/kube02config
 
 ---
 
+### kubectl Cheat Sheet
 
+Use the below 2 links for more information about the kubectl syntax and the most used commands
 
-
-
+- [Command line tool (kubectl)](https://kubernetes.io/docs/reference/kubectl/)
+- [kubectl Cheat Sheet](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 
 ---
-
 
 #### References
 
