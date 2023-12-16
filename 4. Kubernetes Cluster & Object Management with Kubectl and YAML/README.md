@@ -37,6 +37,14 @@ You can use kubectl against a kubernetes cluster in 3 different modes:
 
 ---
 
+### Kubectl Syntax
+
+To use the kubectl CLI tool, like any other CLI tool, kubectl have a syntax to be used wit the tool. Kubectl syntax is as follow:
+
+> kubectl `command` `type` `name` `flag (optional)`
+
+---
+
 ### Kubectl Configuration (kubeconfig) File
 
 For a user to access a kubernetes cluster and authenticate with it using kubectl, some information are required such as the IP/FQDN of the API server, user credentials and more. By default, kubectl reads all of these info from a file called `kubeconfi`, and by default, this file is located at `$HOME/.kube/` directory. A `Kubeconfig` is a YAML file with all the Kubernetes cluster details, certificates, and secret tokens required to connect and authenticate with the kubernetes cluster.By default, kubectl will look for the kubeconfig file locates at `$HOME/.kube/` and uses the information in the file to connect to the kubernetes cluster API. This behaviour is the default either the user is directly connected to the master node through SSH and using kubectl installed on the master node or using kubectl install remotely on a local or remote machine.
@@ -163,7 +171,7 @@ ls -la ~/.kube
 
 ---
 
-### Using Kubeconfig Context
+#### Using Kubeconfig Context
 
 Context is an element in the kubeconfig file that group and map cluster information with the user access information. As mentioned above a kubeconfig file will have 3 main key elements, Cluster, User, and Context. IF the kubeconfig file have multiple clusters and user info, a user can use the context to switch from one cluster to another.
 
@@ -216,7 +224,7 @@ kubectl get nodes
 
 ---
 
-### Using KUBECONFIG environment variable
+#### Using KUBECONFIG environment variable
 
 The KUBECONFIG environment variable is a variable that hold the location of the kubeconfig file(s). If the KUBECONFIG env variable is set it overrides the default kubeconfig file location, thus, KUBECONFIG env variable is not a requirement to use the kubectl tool. By default the kubectl will look for the kubeconfig file locates at `$HOME/.kube/`. A user can use the KUBECONFIG environment variable to point to a different configuration file(s) to be used while using the kubectl CLI Tool. To set the KUBECONFIG env variable use the command `export KUBECONFIG=<file-location>`
 
@@ -241,11 +249,11 @@ kubectl get nodes
 
 ---
 
-### Using the --kubeconfig flag command line
+#### Using the --kubeconfig flag command line
 
 The kubectl CLI tool provide the ability to specify a different kubeconfig file other than the default by using the flag `--kubeconfig <path-to-other-file>`. This option have the highest priority. Regardless of the context set or the KUBECONFIG env variable, if the --kubeconfig flag is used, it will override any other and the file passed with the flag is the one to be used.
 
-To test this through the example, from the preivious task, KUBECONFIG env variable is set to a non-default kubeconfig file (kube01config) and this is the one used now. Use the `kubectl get nodes` command with the file kube02config which points to the second cluster. The output should be the nodes for the second cluster not the first cluster.
+To test this through the example, from the previous task, KUBECONFIG env variable is set to a non-default kubeconfig file (kube01config) and this is the one used now. Use the `kubectl get nodes` command with the file kube02config which points to the second cluster. The output should be the nodes for the second cluster not the first cluster.
 
 ```bash
 kubectl get nodes --kubeconfig ~/.kube/kube02config
