@@ -110,7 +110,7 @@ kubectl config view
 
 ---
 
-### Using interaction with multiple kubernetes cluster
+### Multiple kubernetes cluster Management
 
 `Please Note: Cluster Authentication will be discussed in a later section`
 
@@ -129,7 +129,7 @@ As mentioned above, kubectl will, by default, look for the kubeconfig file locat
 A user can use the Kubeconfig in different methods to switch from one cluster to another and kubectl uses these methods in a priority order. These methods are:
 
 - _Kubectl Context:_ Using the kubectl, a user can chose a context from what is configured in the Kubeconfig file and each context points to a different cluster. Kubectl context has the highest priority.
-- _KUBECONFIGEnvironment Variable:_ This environment variable should, by default, point to the default kubeconfig file, however, when set, it can point to a different configuration file(s) to be used while using the kubectl CLI Tool. KUBECONFIG env variable overrides the current context in the default kubeconfig file.
+- _KUBECONFIG Environment Variable:_ This environment variable should, by default, point to the default kubeconfig file, however, when set, it can point to a different configuration file(s) to be used while using the kubectl CLI Tool. KUBECONFIG env variable overrides the current context in the default kubeconfig file.
 - _Command-Line Reference:_ Using the kubectl CLI tool, a user can specify a different kubeconfig file using the command line option `--kubeconfig` in the syntax. The `--kubeconfig` command line option has the highest priority; all other Kubeconfigs are ignored. 
 
 
@@ -164,6 +164,55 @@ ls -la ~/.kube
 ---
 
 ### Using Kubeconfig Context
+
+Context is an element in the kubeconfig file that group and map cluster information with the user access information. As mentioned above a kubeconfig file will have 3 main key elements, Cluster, User, and Context. IF the kubeconfig file have multiple clusters and user info, a user can use the context to switch from one cluster to another.
+
+To check the number of contexts, use:
+
+```bash
+kubectl config get-contexts -o=name
+```
+
+---
+
+<p align="center">
+    <img src="images/Contexts.png">
+</p>
+
+---
+
+To change from one cluster to another, set the context to the required cluster using the command `kubectl config use-context <cluster-name>`
+
+```bash
+kubectl config use-context kube01@kubernetes
+```
+```bash
+kubectl get nodes
+```
+---
+
+<p align="center">
+    <img src="images/UseContexts1.png">
+</p>
+
+---
+
+From the above output, the list of kubernetes nodes are from kubernetes cluster 1, switch to the other context and get the nodes again to see it will change to the second kubernetes cluster nodes
+
+```bash
+kubectl config use-context kube02@kubernetes
+```
+```bash
+kubectl get nodes
+```
+---
+
+<p align="center">
+    <img src="images/UseContexts2.png">
+</p>
+
+---
+
 
 
 
