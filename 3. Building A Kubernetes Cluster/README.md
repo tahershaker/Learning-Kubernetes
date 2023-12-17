@@ -1,4 +1,4 @@
-# Building A Kubernetes Cluster (Step-By-Step) Using Kubeadm
+# Building A Kubernetes Cluster - Step-By-Step Guide Using Kubeadm
 
 Building a kubernetes cluster can be complex, fortunately, there are some tools that can help and automate the building and installation process of a kubernetes cluster. Several tools are available where some of them can deploy a kubernetes cluster starting from deploying the machines themselves than install all required resources and kubernetes components on top. One of the most well-known tool is Kubeadm.
 

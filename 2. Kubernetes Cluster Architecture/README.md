@@ -1,4 +1,4 @@
-# Kubernetes Cluster Architecture - Components & High-level Main Objects
+# Kubernetes Architecture - Cluster Architecture, Components & Main Objects
 
 Kubernetes is a cluster environment consist of several machine (called Nodes). Kubernetes consist of objects (such as the nodes) and several components and the kubernetes cluster is designed and architected in a specific way. This kubernetes cluster is known as a kubernetes architecture as this cluster have specific components, objects, and requirements. Each component is deployed in a specific way and perform a specific task.
 

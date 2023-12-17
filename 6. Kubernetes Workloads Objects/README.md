@@ -1,4 +1,4 @@
-# Kubernetes Workloads Objects
+# Kubernetes Workloads Objects - Containers, Pods, ReplicaSet, Deployment & Supporting Objects
 
 
 ---
