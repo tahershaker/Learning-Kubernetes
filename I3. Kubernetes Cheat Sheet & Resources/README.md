@@ -64,3 +64,44 @@ kubeadm config upload from-file --config kubeadm.yaml
 For Kubernetes version >= v1.15:
 
 kubeadm init phase upload-config kubeadm --config kubeadm.yaml
+
+
+
+---
+
+```yaml
+apiVersion: v1
+kind: pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: busybox
+    image: radial/busyboxplus:curl
+    command: ['sh', '-c', 'while true; do sleep 3600; done']
+```
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: beebox-mobile
+  labels:
+    app: beebox-auth
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: beebox-auth
+  template:
+    metadata:
+      labels:
+        app: beebox-auth
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80
+```

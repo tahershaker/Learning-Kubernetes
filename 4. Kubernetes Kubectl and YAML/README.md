@@ -350,6 +350,47 @@ Use the below 2 links for more information about the kubectl syntax and the most
 
 ---
 
+kubectl get
+- kubectl get <object-type> <object-name> -o <output> --sort-by <JSONPath> --selector <selector>
+kubectl describe
+- kubectl describe <object-type> <object-name>
+kubectl create
+- kubectl create -f <file-name>
+kubectl apply
+- kubectl apply -f <file-name>
+kubectl delete
+- kubectl delete <object-type> <object-name>
+kubectl exec
+- kubectl exec <pod-name> -c <container-name> --<command>
+
+kubectl api-resources
+
+
+kubectl get <object-type> <object-name> -o wide
+kubectl get <object-type> <object-name> -o json
+kubectl get <object-type> <object-name> -o yaml
+kubectl get <object-type> <object-name> --sort-by .spec.nodename
+kubectl get <object-type> <object-name> --namespace <name-space>
+kubectl get <object-type> <object-name> --selector k8s-apss=calico-node  -->> the selector uses a label to get the object
+
+kubectl describe <object-type> <object-name>
+
+Declarative: Define Objects using data structure such as YAML or JSON
+
+Imperative: Define objects using kubectl commands and flags. Some people find imperative commands faster.
+kubectl create deployment my-deployment --image-nginx
+
+--dry-run -o yaml
+
+--record flag to record the command that was used to make a change
+you can see the recodered action using the kubectl describe which it will be under the annotations
+
+
+- __Imperative Commands:__ The user uses kubectl to directly perform an action such as creating a Pod or deleting s Deployment - `kubectl create <object>`
+- __Imperative Object Configuration:__ The user uses kubectl along with a manifest file (the `YAML` file) to create or delete an object with the info provided in the YAML file - `kubectl create -f <file-name.yaml>`
+- __Declarative Object Configuration:__ The user uses kubectl along with a manifest file (the `YAML` file) to create (if not exists) or update (if exists) an object with the info provided in the YAML file - `kubectl apply -f <file-name.yaml>`
+
+
 #### References
 
 - [[1] - Objects In Kubernetes](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
