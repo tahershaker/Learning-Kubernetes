@@ -105,10 +105,10 @@ Kubernetes is a powerful open-source platform system, initially developed by Goo
 - Tools Available for Building a Kubernetes Cluster
 - Kubeadm Deep-Dive
 - Building a Kubernetes Cluster Using Kubeadm 
-  - [Module Section] - Building A Kubernetes Cluster [Stacked etcd] using kubeadm - Step By Step Guide
-  - [Module Section] - Building A Kubernetes Cluster [External etcd] using kubeadm - Step By Step Guide
-  - [Module Section] - Building A High Available Control Plan Kubernetes Cluster [Stacked etcd] using kubeadm - Step By Step Guide
-  - [Module Section] - Building A High Available Control Plan Kubernetes Cluster [External etcd] using kubeadm - Step By Step Guide
+  - Building A Kubernetes Cluster [Stacked etcd] using kubeadm - Step By Step Guide
+  - Building A Kubernetes Cluster [External etcd] using kubeadm - Step By Step Guide
+  - Building A High Available Control Plan Kubernetes Cluster [Stacked etcd] using kubeadm - Step By Step Guide
+  - Building A High Available Control Plan Kubernetes Cluster [External etcd] using kubeadm - Step By Step Guide
 
 ---
 
@@ -145,14 +145,14 @@ Kubernetes is a powerful open-source platform system, initially developed by Goo
 - Kubernetes Containerized Application
 - Basic Kubernetes Object To Run Containerized Application
 - Kubernetes Application Workloads Objects 
-  - [Module Section] - Kubernetes Namespace
-  - [Module Section] - Kubernetes Container
-  - [Module Section] - Kubernetes Pod
-  - [Module Section] - Kubernetes ReplicaSet
-  - [Module Section] - Kubernetes Deployment
-  - [Module Section] - Kubernetes StatefulSet
-  - [Module Section] - Kubernetes Job
-  - [Module Section] - Kubernetes CronJob
+  - Kubernetes Namespace
+  - Kubernetes Container
+  - Kubernetes Pod
+  - Kubernetes ReplicaSet
+  - Kubernetes Deployment
+  - Kubernetes StatefulSet
+  - Kubernetes Job
+  - Kubernetes CronJob
 
 ---
 
@@ -164,17 +164,17 @@ Kubernetes is a powerful open-source platform system, initially developed by Goo
 
 - Administering a Kubernetes Cluster
 - Kubernetes Cluster Administrator Tasks & Tools
-  - [Module Section] - Kubernetes Node Draining and Uncordon 
-  - [Module Section] - Kubernetes Cluster Patching and Upgrading
-  - [Module Section] - Kubernetes Node Operating System Patching and Upgrading
-  - [Module Section] - Kubernetes Cluster Node Scaling
-  - [Module Section] - Managing and Generating Kubernetes Cluster Certificates
-  - [Module Section] - Kubernetes Cluster etcd Backup and Restore
-  - [Module Section] - Kubernetes Cluster Role-Base Access Control [RBAC] - Cluster Authentication & Authorization
-  - [Module Section] - Kubernetes Cluster and Application Logging and Monitoring
-  - [Module Section] - Kubernetes Resource Inspections
-  - [Module Section] - Kubernetes Resource Management - Limits, Reservations, and Quotas
-  - [Module Section] - Kubernetes Cluster Workload Application Objects Auto-Scaling
+  - Kubernetes Node Draining and Uncordon 
+  - Kubernetes Cluster Patching and Upgrading
+  - Kubernetes Node Operating System Patching and Upgrading
+  - Kubernetes Cluster Node Scaling
+  - Managing and Generating Kubernetes Cluster Certificates
+  - Kubernetes Cluster etcd Backup and Restore
+  - Kubernetes Cluster Role-Base Access Control [RBAC] - Cluster Authentication & Authorization
+  - Kubernetes Cluster and Application Logging and Monitoring
+  - Kubernetes Resource Inspections
+  - Kubernetes Resource Management - Limits, Reservations, and Quotas
+  - Kubernetes Cluster Workload Application Objects Auto-Scaling
 
 ----
 
@@ -184,7 +184,7 @@ Kubernetes is a powerful open-source platform system, initially developed by Goo
 
 - Kubernetes Application Lifecycle Management
 - Kubernetes Application Management Object, Activities, & Tools
-  - [Module Section] - Kubernetes Labels and Selectors
+  - Kubernetes Labels and Selectors
   - Kubernetes Application Environment Variables
   - Kubernetes Application ConfigMaps
   - Kubernetes Application Secrets
