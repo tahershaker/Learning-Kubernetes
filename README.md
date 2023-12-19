@@ -8,13 +8,13 @@
 
 ---
 
-**************************************************************************************************************
+---
 
 > Section Intro
 
 Kubernetes is a powerful open-source platform system, initially developed by Google and supported by the Cloud Native Computing Foundation (CNCF), for managing and orchestrating containerized applications in a modern application cloud-native environment. This course is built and designed to help you understand and learn kubernetes and take you from zero-to-little knowledge to a mid-to-advanced level of knowledge and understanding.
 
-**************************************************************************************************************
+---
 
 ---
 
