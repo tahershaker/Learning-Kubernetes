@@ -12,67 +12,65 @@ Kubernetes is a powerful open-source system, initially developed by Google and s
 ---
 
 
-## Learning Kubernetes Contents
+## Learning Kubernetes Course Contents
 
-The content of this course would be as follow:
-
-- [1. Introduction To Kubernetes]()
+[1. Introduction To Kubernetes]()
 
 > In this module, we will be covering the basic concept of kubernetes as an introduction point to kubernetes.
 
 `Module Contents:`
 
-  - Microservices & Containers Quick Recap
-  - The Need For Kubernetes
-  - Kubernetes Basic Introduction - [Core Concept]
-  - Benefits Of Kubernetes
-  - Kubernetes Is Not An End-To-End Platform - [What Would Kubernetes NOT Provide]
-  - Kubernetes Behind The Scenes - [How Dose Kubernetes Work]
+- Microservices & Containers Quick Recap
+- The Need For Kubernetes
+- Kubernetes Basic Introduction - [Core Concept]
+- Benefits Of Kubernetes
+- Kubernetes Is Not An End-To-End Platform - [What Would Kubernetes NOT Provide]
+- Kubernetes Behind The Scenes - [How Dose Kubernetes Work]
 
 ---
 
-- [2. Kubernetes Cluster Architecture]()
+[2. Kubernetes Cluster Architecture]()
 
 > In this module, we will discuss the components building-blocks, and architecture of a kubernetes cluster and the understanding of the kubernetes high-level picture.
 
 `Module Contents:`
 
-  - Kubernetes Architecture Introduction - [High Level]
-  - Kubernetes Objects Introduction [High Level]
-    - What is a Kubernetes Object
-    - Simple Examples Of Kubernetes basic Objects
-      - Kubernetes Node [High Level]
-      - Kubernetes Namespace [High Level]
-      - Kubernetes Pods [High Level]
-      - Kubernetes Deployment [High Level]
-      - Kubernetes Services [High Level]
-    - Creating An Object In Kubernetes [Basic Concept] - [Kubectl & YAML Manifest File]
-  - Kubernetes Components - [Control Plan & Nodes Components]
-    - Control Plan Components
-      - API Server
-      - Controller Manager
-      - Scheduler
-      - etcd
-    - Node Components
-      - Kubelet
-      - Kube-Proxy
-      - Container Runtime
-  - Additional Kubernetes Components
+- Kubernetes Architecture Introduction - [High Level]
+- Kubernetes Objects Introduction [High Level]
+  - What is a Kubernetes Object
+  - Simple Examples Of Kubernetes basic Objects
+    - Kubernetes Node [High Level]
+    - Kubernetes Namespace [High Level]
+    - Kubernetes Pods [High Level]
+    - Kubernetes Deployment [High Level]
+    - Kubernetes Services [High Level]
+  - Creating An Object In Kubernetes [Basic Concept] - [Kubectl & YAML Manifest File]
+- Kubernetes Components - [Control Plan & Nodes Components]
+  - Control Plan Components
+    - API Server
+    - Controller Manager
+    - Scheduler
+    - etcd
+  - Node Components
+    - Kubelet
+    - Kube-Proxy
+    - Container Runtime
+- Additional Kubernetes Components
 
 ---
 
-- [3. Kubernetes Cluster High-Availability]()
+[3. Kubernetes Cluster High-Availability]()
 
 > In this module, we will be discussing how can we achieve high availability in a kubernetes cluster and what are the type of topologies available for a highly available kubernetes cluster.
 
 `Module Contents:`
 
-  - Kubernetes Cluster High Availability Concept
-  - Kubernetes Cluster High Availability Topologies
-    - Stacked etcd Kubernetes Cluster
-    - External etcd Kubernetes Cluster
-    - Stacked High Availability Control Plan Kubernetes Cluster
-    - External High Availability Control Plan Kubernetes Cluster
+- Kubernetes Cluster High Availability Concept
+- Kubernetes Cluster High Availability Topologies
+  - Stacked etcd Kubernetes Cluster
+  - External etcd Kubernetes Cluster
+  - Stacked High Availability Control Plan Kubernetes Cluster
+  - External High Availability Control Plan Kubernetes Cluster
 
 ---
 
