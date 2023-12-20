@@ -224,7 +224,11 @@ Kubernetes is an orchestration and automation tool for containers. Kubernetes is
 - __IPv4/IPv6 dual-stack__ Allocation of IPv4 and IPv6 addresses to Pods and Services
 - __Designed for extensibility__ Add features to your Kubernetes cluster without changing upstream source code.
 
+---
+
 ## Kubernetes Is Not An End-To-End Platform - [What Would Kubernetes WILL NOT Provide]
+
+---
 
 Kubernetes is not a complete end-to-end platform, it is more of an orchestration tool and cluster hosting containerized workload. Kubernetes concentrate on the container orchestration and thus can provide some feature from a platform solution perspective such as deployment, scaling, and load balancing. Kubernetes by itself will not provide logging or monitoring for example, and thus, kubernetes provide a option to add other solution and let these solutions integrates with the cluster environment to provide additional functionality such as logging, monitoring, and alerting solutions.
 
@@ -243,6 +247,8 @@ Kubernetes is not a complete end-to-end platform, it is more of an orchestration
 ---
 
 ## How does Kubernetes Work
+
+---
 
 Kubernetes is a cluster having several physical servers or virtual machines (called nodes) running within them kubernetes components to achieve the desired output of kubernetes. Some of these some of these nodes will be called worker nodes and they are the nodes that will host the running containers hosting the applications. 
 
