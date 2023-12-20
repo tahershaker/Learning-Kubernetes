@@ -26,44 +26,17 @@ The concept of Modern Applications that is based on `Microservices`, `Cloud-Nati
 
 ---
 
-> What is Microservices
-
----
-
-`Microservice Architecture` is a new (well not that new) method of developing application, it is more of an architectural approach to develop new modern application copping with the hype of Cloud-Native and DevOps path. Previously, the traditional application development way, called `Monolithic Architecture`, was based on coding and developing the full business application with all its services in a single object (physical server or a virtual machine). On the other hand, `Microservice Architecture` way is based on dividing the business application into a smaller services that are independent, loosely coupled, coded and developed on its own, and each one is serving a single business objective and running on a separate container as a micro-service, and all can integrate and communicate with each others using API or equivalent. 
-
-> *Reference*
->
-> *Referring to AWS documentation*
-> - *With monolithic architectures, all processes are tightly coupled and run as a single service. This means that if one process of the application experiences a spike in demand, the entire architecture must be scaled. Adding or improving a monolithic application’s features becomes more complex as the code base grows. This complexity limits experimentation and makes it difficult to implement new ideas. Monolithic architectures add risk for application availability because many dependent and tightly coupled processes increase the impact of a single process failure.*<sup>Reference [23](#References)</sup>
-> - *With a microservices architecture, an application is built as independent components that run each application process as a service. These services communicate via a well-defined interface using lightweight APIs. Services are built for business capabilities and each service performs a single function. Because they are independently run, each service can be updated, deployed, and scaled to meet demand for specific functions of an application.*<sup>Reference [23](#References)</sup>
-
-To make it more simple, let's take an example of an E-Commerce application. This type of application have several services such as (from a very high-level) a front-end service (to accept incoming requests and to present the products on the web interface), a user accounting and authentication service (to authenticate existing customer and hold data of this customer), a catalog service (to list the products and services provided by the application), an order service (to allow the customer to buy products and perform payment), a shipping service (to track the shipment of the product to the customer and provide info to the customer), and much more.
-
-In a `Monolithic Architecture` all of these services are coded and run in a single object (virtual machine or a physical machine running linux or windows operating system). This means that in a black friday where customer are heavily accessing this E-Commerce application, the front-end and other services require more compute resources to handle the spike of requests, however, not all services are as heavily utilized as the front-end (for example advertisement service may not required additional compute resources). Even if some service do not require additional compute resources, in a `Monolithic Architecture`, service can not be separated and all service would need more compute resources such as more CPU, Memory or even more physical servers or virtual machines. 
-
-Also, in a `Monolithic Architecture`, when a new service is to be added to the application, such as a recommendation services, as all the services are tightly coupled, the code check will not only run on the new service but on the full application code which will make the release-cycle 6-month or even more.
-
-In a `Microservice Architecture`, Every service is lossy coupled and run in a separate container with no dependency on other services, so in the case of the utilization spike, only the front-end services (and other required services) will have another copy of it running in another container to handle the spike. Not all the services will be duplicated and this will reduce compute resources. 
-
-Also, in the case of adding a new service, this service is developed in a separate container and will integrate with other services using API so code check and development is only for this new service not the full application making the release-cycle as short as couple of weeks or even less.
-
----
-
-<p align="center">
-    <img src="images/MonolithicVsMicroservices.png">
-</p>
-
----
-
 
 > What is Container
 
-Container is a very small and light-weight unit holding a pice of software with all the required dependencies for this software to run properly. A container runs on top of a compute resources (_physical server or virtual machine_) and operating system (_linux and lately windows_). A container is an isolated unit that have no knowledge of the underlying resources or other containers running on the same physical resource. 
+---
 
-Referring to Docker documentation and website [_Referenced Below_], `What is a Container:`
+Container is a very small and light-weight unit holding a pice of software with all the required dependencies for this software to run properly. A container runs on top of a compute resources (physical server or virtual machine) and operating system (linux and lately windows). A container is an isolated unit that have no knowledge of the underlying resources or other containers running on the same physical resource. 
 
-A Container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another.
+> *Reference*
+>
+> *Referring to Docker documentation*
+> - *A Container is a standard unit of software that packages up code and all its dependencies so the application runs quickly and reliably from one computing environment to another.*<sup>Reference [1](#References)</sup>
 
 Tha basic idea of container came from utilizing several linux features allowing the isolation of the software package to run independently from others. Some of these linux features are [Namespace](https://en.wikipedia.org/wiki/Linux_namespaces), [CGroups](https://en.wikipedia.org/wiki/Cgroups), and [Union Filesystem](https://en.wikipedia.org/wiki/UnionFS)
 
@@ -100,11 +73,11 @@ To be able to have a better understanding of containers, there are some componen
 
 Most of the concepts explained for containers, technology have seen it before, especially when it comes to isolation as this is very similar to virtual machines. As a virtual machines perform isolation and virtualizing the underlying physical resource to be able to run multiple operating system and application in the form of a virtual machine, container also perform something similar, however container do not include a full operating system version running inside but rather it only contain a very light version with the required libraries and depend on the kernel of the underlying operating system. 
 
-Referring to Docker documentation and website [_Referenced Below_], `What is a Container: - Container VS Virtual Machine:`
-
-- __Virtual machines__ (VMs) are an abstraction of physical hardware turning one server into many servers. The hypervisor allows multiple VMs to run on a single machine. Each VM includes a full copy of an operating system, the application, necessary binaries and libraries – taking up tens of GBs. VMs can also be slow to boot.
-
-- __Containers__ are an abstraction at the app layer that packages code and dependencies together. Multiple containers can run on the same machine and share the OS kernel with other containers, each running as isolated processes in user space. Containers take up less space than VMs (container images are typically tens of MBs in size), can handle more applications and require fewer VMs and Operating systems.
+> *Reference*
+>
+> *Referring to Docker documentation*
+> - *__Virtual machines__ (VMs) are an abstraction of physical hardware turning one server into many servers. The hypervisor allows multiple VMs to run on a single machine. Each VM includes a full copy of an operating system, the application, necessary binaries and libraries – taking up tens of GBs. VMs can also be slow to boot.*<sup>Reference [1](#References)</sup>
+> - *__Containers__ are an abstraction at the app layer that packages code and dependencies together. Multiple containers can run on the same machine and share the OS kernel with other containers, each running as isolated processes in user space. Containers take up less space than VMs (container images are typically tens of MBs in size), can handle more applications and require fewer VMs and Operating systems.*<sup>Reference [1](#References)</sup>
 
 When creating a virtual machine and a container, with virtual machine a hypervisor will be installed on the physical server and then create a virtual machine which will include a full copy of an operating system and the required applications. Container on the other-hand, an operating system (linux/Windows) will be installed on a physical server and then install the container requirements such as the container engine (such as docker or containerd) and then create the containers. The best approach is to run container on top of virtual machines
 
@@ -118,17 +91,53 @@ When creating a virtual machine and a container, with virtual machine a hypervis
 
 Containers provides several benefits in which increased container popularity in the modern application development.
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Overview: - Benefits of Containers`:
-- Agile application creation and deployment: increased ease and efficiency of container image creation compared to VM image use.
-- Continuous development, integration, and deployment: provides for reliable and frequent container image build and deployment with quick and efficient rollbacks (due to image immutability).
-- Dev and Ops separation of concerns: create application container images at build/release time rather than deployment time, thereby decoupling applications from infrastructure.
-- Observability: not only surfaces OS-level information and metrics, but also application health and other signals.
-- Environmental consistency across development, testing, and production: runs the same on a laptop as it does in the cloud.
-- Cloud and OS distribution portability: runs on Ubuntu, RHEL, CoreOS, on-premises, on major public clouds, and anywhere else.
-- Application-centric management: raises the level of abstraction from running an OS on virtual hardware to running an application on an OS using logical resources.
-- Loosely coupled, distributed, elastic, liberated micro-services: applications are broken into smaller, independent pieces and can be deployed and managed dynamically – not a monolithic stack running on one big single-purpose machine.
-- Resource isolation: predictable application performance.
-- Resource utilization: high efficiency and density.
+> *Reference*
+>
+> *Referring to Kubernetes documentation*
+>
+> - *Container Benefits are:*
+>>  - *Agile application creation and deployment: increased ease and efficiency of container image creation compared to VM image use.*
+>>  - *Continuous development, integration, and deployment: provides for reliable and frequent container image build and deployment with quick and efficient rollbacks (due to image immutability).*
+>>  - *Dev and Ops separation of concerns: create application container images at build/release time rather than deployment time, thereby decoupling applications from infrastructure.*
+>>  - *Observability: not only surfaces OS-level information and metrics, but also application health and other signals.*
+>>  - *Environmental consistency across development, testing, and production: runs the same on a laptop as it does in the cloud.*
+>>  - *Cloud and OS distribution portability: runs on Ubuntu, RHEL, CoreOS, on-premises, on major public clouds, and anywhere else.*
+>>  - *Application-centric management: raises the level of abstraction from running an OS on virtual hardware to running an application on an OS using logical resources.*
+>>  - *Loosely coupled, distributed, elastic, liberated micro-services: applications are broken into smaller, independent pieces and can be deployed and managed dynamically – not a monolithic stack running on one big single-purpose machine.*
+>>  - *Resource isolation: predictable application performance.*
+>>  - *Resource utilization: high efficiency and density.*
+
+---
+
+---
+
+> What is Microservices
+
+---
+
+`Microservice Architecture` is a new (well not that new) method of developing application, it is more of an architectural approach to develop new modern application copping with the hype of Cloud-Native and DevOps path. Previously, the traditional application development way, called `Monolithic Architecture`, was based on coding and developing the full business application with all its services in a single object (physical server or a virtual machine). On the other hand, `Microservice Architecture` way is based on dividing the business application into a smaller services that are independent, loosely coupled, coded and developed on its own, and each one is serving a single business objective and running on a separate container as a micro-service, and all can integrate and communicate with each others using API or equivalent. 
+
+> *Reference*
+>
+> *Referring to AWS documentation*
+> - *With monolithic architectures, all processes are tightly coupled and run as a single service. This means that if one process of the application experiences a spike in demand, the entire architecture must be scaled. Adding or improving a monolithic application’s features becomes more complex as the code base grows. This complexity limits experimentation and makes it difficult to implement new ideas. Monolithic architectures add risk for application availability because many dependent and tightly coupled processes increase the impact of a single process failure.*<sup>Reference [3](#References)</sup>
+> - *With a microservices architecture, an application is built as independent components that run each application process as a service. These services communicate via a well-defined interface using lightweight APIs. Services are built for business capabilities and each service performs a single function. Because they are independently run, each service can be updated, deployed, and scaled to meet demand for specific functions of an application.*<sup>Reference [3](#References)</sup>
+
+To explain it more in a more simple way, let's take an example of an E-Commerce application. This type of application have several services such as (from a very high-level) a front-end service (to accept incoming requests and to present the products on the web interface), a user accounting and authentication service (to authenticate existing customer and hold data of this customer), a catalog service (to list the products and services provided by the application), an order service (to allow the customer to buy products and perform payment), a shipping service (to track the shipment of the product to the customer and provide info to the customer), and much more.
+
+In a `Monolithic Architecture` all of these services are coded and run in a single object (virtual machine or a physical machine running linux or windows operating system). This means that, for example, in a black friday where customer are heavily accessing this E-Commerce application, the front-end and other services require more compute resources to handle the spike of requests, however, not all services are as heavily utilized as the front-end (for example advertisement service may not required additional compute resources). Even if some service do not require additional compute resources, in a `Monolithic Architecture`, service can not be separated and all service would need more compute resources such as more CPU, Memory or even more physical servers or virtual machines. 
+
+Also, in a `Monolithic Architecture`, when a new service is to be added to the application, such as a recommendation services, as all the services are tightly coupled, the code check will not only run on the new service but on the full application code which will make the release-cycle 6-month or even more.
+
+In a `Microservice Architecture`, Every service is lossy coupled and run in a separate container with no dependency on other services, so in the case of the utilization spike, only the front-end services (and other required services) will have another copy of it running in another container to handle the spike. Not all the services will be duplicated and this will reduce compute resources. 
+
+Also, in the case of adding a new service, this service is developed in a separate container and will integrate with other services using API so code check and development is only for this new service not the full application making the release-cycle as short as couple of weeks or even less.
+
+---
+
+<p align="center">
+    <img src="images/MonolithicVsMicroservices.png">
+</p>
 
 ---
 
@@ -247,10 +256,10 @@ spec: # Specs of the object
 
 > References:
 
-- [[1] - What are Microservices](https://aws.amazon.com/microservices/)
-- [[2] - What is Microservices Architecture](https://cloud.google.com/learn/what-is-microservices-architecture)
-- [[3] - What Are Namespaces and cgroups, and How Do They Work](https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/)
-- [[4] - Use containers to Build, Share and Run your applications](https://www.docker.com/resources/what-container/)
+- [[1] - Use containers to Build, Share and Run your applications](https://www.docker.com/resources/what-container/)
+- [[2] - What Are Namespaces and cgroups, and How Do They Work](https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/)
+- [[3] - What are Microservices](https://aws.amazon.com/microservices/)
+- [[4] - What is Microservices Architecture](https://cloud.google.com/learn/what-is-microservices-architecture)
 - [[5] - Kubernetes Overview](https://kubernetes.io/docs/concepts/overview/)
 - [[6] - Objects In Kubernetes](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
 
