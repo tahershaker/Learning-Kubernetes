@@ -26,16 +26,17 @@ The concept of Modern Applications that is based on `Microservices`, `Cloud-Nati
 
 ---
 
-
 > What is Microservices
 
-Microservice architecture is an architectural approach of application development where a traditional application developed all in a single object `Monolithic architecture` is divided into a smaller services that are independent, loosely coupled, each one is serving a single business objective, and can integrate and communicate with each others using an API or equivalent. 
+---
 
-Referring to AWS documentation [_Referenced Below_], `Monolithic vs. Microservices Architecture`; 
+`Microservice Architecture` is a new (well not that new) method of developing application, it is more of an architectural approach to develop new modern application copping with the hype of Cloud-Native and DevOps path. Previously, the traditional application development way, called `Monolithic Architecture`, was based on coding and developing the full business application with all its services in a single object (physical server or a virtual machine). On the other hand, `Microservice Architecture` way is based on dividing the business application into a smaller services that are independent, loosely coupled, coded and developed on its own, and each one is serving a single business objective and running on a separate container as a micro-service, and all can integrate and communicate with each others using API or equivalent. 
 
-- With monolithic architectures, all processes are tightly coupled and run as a single service. This means that if one process of the application experiences a spike in demand, the entire architecture must be scaled. Adding or improving a monolithic application’s features becomes more complex as the code base grows. This complexity limits experimentation and makes it difficult to implement new ideas. Monolithic architectures add risk for application availability because many dependent and tightly coupled processes increase the impact of a single process failure.
-
-- With a microservices architecture, an application is built as independent components that run each application process as a service. These services communicate via a well-defined interface using lightweight APIs. Services are built for business capabilities and each service performs a single function. Because they are independently run, each service can be updated, deployed, and scaled to meet demand for specific functions of an application.
+> *Reference*
+>
+> *Referring to AWS documentation*
+> - *With monolithic architectures, all processes are tightly coupled and run as a single service. This means that if one process of the application experiences a spike in demand, the entire architecture must be scaled. Adding or improving a monolithic application’s features becomes more complex as the code base grows. This complexity limits experimentation and makes it difficult to implement new ideas. Monolithic architectures add risk for application availability because many dependent and tightly coupled processes increase the impact of a single process failure.*<sup>Reference [23](#References)</sup>
+> - *With a microservices architecture, an application is built as independent components that run each application process as a service. These services communicate via a well-defined interface using lightweight APIs. Services are built for business capabilities and each service performs a single function. Because they are independently run, each service can be updated, deployed, and scaled to meet demand for specific functions of an application.*<sup>Reference [23](#References)</sup>
 
 To make it more simple, let's take an example of an E-Commerce application. This type of application have several services such as (from a very high-level) a front-end service (to accept incoming requests and to present the products on the web interface), a user accounting and authentication service (to authenticate existing customer and hold data of this customer), a catalog service (to list the products and services provided by the application), an order service (to allow the customer to buy products and perform payment), a shipping service (to track the shipment of the product to the customer and provide info to the customer), and much more.
 
@@ -246,12 +247,12 @@ spec: # Specs of the object
 
 > References:
 
-- [What are Microservices - AWS](https://aws.amazon.com/microservices/)
-- [What are Microservices - Google Cloud](https://cloud.google.com/learn/what-is-microservices-architecture)
-- [What Are Namespaces and cgroups, and How Do They Work? - NGINX](https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/)
-- [What is a Container - Docker](https://www.docker.com/resources/what-container/)
-- [Kubernetes Overview - Kubernetes](https://kubernetes.io/docs/concepts/overview/)
-- [Objects In Kubernetes - Kubernetes](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
+- [[1] - What are Microservices](https://aws.amazon.com/microservices/)
+- [[2] - What is Microservices Architecture](https://cloud.google.com/learn/what-is-microservices-architecture)
+- [[3] - What Are Namespaces and cgroups, and How Do They Work](https://www.nginx.com/blog/what-are-namespaces-cgroups-how-do-they-work/)
+- [[4] - Use containers to Build, Share and Run your applications](https://www.docker.com/resources/what-container/)
+- [[5] - Kubernetes Overview](https://kubernetes.io/docs/concepts/overview/)
+- [[6] - Objects In Kubernetes](https://kubernetes.io/docs/concepts/overview/working-with-objects/)
 
 ---
 
