@@ -79,6 +79,10 @@ To be able to have a better understanding of containers, there are some componen
 
 ---
 
+## Container VS Virtual Machines
+
+---
+
 Most of the concepts explained for containers, technology have seen it before, especially when it comes to isolation as this is very similar to virtual machines. As a virtual machines perform isolation and virtualizing the underlying physical resource to be able to run multiple operating system and application in the form of a virtual machine, container also perform something similar, however container do not include a full operating system version running inside but rather it only contain a very light version with the required libraries and depend on the kernel of the underlying operating system. 
 
 > *Reference*
