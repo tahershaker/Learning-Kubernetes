@@ -288,6 +288,8 @@ spec: # Specs of the object
 
 ---
 
+---
+
 > References:
 
 - [[1] - Use containers to Build, Share and Run your applications](https://www.docker.com/resources/what-container/)
@@ -299,6 +301,10 @@ spec: # Specs of the object
 
 ---
 
+---
+
 > Next Step:
 
 [Kubernetes Architecture](/2.%20Kubernetes%20Architecture/)
+
+---
