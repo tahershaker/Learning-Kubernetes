@@ -16,6 +16,8 @@ The concept of Modern Applications that is based on `Microservices`, `Cloud-Nati
 
 ---
 
+---
+
 # Containers & Microservices Quick Recap 
 
 ---
@@ -48,6 +50,12 @@ Tha basic idea of container came from utilizing several linux features allowing 
 - __CGroups__: [Resource Isolation]: A control group (cgroup) is a Linux kernel feature that limits, accounts for, and isolates the resource usage (CPU, memory, disk I/O, network, and so on) of a collection of processes. cgroups are used to control how much of a given key resource (CPU, memory, network, and disk I/O) can be accessed or used by a process or set of processes. 
 
 - __Union Filesystem__: [Filesystem Isolation]: The union filesystem allows the files and directories of separate filesystem, known as layers, to be transparently overlaid to create a new virtual filesystem. While starting a container, container engine overlays all the layers attached to an image and creates a read-only filesystem. On top of that, container engine creates a read/write layer that is used by the container's runtime environment.
+
+---
+
+## Container Components
+
+---
 
 To be able to have a better understanding of containers, there are some components that needs to be understood.
 
