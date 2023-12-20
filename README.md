@@ -28,6 +28,7 @@ Kubernetes is a powerful open-source platform system, initially developed by Goo
 
 - [Containers & Microservices Quick Recap](/1.%20Introduction%20To%20Kubernetes/README.md/#Containers-&-Microservices-Quick-Recap)
   - [What is Container](/1.%20Introduction%20To%20Kubernetes/README.md/#What-is-Container)
+  - [Container Components](/1.%20Introduction%20To%20Kubernetes/README.md/#Container-Components)
   - [Container Benefits ](/1.%20Introduction%20To%20Kubernetes/README.md/#Container-Benefits)
   - [What is Microservices](/1.%20Introduction%20To%20Kubernetes/README.md/#What-is-Microservices)
 - [Kubernetes](/1.%20Introduction%20To%20Kubernetes/README.md/#Kubernetes)
