@@ -16,18 +16,18 @@ The concept of Modern Applications that is based on `Microservices`, `Cloud-Nati
 
 ---
 
-# Microservices & Containers Quick Recap 
+# Containers & Microservices Quick Recap 
 
 ---
 
 <p align="center">
-    <img src="images/SecPic1.png">
+    <img src="images/SectionPic1.png">
 </p>
 
 ---
 
 
-> What is Container
+## What is Container
 
 ---
 
@@ -89,13 +89,17 @@ When creating a virtual machine and a container, with virtual machine a hypervis
 
 ---
 
+## Container Benefits 
+
+---
+
 Containers provides several benefits in which increased container popularity in the modern application development.
 
 > *Reference*
 >
 > *Referring to Kubernetes documentation*
 >
-> - *Container Benefits are:*
+> - *Container Benefits are:*<sup>Reference [5](#References)</sup>
 >>  - *Agile application creation and deployment: increased ease and efficiency of container image creation compared to VM image use.*
 >>  - *Continuous development, integration, and deployment: provides for reliable and frequent container image build and deployment with quick and efficient rollbacks (due to image immutability).*
 >>  - *Dev and Ops separation of concerns: create application container images at build/release time rather than deployment time, thereby decoupling applications from infrastructure.*
@@ -109,9 +113,7 @@ Containers provides several benefits in which increased container popularity in 
 
 ---
 
----
-
-> What is Microservices
+## What is Microservices
 
 ---
 
@@ -141,13 +143,29 @@ Also, in the case of adding a new service, this service is developed in a separa
 
 ---
 
-## What is Kubernetes - Overview
+---
+
+# Kubernetes 
+
+---
+
+<p align="center">
+    <img src="images/SectionPic2.png">
+</p>
+
+---
+
+## Kubernetes Basic Introduction - [Core Concept - What is Kubernetes]
+
+---
 
 Kubernetes is an open-source project build originally by Google in 2014 and later donated to [CNCF](https://www.cncf.io/) (Cloud Native Computing Foundation) designed to orchestrate, automate and manage containerized applications. The name Kubernetes originates from Greek, meaning helmsman or pilot. K8s as an abbreviation results from counting the eight letters between the "K" and the "s". The official description of kubernetes from the official kubernetes documentation is:
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Overview`:
-
-- Kubernetes is a portable, extensible, open source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.
+> *Reference*
+>
+> *Referring to Kubernetes documentation*
+>
+> - *Kubernetes is a portable, extensible, open source platform for managing containerized workloads and services, that facilitates both declarative configuration and automation. It has a large, rapidly growing ecosystem. Kubernetes services, support, and tools are widely available.*<sup>Reference [5](#References)</sup>
 
 To have an understanding of what is kubernetes and why is it considered to be somehow a mandatory tool when it comes to cloud-native architecture and modern applications, let's look at the issue kubernetes is fixing and the additional capability it provides to container orchestration. 
 
@@ -163,11 +181,13 @@ several question that if asked will find a big road blocker that will impact the
 
 Kubernetes is an orchestration and automation tool for containers. Kubernetes is a cluster management open-source platform for managing and orchestrating containerized workload, application and services. Kubernetes is a clusters environment of a number of physical server or virtual machines (called nodes) where all the required software are installed to run containers and the components of kubernetes are also installed. once the Kubernetes is up and running, the user will have the ability to deploy containerized application through kubernetes and kubernetes will then provide a way to manage the lifecycle of containerized applications across an entire cluster. Kubernetes provide self-healing of failed containers, auto-scaling of container depending on required performance and resource utilization, ability to add plugins to add features to the kubernetes cluster such as the CNI (Container Networking Interface) plugin that provides networking and security capabilities as well as the ability to add other tools to the kubernetes environment adding further capabilities such as monitoring, reporting, load balancing, and much more.
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes Overview: - Why you need Kubernetes and what it can do`:
 
-- Containers are a good way to bundle and run your applications. In a production environment, you need to manage the containers that run the applications and ensure that there is no downtime. For example, if a container goes down, another container needs to start. Wouldn't it be easier if this behavior was handled by a system?
-
-- That's how Kubernetes comes to the rescue! Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns, and more. For example: Kubernetes can easily manage a canary deployment for your system.
+> *Reference*
+>
+> *Referring to Kubernetes documentation*
+>
+> - *Containers are a good way to bundle and run your applications. In a production environment, you need to manage the containers that run the applications and ensure that there is no downtime. For example, if a container goes down, another container needs to start. Wouldn't it be easier if this behavior was handled by a system?*<sup>Reference [5](#References)</sup>
+> - *That's how Kubernetes comes to the rescue! Kubernetes provides you with a framework to run distributed systems resiliently. It takes care of scaling and failover for your application, provides deployment patterns, and more. For example: Kubernetes can easily manage a canary deployment for your system.*<sup>Reference [5](#References)</sup>
 
 ---
 
@@ -177,7 +197,9 @@ Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes
 
 ---
 
-> Benefits of Kubernetes:
+## Kubernetes Features & Benefits - [What Would Kubernetes WILL Provide]
+
+---
 
 - __Service discovery and load balancing__ Kubernetes can expose a container using the DNS name or using their own IP address. If traffic to a container is high, Kubernetes is able to load balance and distribute the network traffic so that the deployment is stable.
 - __Storage orchestration__ Kubernetes allows you to automatically mount a storage system of your choice, such as local storages, public cloud providers, and more.
@@ -190,19 +212,21 @@ Referring to Kubernetes official documentation [_Referenced Below_], `Kubernetes
 - __IPv4/IPv6 dual-stack__ Allocation of IPv4 and IPv6 addresses to Pods and Services
 - __Designed for extensibility__ Add features to your Kubernetes cluster without changing upstream source code.
 
-> What would kubernetes not be able to provide
+## Kubernetes Is Not An End-To-End Platform - [What Would Kubernetes WILL NOT Provide]
 
 Kubernetes is not a complete end-to-end platform, it is more of an orchestration tool and cluster hosting containerized workload. Kubernetes concentrate on the container orchestration and thus can provide some feature from a platform solution perspective such as deployment, scaling, and load balancing. Kubernetes by itself will not provide logging or monitoring for example, and thus, kubernetes provide a option to add other solution and let these solutions integrates with the cluster environment to provide additional functionality such as logging, monitoring, and alerting solutions.
 
-Referring to Kubernetes official documentation [_Referenced Below_], `What Kubernetes is not`:
-
-- Does not limit the types of applications supported. Kubernetes aims to support an extremely diverse variety of workloads, including stateless, stateful, and data-processing workloads. If an application can run in a container, it should run great on Kubernetes.
-- Does not deploy source code and does not build your application. Continuous Integration, Delivery, and Deployment (CI/CD) workflows are determined by organization cultures and preferences as well as technical requirements.
-- Does not provide application-level services, such as middleware (for example, message buses), data-processing frameworks (for example, Spark), databases (for example, MySQL), caches, nor cluster storage systems (for example, Ceph) as built-in services. Such components can run on Kubernetes, and/or can be accessed by applications running on Kubernetes through portable mechanisms, such as the Open Service Broker.
-- Does not dictate logging, monitoring, or alerting solutions. It provides some integrations as proof of concept, and mechanisms to collect and export metrics.
-- Does not provide nor mandate a configuration language/system (for example, Jsonnet). It provides a declarative API that may be targeted by arbitrary forms of declarative specifications.
-- Does not provide nor adopt any comprehensive machine configuration, maintenance, management, or self-healing systems.
-- Additionally, Kubernetes is not a mere orchestration system. In fact, it eliminates the need for orchestration. The technical definition of orchestration is execution of a defined workflow: first do A, then B, then C. In contrast, Kubernetes comprises a set of independent, composable control processes that continuously drive the current state towards the provided desired state. It shouldn't matter how you get from A to C. Centralized control is also not required. This results in a system that is easier to use and more powerful, robust, resilient, and extensible.
+> *Reference*
+>
+> *Referring to Kubernetes documentation*
+>
+> - *Does not limit the types of applications supported. Kubernetes aims to support an extremely diverse variety of workloads, including stateless, stateful, and data-processing workloads. If an application can run in a container, it should run great on Kubernetes.*<sup>Reference [5](#References)</sup>
+> - *Does not deploy source code and does not build your application. Continuous Integration, Delivery, and Deployment (CI/CD) workflows are determined by organization cultures and preferences as well as technical requirements.*<sup>Reference [5](#References)</sup>
+> - *Does not provide application-level services, such as middleware (for example, message buses), data-processing frameworks (for example, Spark), databases (for example, MySQL), caches, nor cluster storage systems (for example, Ceph) as built-in services. Such components can run on Kubernetes, and/or can be accessed by applications running on Kubernetes through portable mechanisms, such as the Open Service Broker.*<sup>Reference [5](#References)</sup>
+> - *Does not dictate logging, monitoring, or alerting solutions. It provides some integrations as proof of concept, and mechanisms to collect and export metrics.*<sup>Reference [5](#References)</sup>
+> - *Does not provide nor mandate a configuration language/system (for example, Jsonnet). It provides a declarative API that may be targeted by arbitrary forms of declarative specifications.*<sup>Reference [5](#References)</sup>
+> - *Does not provide nor adopt any comprehensive machine configuration, maintenance, management, or self-healing systems.*<sup>Reference [5](#References)</sup>
+> - *Additionally, Kubernetes is not a mere orchestration system. In fact, it eliminates the need for orchestration. The technical definition of orchestration is execution of a defined workflow: first do A, then B, then C. In contrast, Kubernetes comprises a set of independent, composable control processes that continuously drive the current state towards the provided desired state. It shouldn't matter how you get from A to C. Centralized control is also not required. This results in a system that is easier to use and more powerful, robust, resilient, and extensible.*<sup>Reference [5](#References)</sup>
 
 ---
 
@@ -214,15 +238,14 @@ Nearly everything in kubernetes is seen as an object to kubernetes, a container 
 
 This YAML file contains the type of the object (for example a container) and the desired state of this object (for example container networking). Kubernetes will then deploy the object explained in the YAML file and will continuously monitor this object and make sure that this object have the exact same state as described in the YAML file. So for example if the YAML file have an object type of a container with 2 networking interfaces, Kubernetes will always monitor the environment to make use this container is running and there as 2 networking interfaces connected to it. If this container died, the kubernetes will see that this is a mismatch with the desired state and will run another container with the same specs to maintain the desired state.
 
-Referring to Kubernetes official documentation [_Referenced Below_], `Objects In Kubernetes"`:
-
-- A Kubernetes object is a `"record of intent"` --once you create the object, the Kubernetes system will constantly work to ensure that object exists. By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like; this is your cluster's `desired state`.
-
-- Almost every Kubernetes object includes two nested object fields that govern the object's configuration: the object spec and the object status. For objects that have a spec, you have to set this when you create the object, providing a description of the characteristics you want the resource to have: its `desired state`.
-
-- The status describes the current state of the object, supplied and updated by the Kubernetes system and its components. The Kubernetes control plane continually and actively manages every object's `actual state` to match the `desired state` you supplied.
-
-- When you create an object in Kubernetes, you must provide the object spec that describes its desired state, as well as some basic information about the object (such as a name). When you use the Kubernetes API to create the object (either directly or via kubectl), that API request must include that information as JSON in the request body. Most often, you provide the information to kubectl in file known as a `manifest`. By convention, manifests are YAML (you could also use JSON format). Tools such as kubectl convert the information from a manifest into JSON or another supported serialization format when making the API request over HTTP.
+> *Reference*
+>
+> *Referring to Kubernetes documentation*
+>
+> - *A Kubernetes object is a `"record of intent"` --once you create the object, the Kubernetes system will constantly work to ensure that object exists. By creating an object, you're effectively telling the Kubernetes system what you want your cluster's workload to look like; this is your cluster's `desired state`.*<sup>Reference [5](#References)</sup>
+> - *Almost every Kubernetes object includes two nested object fields that govern the object's configuration: the object spec and the object status. For objects that have a spec, you have to set this when you create the object, providing a description of the characteristics you want the resource to have: its `desired state`.*<sup>Reference [5](#References)</sup>
+> - *The status describes the current state of the object, supplied and updated by the Kubernetes system and its components. The Kubernetes control plane continually and actively manages every object's `actual state` to match the `desired state` you supplied.*<sup>Reference [5](#References)</sup>
+> - *When you create an object in Kubernetes, you must provide the object spec that describes its desired state, as well as some basic information about the object (such as a name). When you use the Kubernetes API to create the object (either directly or via kubectl), that API request must include that information as JSON in the request body. Most often, you provide the information to kubectl in file known as a `manifest`. By convention, manifests are YAML (you could also use JSON format). Tools such as kubectl convert the information from a manifest into JSON or another supported serialization format when making the API request over HTTP.*<sup>Reference [5](#References)</sup>
 
 So as a summary, once the kubernetes cluster is created, the user starts creating object `manifest` in the form of a `YAML` file which it will hold the object `spec` and the object `desired state` and then pass it to kubernetes using the CLI kubectl or directly to the API. Kubernetes will make sure that this object is created based on the provided object spec and insure that the actual state of this object always match the defined desired state of this object.
 
@@ -231,25 +254,18 @@ Below is an example of a manifest in YAML formate the shows the required object 
 ---
 
 ```yaml
-apiVersion: apps/v1 # version number of the API
-kind: Deployment # Kubernetes object type
-metadata:
-  name: nginx-deployment
+apiVersion: apps/v1 # API version number
+kind: Deployment # Object type
+metadata: # Additional info to be added to the object
+  name: nginx-deployment # Name of the Object
 spec: # Specs of the object
-  selector:
-    matchLabels:
-      app: nginx
-  replicas: 2 # tells deployment to run 2 pods matching the template
-  template:
-    metadata:
-      labels:
-        app: nginx
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.14.2
-        ports:
-        - containerPort: 80
+  replicas: 2 # Specify that 2 Pods to be deployed form the same replica
+  spec: # Specs of the Container
+    containers:
+    - name: nginx # Container Name
+      image: nginx:1.14.2 # Container Image
+      ports: # Container Networking
+      - containerPort: 80
 ```
 
 ---
@@ -267,4 +283,4 @@ spec: # Specs of the object
 
 > Next Step:
 
-[Kubernetes Cluster Architecture - Components & High-level Main Objects](https://github.com/tahershaker/Learning-Kubernetes/tree/main/2.%20Kubernetes%20Cluster%20Architecture%20%26%20Components)
+[Kubernetes Architecture](/2.%20Kubernetes%20Architecture/)
