@@ -12,11 +12,20 @@
 
 > Section Intro
 
-Kubernetes is a basic building block of the modern application development that is based on DevOps and Cloud-Native Architecture. Moving from a traditional `Monolithic application` development into a `microservices application` development utilizing containers technology is becoming the norm and has been for a while. However, when the number of containers that are hosting your application grow in number to 100's or 1000's or even more, then managing, orchestrating, and automating these containers and their operation tasks is going to be road blocker. This is where Kubernetes comes in the picture.
+The concept of Modern Applications that is based on `Microservices`, `Cloud-Native`, and `DevOps` is no longer the new area, it is the current area now. Moving from a traditional `Monolithic Application` development into a `Microservices Application` development utilizing containers technology is becoming the norm and has been for a while. However, when the number of containers that are running and hosting your application grow in number to, let us say, 100's or 1000's or even more, managing and maintaining these container and your application is going to be road blocker. This is where `Kubernetes` comes in the picture. Kubernetes in a nutshell is an orchestration platform for your containerized application
 
 ---
 
-## Quick Recap On Microservices, & Containers
+# Microservices & Containers Quick Recap 
+
+---
+
+<p align="center">
+    <img src="images/SecPic1.png">
+</p>
+
+---
+
 
 > What is Microservices
 
